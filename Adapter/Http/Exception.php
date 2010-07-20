@@ -23,7 +23,7 @@
 /**
  * @namespace
  */
-namespace Zend\Authentication\Adapter\HTTP;
+namespace Zend\Authentication\Adapter\Http;
 
 /**
  * HTTP Auth Resolver Exception
