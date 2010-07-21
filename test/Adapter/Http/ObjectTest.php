@@ -23,9 +23,9 @@
 /**
  * @namespace
  */
-namespace ZendTest\Auth\Adapter\HTTP;
+namespace ZendTest\Auth\Adapter\Http;
 
-use Zend\Authentication\Adapter\HTTP,
+use Zend\Authentication\Adapter\Http,
     Zend\Authentication\Adapter,
     Zend\Authentication;
 
@@ -89,8 +89,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_filesPath      = __DIR__ . '/TestAsset';
-        $this->_basicResolver  = new HTTP\FileResolver("$this->_filesPath/htbasic.1");
-        $this->_digestResolver = new HTTP\FileResolver("$this->_filesPath/htdigest.3");
+        $this->_basicResolver  = new Http\FileResolver("$this->_filesPath/htbasic.1");
+        $this->_digestResolver = new Http\FileResolver("$this->_filesPath/htdigest.3");
         $this->_basicConfig    = array(
             'accept_schemes' => 'basic',
             'realm'          => 'Test Realm'
@@ -112,30 +112,30 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     public function testValidConfigs()
     {
         try {
-            $t = new Adapter\HTTP($this->_basicConfig);
+            $t = new Adapter\Http($this->_basicConfig);
         } catch (Adapter\Exception $e) {
             $this->fail('Valid config deemed invalid');
         }
         $this->assertFalse(empty($t));
-        $this->assertType('Zend\\Authentication\\Adapter\\HTTP', $t);
+        $this->assertType('Zend\\Authentication\\Adapter\\Http', $t);
         unset($t);
 
         try {
-            $t = new Adapter\HTTP($this->_digestConfig);
+            $t = new Adapter\Http($this->_digestConfig);
         } catch (Adapter\Exception $e) {
             $this->fail('Valid config deemed invalid');
         }
         $this->assertFalse(empty($t));
-        $this->assertType('Zend\\Authentication\\Adapter\\HTTP', $t);
+        $this->assertType('Zend\\Authentication\\Adapter\\Http', $t);
         unset($t);
 
         try {
-            $t = new Adapter\HTTP($this->_bothConfig);
+            $t = new Adapter\Http($this->_bothConfig);
         } catch (Adapter\Exception $e) {
             $this->fail('Valid config deemed invalid');
         }
         $this->assertFalse(empty($t));
-        $this->assertType('Zend\\Authentication\\Adapter\\HTTP', $t);
+        $this->assertType('Zend\\Authentication\\Adapter\\Http', $t);
         unset($t);
     }
 
@@ -169,7 +169,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         foreach ($badConfigs as $cfg) {
             $t = null;
             try {
-                $t = new Adapter\HTTP($cfg);
+                $t = new Adapter\Http($cfg);
                 $this->fail('Accepted an invalid config');
             } catch (Adapter\Exception $e) {
                 // Good, it threw an exception
@@ -179,7 +179,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticateArgs()
     {
-        $a = new Adapter\HTTP($this->_basicConfig);
+        $a = new Adapter\Http($this->_basicConfig);
 
         try {
             $a->authenticate();
@@ -188,8 +188,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             // Good, it threw an exception
         }
 
-        $request  = $this->getMock('Zend\Controller\Request\HTTP');
-        $response = $this->getMock('Zend\Controller\Response\HTTP');
+        $request  = $this->getMock('Zend\Controller\Request\Http');
+        $response = $this->getMock('Zend\Controller\Response\Http');
 
         // If this throws an exception, it fails
         $a->setRequest($request)
@@ -199,8 +199,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testNoResolvers()
     {
-        $request  = $this->getMock('Zend\Controller\Request\HTTP');
-        $response = $this->getMock('Zend\Controller\Response\HTTP');
+        $request  = $this->getMock('Zend\Controller\Request\Http');
+        $response = $this->getMock('Zend\Controller\Response\Http');
 
         // Stub request for Basic auth
         $request->expects($this->any())
@@ -209,7 +209,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
         // Once for Basic
         try {
-            $a = new Adapter\HTTP($this->_basicConfig);
+            $a = new Adapter\Http($this->_basicConfig);
             $a->setRequest($request)
               ->setResponse($response);
             $result = $a->authenticate();
@@ -220,14 +220,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         }
 
         // Stub request for Digest auth, must be reseted (recreated)
-        $request  = $this->getMock('Zend\Controller\Request\HTTP');
+        $request  = $this->getMock('Zend\Controller\Request\Http');
         $request->expects($this->any())
                 ->method('getHeader')
                 ->will($this->returnValue('Digest <followed by a space caracter'));
 
         // Once for Digest
         try {
-            $a = new Adapter\HTTP($this->_digestConfig);
+            $a = new Adapter\Http($this->_digestConfig);
             $a->setRequest($request)
               ->setResponse($response);
             $result = $a->authenticate();
@@ -240,14 +240,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testWrongResolverUsed()
     {
-        $response = $this->getMock('Zend\Controller\Response\HTTP');
-        $request  = $this->getMock('Zend\Controller\Request\HTTP');
+        $response = $this->getMock('Zend\Controller\Response\Http');
+        $request  = $this->getMock('Zend\Controller\Request\Http');
         $request->expects($this->any())
                 ->method('getHeader')
                 ->will($this->returnValue('Basic <followed by a space caracter')); // A basic Header will be provided by that request
 
         // Test a Digest auth process while the request is containing a Basic auth header
-        $a = new Adapter\HTTP($this->_digestConfig);
+        $a = new Adapter\Http($this->_digestConfig);
         $a->setDigestResolver($this->_digestResolver)
           ->setRequest($request)
           ->setResponse($response);
@@ -257,13 +257,13 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsupportedScheme()
     {
-        $response = $this->getMock('Zend\Controller\Response\HTTP');
-        $request  = $this->getMock('Zend\Controller\Request\HTTP');
+        $response = $this->getMock('Zend\Controller\Response\Http');
+        $request  = $this->getMock('Zend\Controller\Request\Http');
         $request->expects($this->any())
                 ->method('getHeader')
                 ->will($this->returnValue('NotSupportedScheme <followed by a space caracter'));
 
-        $a = new Adapter\HTTP($this->_digestConfig);
+        $a = new Adapter\Http($this->_digestConfig);
         $a->setDigestResolver($this->_digestResolver)
           ->setRequest($request)
           ->setResponse($response);
