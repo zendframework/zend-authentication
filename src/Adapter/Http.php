@@ -24,8 +24,11 @@
  * @namespace
  */
 namespace Zend\Authentication\Adapter;
+
 use Zend\Authentication\Adapter as AuthenticationAdapter,
-    Zend\Authentication;
+    Zend\Authentication,
+    Zend\Controller\Request\Http as HTTPRequest,
+    Zend\Controller\Response\Http as HTTPResponse;
 
 /**
  * HTTP Authentication Adapter
@@ -36,14 +39,14 @@ use Zend\Authentication\Adapter as AuthenticationAdapter,
  * @uses       Zend\Authentication\Adapter
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter_HTTP
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @todo       Support auth-int
  * @todo       Track nonces, nonce-count, opaque for replay protection and stale support
  * @todo       Support Authentication-Info header
  */
-class HTTP implements AuthenticationAdapter
+class Http implements AuthenticationAdapter
 {
     /**
      * Reference to the HTTP Request object
@@ -62,14 +65,14 @@ class HTTP implements AuthenticationAdapter
     /**
      * Object that looks up user credentials for the Basic scheme
      *
-     * @var Zend\Authentication\Adapter\HTTP\Resolver
+     * @var Zend\Authentication\Adapter\Http\Resolver
      */
     protected $_basicResolver;
 
     /**
      * Object that looks up user credentials for the Digest scheme
      *
-     * @var Zend\Authentication\Adapter\HTTP\Resolver
+     * @var Zend\Authentication\Adapter\Http\Resolver
      */
     protected $_digestResolver;
 
@@ -244,10 +247,10 @@ class HTTP implements AuthenticationAdapter
     /**
      * Setter for the _basicResolver property
      *
-     * @param  Zend\Authentication\Adapter\HTTP\Resolver $resolver
-     * @return Zend\Authentication\Adapter\HTTP Provides a fluent interface
+     * @param  Zend\Authentication\Adapter\Http\Resolver $resolver
+     * @return Zend\Authentication\Adapter\Http Provides a fluent interface
      */
-    public function setBasicResolver(HTTP\Resolver $resolver)
+    public function setBasicResolver(Http\Resolver $resolver)
     {
         $this->_basicResolver = $resolver;
 
@@ -257,7 +260,7 @@ class HTTP implements AuthenticationAdapter
     /**
      * Getter for the _basicResolver property
      *
-     * @return Zend\Authentication\Adapter\HTTP\Resolver
+     * @return Zend\Authentication\Adapter\Http\Resolver
      */
     public function getBasicResolver()
     {
@@ -267,10 +270,10 @@ class HTTP implements AuthenticationAdapter
     /**
      * Setter for the _digestResolver property
      *
-     * @param  Zend\Authentication\Adapter\HTTP\Resolver $resolver
-     * @return Zend\Authentication\Adapter\HTTP Provides a fluent interface
+     * @param  Zend\Authentication\Adapter\Http\Resolver $resolver
+     * @return Zend\Authentication\Adapter\Http Provides a fluent interface
      */
-    public function setDigestResolver(HTTP\Resolver $resolver)
+    public function setDigestResolver(Http\Resolver $resolver)
     {
         $this->_digestResolver = $resolver;
 
@@ -280,7 +283,7 @@ class HTTP implements AuthenticationAdapter
     /**
      * Getter for the _digestResolver property
      *
-     * @return Zend\Authentication\Adapter\HTTP\Resolver
+     * @return Zend\Authentication\Adapter\Http\Resolver
      */
     public function getDigestResolver()
     {
@@ -291,9 +294,9 @@ class HTTP implements AuthenticationAdapter
      * Setter for the Request object
      *
      * @param  Zend_Controller_Request_Http $request
-     * @return Zend\Authentication\Adapter\HTTP Provides a fluent interface
+     * @return Zend\Authentication\Adapter\Http Provides a fluent interface
      */
-    public function setRequest(\Zend_Controller_Request_Http $request)
+    public function setRequest(HTTPRequest $request)
     {
         $this->_request = $request;
 
@@ -314,9 +317,9 @@ class HTTP implements AuthenticationAdapter
      * Setter for the Response object
      *
      * @param  Zend_Controller_Response_Http $response
-     * @return Zend\Authentication\Adapter\HTTP Provides a fluent interface
+     * @return Zend\Authentication\Adapter\Http Provides a fluent interface
      */
-    public function setResponse(\Zend_Controller_Response_Http $response)
+    public function setResponse(HTTPResponse $response)
     {
         $this->_response = $response;
 
