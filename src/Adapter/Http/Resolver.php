@@ -14,7 +14,7 @@
  *
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter_HTTP
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id$
@@ -23,7 +23,7 @@
 /**
  * @namespace
  */
-namespace Zend\Authentication\Adapter\HTTP;
+namespace Zend\Authentication\Adapter\Http;
 
 /**
  * Auth HTTP Resolver Interface
@@ -33,7 +33,7 @@ namespace Zend\Authentication\Adapter\HTTP;
  *
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter_HTTP
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */

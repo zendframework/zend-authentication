@@ -27,9 +27,9 @@ namespace ZendTest\Authentication\Adapter;
 
 use Zend\Authentication\Adapter,
     Zend\Authentication,
-    Zend\DB\DB,
-    Zend\DB\Adapter\PDO\SQLite as SQLiteAdapter,
-    Zend\DB\Select as DBSelect;
+    Zend\Db\Db,
+    Zend\Db\Adapter\Pdo\Sqlite as SQLiteAdapter,
+    Zend\Db\Select as DBSelect;
 
 /**
  * @category   Zend
@@ -83,7 +83,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         $this->_adapter = null;
-        if ($this->_db instanceof DB\Adapter\AbstractAdapter) {
+        if ($this->_db instanceof Db\Adapter\AbstractAdapter) {
             $this->_db->query('DROP TABLE [users]');
         }
         $this->_db = null;
@@ -330,12 +330,12 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     public function testDbTableAdapterUsesCaseFolding()
     {
         $this->tearDown();
-        $this->_setupDbAdapter(array(DB::CASE_FOLDING => DB::CASE_UPPER));
+        $this->_setupDbAdapter(array(Db::CASE_FOLDING => Db::CASE_UPPER));
         $this->_setupAuthAdapter();
 
         $this->_adapter->setIdentity('my_username');
         $this->_adapter->setCredential('my_password');
-        $this->_db->foldCase(DB::CASE_UPPER);
+        $this->_db->foldCase(Db::CASE_UPPER);
         $this->_adapter->authenticate();
     }
 
@@ -350,7 +350,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Zend\Authentication\Adapter\Exception', "No database adapter present");
 
         // make sure that no default adapter exists
-        \Zend\DB\Table\AbstractTable::setDefaultAdapter(null);
+        \Zend\Db\Table\AbstractTable::setDefaultAdapter(null);
         $this->_adapter = new Adapter\DbTable();
     }
 
@@ -362,10 +362,10 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     public function testAuthenticateWithDefaultDbAdapter()
     {
         // preserve default adapter between cases
-        $tmp = \Zend\DB\Table\AbstractTable::getDefaultAdapter();
+        $tmp = \Zend\Db\Table\AbstractTable::getDefaultAdapter();
 
         // make sure that default db adapter exists
-        \Zend\DB\Table\AbstractTable::setDefaultAdapter($this->_db);
+        \Zend\Db\Table\AbstractTable::setDefaultAdapter($this->_db);
 
         // check w/o passing adapter
         $this->_adapter = new Adapter\DbTable($this->_db);
@@ -380,7 +380,67 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($result->isValid());
 
         // restore adapter
-        \Zend\DB\Table\AbstractTable::setDefaultAdapter($tmp);
+        \Zend\Db\Table\AbstractTable::setDefaultAdapter($tmp);
+    }
+    /**
+     * Test to see same usernames with different passwords can not authenticate
+     * when flag is not set. This is the current state of 
+     * Zend_Auth_Adapter_DbTable (up to ZF 1.10.6)
+     * 
+     * @group   ZF-7289
+     */
+    public function testEqualUsernamesDifferentPasswordShouldNotAuthenticateWhenFlagIsNotSet()
+    {
+        $this->_db->insert('users', array (
+            'username' => 'my_username',
+            'password' => 'my_otherpass',
+            'real_name' => 'Test user 2',
+        ));
+        
+        // test if user 1 can authenticate
+        $this->_adapter->setIdentity('my_username')
+                       ->setCredential('my_password');
+        $result = $this->_adapter->authenticate();
+        $this->assertTrue(in_array('More than one record matches the supplied identity.',
+            $result->getMessages()));
+        $this->assertFalse($result->isValid());
+    }
+    /**
+     * Test to see same usernames with different passwords can authenticate when
+     * a flag is set
+     * 
+     * @group   ZF-7289
+     */
+    public function testEqualUsernamesDifferentPasswordShouldAuthenticateWhenFlagIsSet()
+    {
+        $this->_db->insert('users', array (
+            'username' => 'my_username',
+            'password' => 'my_otherpass',
+            'real_name' => 'Test user 2',
+        ));
+        
+        // test if user 1 can authenticate
+        $this->_adapter->setIdentity('my_username')
+                       ->setCredential('my_password')
+                       ->setAmbiguityIdentity(true);
+        $result = $this->_adapter->authenticate();
+        $this->assertFalse(in_array('More than one record matches the supplied identity.',
+            $result->getMessages()));
+        $this->assertTrue($result->isValid());
+        $this->assertEquals('my_username', $result->getIdentity());
+        
+        $this->_adapter = null;
+        $this->_setupAuthAdapter();
+        
+        // test if user 2 can authenticate
+        $this->_adapter->setIdentity('my_username')
+                       ->setCredential('my_otherpass')
+                       ->setAmbiguityIdentity(true);
+        $result2 = $this->_adapter->authenticate();
+        $this->assertFalse(in_array('More than one record matches the supplied identity.',
+            $result->getMessages()));
+        $this->assertTrue($result->isValid());
+        $this->assertEquals('my_username', $result->getIdentity());
     }
 
 
