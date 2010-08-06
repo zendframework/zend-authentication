@@ -23,9 +23,9 @@
 /**
  * @namespace
  */
-namespace ZendTest\Auth\Adapter\HTTP;
+namespace ZendTest\Auth\Adapter\Http;
 
-use Zend\Authentication\Adapter\HTTP;
+use Zend\Authentication\Adapter\Http;
 
 /**
  * @category   Zend
@@ -76,7 +76,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->_filesPath = __DIR__ . '/TestAsset';
         $this->_validPath = "$this->_filesPath/htdigest.3";
         $this->_badPath   = 'doesnotexist';
-        $this->_resolver  = new HTTP\FileResolver($this->_validPath);
+        $this->_resolver  = new Http\FileResolver($this->_validPath);
     }
 
     /**
@@ -97,7 +97,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFileInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\HTTP\\Exception', 'Path not readable');
+        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception', 'Path not readable');
         $this->_resolver->setFile($this->_badPath);
     }
 
@@ -108,7 +108,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructValid()
     {
-        $v = new HTTP\FileResolver($this->_validPath);
+        $v = new Http\FileResolver($this->_validPath);
         $this->assertEquals($this->_validPath, $v->getFile());
     }
 
@@ -119,8 +119,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\HTTP\\Exception', 'Path not readable');
-        $v = new HTTP\FileResolver($this->_badPath);
+        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception', 'Path not readable');
+        $v = new Http\FileResolver($this->_badPath);
     }
 
     /**
@@ -130,7 +130,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolveUsernameEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\HTTP\\Exception', 'Username is required');
+        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception', 'Username is required');
         $this->_resolver->resolve('', '');
     }
 
@@ -141,7 +141,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolveRealmEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\HTTP\\Exception', 'Realm is required');
+        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception', 'Realm is required');
         $this->_resolver->resolve('username', '');
     }
 
@@ -155,13 +155,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_resolver->resolve('bad:name', 'realm');
             $this->fail('Accepted malformed username with colon');
-        } catch (HTTP\Exception $e) {
+        } catch (Http\Exception $e) {
             $this->assertContains('Username must consist', $e->getMessage());
         }
         try {
             $this->_resolver->resolve("badname\n", 'realm');
             $this->fail('Accepted malformed username with newline');
-        } catch (HTTP\Exception $e) {
+        } catch (Http\Exception $e) {
             $this->assertContains('Username must consist', $e->getMessage());
         }
     }
@@ -176,13 +176,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_resolver->resolve('username', 'bad:realm');
             $this->fail('Accepted malformed realm with colon');
-        } catch (HTTP\Exception $e) {
+        } catch (Http\Exception $e) {
             $this->assertContains('Realm must consist', $e->getMessage());
         }
         try {
             $this->_resolver->resolve('username', "badrealm\n");
             $this->fail('Accepted malformed realm with newline');
-        } catch (HTTP\Exception $e) {
+        } catch (Http\Exception $e) {
             $this->assertContains('Realm must consist', $e->getMessage());
         }
     }
@@ -198,7 +198,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             try {
                 $this->_resolver->resolve('username', 'realm');
                 $this->fail('Expected thrown exception upon resolve() after moving valid file');
-            } catch (HTTP\Exception $e) {
+            } catch (Http\Exception $e) {
                 $this->assertContains('Unable to open password file', $e->getMessage());
             }
             rename("$this->_filesPath/htdigest.3.renamed", "$this->_filesPath/htdigest.3");
