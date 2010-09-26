@@ -23,9 +23,10 @@
 /**
  * @namespace
  */
-namespace ZendTest\Auth\Adapter\HTTP;
+namespace ZendTest\Auth\Adapter\Http;
 
-use Zend\Authentication\Adapter\HTTP;
+use Zend\Authentication\Adapter\Http,
+    Zend\Controller\Response\Http as HTTPResponse;
 
 /**
  * @category   Zend
@@ -35,7 +36,7 @@ use Zend\Authentication\Adapter\HTTP;
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */
-class ProxyTest extends \PHPUnit_Framework_TestCase
+class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Path to test files
@@ -80,43 +81,40 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected $_digestResolver;
 
     /**
-     * Sets up test configuration
+     * Set up test configuration
      *
      * @return void
      */
     public function setUp()
     {
         $this->_filesPath      = __DIR__ . '/TestAsset';
-        $this->_basicResolver  = new HTTP\FileResolver("{$this->_filesPath}/htbasic.1");
-        $this->_digestResolver = new HTTP\FileResolver("{$this->_filesPath}/htdigest.3");
+        $this->_basicResolver  = new Http\FileResolver("{$this->_filesPath}/htbasic.1");
+        $this->_digestResolver = new Http\FileResolver("{$this->_filesPath}/htdigest.3");
         $this->_basicConfig    = array(
             'accept_schemes' => 'basic',
-            'realm'          => 'Test Realm',
-            'proxy_auth'     => true
+            'realm'          => 'Test Realm'
         );
         $this->_digestConfig   = array(
             'accept_schemes' => 'digest',
             'realm'          => 'Test Realm',
             'digest_domains' => '/ http://localhost/',
-            'nonce_timeout'  => 300,
-            'proxy_auth'     => true
+            'nonce_timeout'  => 300
         );
         $this->_bothConfig     = array(
             'accept_schemes' => 'basic digest',
             'realm'          => 'Test Realm',
             'digest_domains' => '/ http://localhost/',
-            'nonce_timeout'  => 300,
-            'proxy_auth'     => true
+            'nonce_timeout'  => 300
         );
     }
 
     public function testBasicChallenge()
     {
-        // Trying to authenticate without sending an Proxy-Authorization header
-        // should result in a 407 reply with a Proxy-Authenticate header, and a
+        // Trying to authenticate without sending an Authorization header
+        // should result in a 401 reply with a Www-Authenticate header, and a
         // false result.
 
-        // The expected Basic Proxy-Authenticate header value
+        // The expected Basic Www-Authenticate header value
         $basic = 'Basic realm="' . $this->_bothConfig['realm'] . '"';
 
         $data = $this->_doAuth('', 'basic');
@@ -125,11 +123,11 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testDigestChallenge()
     {
-        // Trying to authenticate without sending an Proxy-Authorization header
-        // should result in a 407 reply with a Proxy-Authenticate header, and a
+        // Trying to authenticate without sending an Authorization header
+        // should result in a 401 reply with a Www-Authenticate header, and a
         // false result.
 
-        // The expected Digest Proxy-Authenticate header value
+        // The expected Digest Www-Authenticate header value
         $digest = $this->_digestChallenge();
 
         $data = $this->_doAuth('', 'digest');
@@ -138,14 +136,14 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testBothChallenges()
     {
-        // Trying to authenticate without sending an Proxy-Authorization header
-        // should result in a 407 reply with at least one Proxy-Authenticate
+        // Trying to authenticate without sending an Authorization header
+        // should result in a 401 reply with at least one Www-Authenticate
         // header, and a false result.
 
         $data = $this->_doAuth('', 'both');
         extract($data); // $result, $status, $headers
 
-        // The expected Proxy-Authenticate header values
+        // The expected Www-Authenticate header values
         $basic  = 'Basic realm="' . $this->_bothConfig['realm'] . '"';
         $digest = $this->_digestChallenge();
 
@@ -154,9 +152,9 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result->isValid());
 
         // Verify the status code and the presence of both challenges
-        $this->assertEquals(407, $status);
-        $this->assertEquals('Proxy-Authenticate', $headers[0]['name']);
-        $this->assertEquals('Proxy-Authenticate', $headers[1]['name']);
+        $this->assertEquals(401, $status);
+        $this->assertEquals('Www-Authenticate', $headers[0]['name']);
+        $this->assertEquals('Www-Authenticate', $headers[1]['name']);
 
         // Check to see if the expected challenges match the actual
         $this->assertEquals($basic,  $headers[0]['value']);
@@ -176,7 +174,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         // Ensure that credentials containing invalid characters are treated as
         // a bad username or password.
 
-        // The expected Basic WWW-Authenticate header value
+        // The expected Basic Www-Authenticate header value
         $basic = 'Basic realm="' . $this->_basicConfig['realm'] . '"';
 
         $data = $this->_doAuth('Basic ' . base64_encode("Bad\tChars:In:Creds"), 'basic');
@@ -185,9 +183,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testBasicAuthBadUser()
     {
-        // Attempt Basic Authentication with a bad username and password
+        // Attempt Basic Authentication with a nonexistant username and
+        // password
 
-        // The expected Basic Proxy-Authenticate header value
+        // The expected Basic Www-Authenticate header value
         $basic = 'Basic realm="' . $this->_basicConfig['realm'] . '"';
 
         $data = $this->_doAuth('Basic ' . base64_encode('Nobody:NotValid'), 'basic');
@@ -199,7 +198,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         // Attempt Basic Authentication with a valid username, but invalid
         // password
 
-        // The expected Basic WWW-Authenticate header value
+        // The expected Basic Www-Authenticate header value
         $basic = 'Basic realm="' . $this->_basicConfig['realm'] . '"';
 
         $data = $this->_doAuth('Basic ' . base64_encode('Bryce:Invalid'), 'basic');
@@ -242,10 +241,22 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     {
         // Attempt Digest Authentication with a bad username and password
 
-        // The expected Digest Proxy-Authenticate header value
+        // The expected Digest Www-Authenticate header value
         $digest = $this->_digestChallenge();
 
         $data = $this->_doAuth($this->_digestReply('Nobody', 'NotValid'), 'digest');
+        $this->_checkUnauthorized($data, $digest);
+    }
+
+    public function testDigestAuthBadCreds2()
+    {
+        // Formerly, a username with invalid characters would result in a 400
+        // response, but now should result in 401 response.
+
+        // The expected Digest Www-Authenticate header value
+        $digest = $this->_digestChallenge();
+
+        $data = $this->_doAuth($this->_digestReply('Bad:chars', 'NotValid'), 'digest');
         $this->_checkUnauthorized($data, $digest);
     }
 
@@ -255,11 +266,11 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $tampered = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
         $tampered = preg_replace(
             '/ nonce="[a-fA-F0-9]{32}", /',
-            ' nonce="' . str_repeat('0', 32).'", ',
+            ' nonce="'.str_repeat('0', 32).'", ',
             $tampered
         );
 
-        // The expected Digest Proxy-Authenticate header value
+        // The expected Digest Www-Authenticate header value
         $digest = $this->_digestChallenge();
 
         $data = $this->_doAuth($tampered, 'digest');
@@ -277,7 +288,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testBadDigestRequest()
     {
-        // If any of the individual parts of the Digest Proxy-Authorization header
+        // If any of the individual parts of the Digest Authorization header
         // are bad, it results in a 400 Bad Request. But that's a lot of
         // possibilities, so we're just going to pick one for now.
         $bad = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
@@ -295,13 +306,13 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      *
      * @param  string $clientHeader Authenticate header value
      * @param  string $scheme       Which authentication scheme to use
-     * @return array Containing the result, the response headers, and the status
+     * @return array Containing the result, response headers, and the status
      */
-    public function _doAuth($clientHeader, $scheme)
+    protected function _doAuth($clientHeader, $scheme)
     {
         // Set up stub request and response objects
-        $request  = $this->getMock('Zend_Controller_Request_Http');
-        $response = new \Zend_Controller_Response_Http;
+        $request  = $this->getMock('Zend\Controller\Request\Http');
+        $response = new HTTPResponse;
         $response->setHttpResponseCode(200);
         $response->headersSentThrowsException = false;
 
@@ -333,7 +344,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         }
 
         // Create the HTTP Auth adapter
-        $a = new \Zend\Authentication\Adapter\HTTP($use);
+        $a = new HTTP($use);
         $a->setBasicResolver($this->_basicResolver);
         $a->setDigestResolver($this->_digestResolver);
 
@@ -358,8 +369,8 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected function _digestChallenge()
     {
         $timeout = ceil(time() / 300) * 300;
-        $nonce   = md5($timeout . ':PHPUnit:Zend\\Authentication\\Adapter\\HTTP');
-        $opaque  = md5('Opaque Data:Zend\\Authentication\\Adapter\\HTTP');
+        $nonce   = md5($timeout . ':PHPUnit:Zend\\Authentication\\Adapter\\Http');
+        $opaque  = md5('Opaque Data:Zend\\Authentication\\Adapter\\Http');
         $wwwauth = 'Digest '
                  . 'realm="' . $this->_digestConfig['realm'] . '", '
                  . 'domain="' . $this->_digestConfig['digest_domains'] . '", '
@@ -372,18 +383,16 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Constructs a client digest Proxy-Authorization header
+     * Constructs a client digest Authorization header
      *
-     * @param  string $user
-     * @param  string $pass
      * @return string
      */
     protected function _digestReply($user, $pass)
     {
         $nc       = '00000001';
         $timeout  = ceil(time() / 300) * 300;
-        $nonce    = md5($timeout . ':PHPUnit:Zend\\Authentication\\Adapter\\HTTP');
-        $opaque   = md5('Opaque Data:Zend\\Authentication\\Adapter\\HTTP');
+        $nonce    = md5($timeout . ':PHPUnit:Zend\Authentication\Adapter\Http');
+        $opaque   = md5('Opaque Data:Zend\\Authentication\\Adapter\\Http');
         $cnonce   = md5('cnonce');
         $response = md5(md5($user . ':' . $this->_digestConfig['realm'] . ':' . $pass) . ":$nonce:$nc:$cnonce:auth:"
                   . md5('GET:/'));
@@ -403,10 +412,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks for an expected 407 Proxy-Unauthorized response
+     * Checks for an expected 401 Unauthorized response
      *
      * @param  array  $data     Authentication results
-     * @param  string $expected Expected Proxy-Authenticate header value
+     * @param  string $expected Expected Www-Authenticate header value
      * @return void
      */
     protected function _checkUnauthorized($data, $expected)
@@ -418,8 +427,8 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($result->isValid());
 
         // Verify the status code and the presence of the challenge
-        $this->assertEquals(407, $status);
-        $this->assertEquals('Proxy-Authenticate', $headers[0]['name']);
+        $this->assertEquals(401, $status);
+        $this->assertEquals('Www-Authenticate', $headers[0]['name']);
 
         // Check to see if the expected challenge matches the actual
         $this->assertEquals($expected, $headers[0]['value']);
@@ -437,7 +446,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
         // Make sure the result is true
         $this->assertType('Zend\\Authentication\\Result', $result);
-        $this->assertTrue($result->isValid());
+        $this->assertTrue($result->isValid(), var_export($result, 1));
 
         // Verify we got a 200 response
         $this->assertEquals(200, $status);
