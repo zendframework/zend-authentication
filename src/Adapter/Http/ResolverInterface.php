@@ -14,18 +14,34 @@
  *
  * @category   Zend
  * @package    Zend_Authentication
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Authentication;
+namespace Zend\Authentication\Adapter\Http;
 
 /**
- * @uses       Zend\Exception
+ * Auth HTTP Resolver Interface
+ *
+ * Defines an interace to resolve a username/realm combination into a shared
+ * secret usable by HTTP Authentication.
+ *
  * @category   Zend
  * @package    Zend_Authentication
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception
-{}
+interface ResolverInterface
+{
+    /**
+     * Resolve username/realm to password/hash/etc.
+     *
+     * @param  string $username Username
+     * @param  string $realm    Authentication Realm
+     * @return string|false User's shared secret, if the user is found in the
+     *         realm, false otherwise.
+     */
+    public function resolve($username, $realm);
+}

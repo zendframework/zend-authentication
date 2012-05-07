@@ -14,22 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter_HTTP
+ * @subpackage Exception
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Authentication\Adapter\Http;
+namespace Zend\Authentication\Exception;
 
 /**
- * HTTP Auth Resolver Exception
- *
- * @uses       Zend\Authentication\Exception
+ * @uses       Zend\Exception
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter_Http
+ * @subpackage Exception
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception extends \Zend\Authentication\Adapter\Exception
+interface ExceptionInterface
 {}
