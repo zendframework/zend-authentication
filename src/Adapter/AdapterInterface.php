@@ -13,41 +13,28 @@
  * to license@zend.com so we can send you a copy immediately.
  *
  * @category   Zend
- * @package    Zend_OpenId
- * @subpackage UnitTests
+ * @package    Zend_Authentication
+ * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace ZendTest\Authentication\Adapter\TestAsset;
-
-use Zend\Http\Response;
-use Zend\OpenId\OpenId;
-
-OpenId::$exitOnRedirect = false;
+namespace Zend\Authentication\Adapter;
 
 /**
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage UnitTests
+ * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class ResponseHelper extends Response
+interface AdapterInterface
 {
-    private $_canSendHeaders;
-
-    public function __construct($canSendHeaders)
-    {
-        $this->_canSendHeaders = $canSendHeaders;
-    }
-
-    public function canSendHeaders($throw = false)
-    {
-        return $this->_canSendHeaders;
-    }
-
-    public function sendResponse()
-    {
-    }
+    /**
+     * Performs an authentication attempt
+     *
+     * @return Zend\Authentication\Result
+     * @throws Zend\Authentication\Adapter\Exception\ExceptionInterface If authentication cannot be performed
+     */
+    public function authenticate();
 }
