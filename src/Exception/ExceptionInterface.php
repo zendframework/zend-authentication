@@ -14,23 +14,19 @@
  *
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter
+ * @subpackage Exception
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
-namespace Zend\Authentication\Adapter;
+namespace Zend\Authentication\Exception;
 
 /**
- * @uses       Zend\Authentication\Exception
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter
+ * @subpackage Exception
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Exception extends \Zend\Authentication\Exception
+interface ExceptionInterface
 {}
