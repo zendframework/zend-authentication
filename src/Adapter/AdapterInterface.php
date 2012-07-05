@@ -19,9 +19,7 @@
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-namespace Zend\Authentication\Adapter\Exception;
-
-use Zend\Authentication\Exception;
+namespace Zend\Authentication\Adapter;
 
 /**
  * @category   Zend
@@ -30,7 +28,13 @@ use Zend\Authentication\Exception;
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class RuntimeException extends Exception\RuntimeException implements 
-    ExceptionInterface
+interface AdapterInterface
 {
+    /**
+     * Performs an authentication attempt
+     *
+     * @return \Zend\Authentication\Result
+     * @throws \Zend\Authentication\Adapter\Exception\ExceptionInterface If authentication cannot be performed
+     */
+    public function authenticate();
 }

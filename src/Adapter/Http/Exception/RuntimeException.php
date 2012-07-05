@@ -14,30 +14,23 @@
  *
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-/**
- * @namespace
- */
-namespace Zend\Authentication;
+namespace Zend\Authentication\Adapter\Http\Exception;
+
+use Zend\Authentication\Adapter\Exception;
 
 /**
  * @category   Zend
  * @package    Zend_Authentication
- * @subpackage Adapter
+ * @subpackage Adapter_Http
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-interface Adapter
+class RuntimeException extends Exception\RuntimeException implements 
+    ExceptionInterface
 {
-    /**
-     * Performs an authentication attempt
-     *
-     * @return Zend\Authentication\Result
-     * @throws Zend\Authentication\Adapter\Exception If authentication cannot be performed
-     */
-    public function authenticate();
 }
