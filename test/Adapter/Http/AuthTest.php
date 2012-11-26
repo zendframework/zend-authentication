@@ -1,38 +1,24 @@
 <?php
 /**
- * Zend Framework
+ * Zend Framework (http://framework.zend.com/)
  *
- * LICENSE
- *
- * This source file is subject to the new BSD license that is bundled
- * with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://framework.zend.com/license/new-bsd
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@zend.com so we can send you a copy immediately.
- *
- * @category   Zend
- * @package    Zend_Auth
- * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @package   Zend_Authentication
  */
 
 namespace ZendTest\Authentication\Adapter\Http;
 
-use Zend\Authentication\Adapter\Http,
-    Zend\Http\Headers,
-    Zend\Http\Request,
-    Zend\Http\Response,
-    Zend\Stdlib\Parameters;
+use Zend\Authentication\Adapter\Http;
+use Zend\Http\Headers;
+use Zend\Http\Request;
+use Zend\Http\Response;
 
 /**
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage UnitTests
- * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @group      Zend_Auth
  */
 class AuthTest extends \PHPUnit_Framework_TestCase
@@ -68,7 +54,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     /**
      * File resolver setup against with HTTP Basic auth file
      *
-     * @var Zend_Auth_Adapter_Http_Resolver_File
+     * @var Http\FileResolver
      */
     protected $_basicResolver;
 
@@ -142,6 +128,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         // should result in a 401 reply with at least one Www-Authenticate
         // header, and a false result.
 
+        $result = $status = $headers = null;
         $data = $this->_doAuth('', 'both');
         extract($data); // $result, $status, $headers
 
@@ -340,9 +327,10 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         // Set stub method return values
         $request->setUri('http://localhost/');
         $request->setMethod('GET');
-        $request->setServer(new Parameters(array('HTTP_USER_AGENT' => 'PHPUnit')));
+
         $headers = $request->getHeaders();
         $headers->addHeaderLine('Authorization', $clientHeader);
+        $headers->addHeaderLine('User-Agent', 'PHPUnit');
 
         // Select an Authentication scheme
         switch ($scheme) {
@@ -427,6 +415,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
      */
     protected function _checkUnauthorized($data, $expected)
     {
+        $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 
         // Make sure the result is false
@@ -461,6 +450,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
      */
     protected function _checkOK($data)
     {
+        $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 
         // Make sure the result is true
@@ -479,6 +469,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
      */
     protected function _checkBadRequest($data)
     {
+        $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 
         // Make sure the result is false
@@ -487,5 +478,29 @@ class AuthTest extends \PHPUnit_Framework_TestCase
 
         // Make sure it set the right HTTP code
         $this->assertEquals(400, $status);
+    }
+
+    public function testBasicAuthValidCredsWithCustomIdentityObjectResolverReturnsAuthResult()
+    {
+        $this->_basicResolver  = new TestAsset\BasicAuthObjectResolver();
+
+        $result = $this->_doAuth('Basic ' . base64_encode('Bryce:ThisIsNotMyPassword'), 'basic');
+        $result = $result['result'];
+
+        $this->assertInstanceOf('Zend\\Authentication\\Result', $result);
+        $this->assertTrue($result->isValid());
+    }
+
+    public function testBasicAuthInvalidCredsWithCustomIdentityObjectResolverReturnsUnauthorizedResponse()
+    {
+        $this->_basicResolver  = new TestAsset\BasicAuthObjectResolver();
+        $data = $this->_doAuth('Basic ' . base64_encode('David:ThisIsNotMyPassword'), 'basic');
+
+        $expected = array(
+            'type'   => 'Basic ',
+            'realm'  => 'realm="' . $this->_bothConfig['realm'] . '"',
+        );
+
+        $this->_checkUnauthorized($data, $expected);
     }
 }

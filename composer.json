@@ -9,7 +9,7 @@
     "homepage": "https://github.com/zendframework/zend-authentication",
     "autoload": {
         "psr-4": {
-            "Zend\\Authentication": "src/"
+            "Zend\\Authentication\\": "src/"
         }
     },
     "require": {
