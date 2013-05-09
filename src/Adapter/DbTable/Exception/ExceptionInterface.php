@@ -7,7 +7,9 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\Authentication\Exception;
+namespace Zend\Authentication\Adapter\DbTable\Exception;
 
-interface ExceptionInterface
+use Zend\Authentication\Adapter\Exception\ExceptionInterface as Exception;
+
+interface ExceptionInterface extends Exception
 {}
