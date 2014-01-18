@@ -9,7 +9,7 @@
 
 namespace Zend\Authentication;
 
-class AuthenticationService implements AuthenticationServiceInterface
+class AuthenticationService
 {
     /**
      * Persistent storage handler
