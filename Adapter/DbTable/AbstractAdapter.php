@@ -3,11 +3,12 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
 namespace Zend\Authentication\Adapter\DbTable;
+
 
 use stdClass;
 use Zend\Authentication\Result as AuthenticationResult;
@@ -105,7 +106,7 @@ abstract class AbstractAdapter extends BaseAdapter
      * setTableName() - set the table name to be used in the select query
      *
      * @param  string $tableName
-     * @return self Provides a fluent interface
+     * @return DbTable Provides a fluent interface
      */
     public function setTableName($tableName)
     {
@@ -117,7 +118,7 @@ abstract class AbstractAdapter extends BaseAdapter
      * setIdentityColumn() - set the column name to be used as the identity column
      *
      * @param  string $identityColumn
-     * @return self Provides a fluent interface
+     * @return DbTable Provides a fluent interface
      */
     public function setIdentityColumn($identityColumn)
     {
@@ -129,7 +130,7 @@ abstract class AbstractAdapter extends BaseAdapter
      * setCredentialColumn() - set the column name to be used as the credential column
      *
      * @param  string $credentialColumn
-     * @return self Provides a fluent interface
+     * @return DbTable Provides a fluent interface
      */
     public function setCredentialColumn($credentialColumn)
     {
@@ -143,7 +144,7 @@ abstract class AbstractAdapter extends BaseAdapter
      * false) parameters. Default is false.
      *
      * @param  int|bool $flag
-     * @return self Provides a fluent interface
+     * @return DbTable Provides a fluent interface
      */
     public function setAmbiguityIdentity($flag)
     {
