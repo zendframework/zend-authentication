@@ -12,5 +12,4 @@ namespace Zend\Authentication\Adapter\DbTable\Exception;
 use Zend\Authentication\Adapter\Exception\ExceptionInterface as Exception;
 
 interface ExceptionInterface extends Exception
-{
-}
+{}

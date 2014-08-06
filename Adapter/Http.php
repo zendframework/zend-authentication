@@ -324,9 +324,8 @@ class Http implements AdapterInterface
     public function authenticate()
     {
         if (empty($this->request) || empty($this->response)) {
-            throw new Exception\RuntimeException(
-                'Request and Response objects must be set before calling authenticate()'
-            );
+            throw new Exception\RuntimeException('Request and Response objects must be set before calling '
+                                                . 'authenticate()');
         }
 
         if ($this->imaProxy) {
@@ -477,8 +476,8 @@ class Http implements AdapterInterface
         }
         if (empty($this->basicResolver)) {
             throw new Exception\RuntimeException(
-                'A basicResolver object must be set before doing Basic authentication'
-            );
+                'A basicResolver object must be set before doing Basic '
+                . 'authentication');
         }
 
         // Decode the Authorization header
@@ -592,6 +591,7 @@ class Http implements AdapterInterface
         // Using hash() should make parameterizing the hash algorithm
         // easier
         $ha2 = hash('md5', $a2);
+
 
         // Calculate the server's version of the request-digest. This must
         // match $data['response']. See RFC 2617, section 3.2.2.1

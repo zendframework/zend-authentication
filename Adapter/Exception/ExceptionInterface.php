@@ -12,5 +12,4 @@ namespace Zend\Authentication\Adapter\Exception;
 use Zend\Authentication\Exception\ExceptionInterface as Exception;
 
 interface ExceptionInterface extends Exception
-{
-}
+{}
