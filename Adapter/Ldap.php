@@ -3,7 +3,7 @@
  * Zend Framework (http://framework.zend.com/)
  *
  * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
@@ -16,6 +16,7 @@ use Zend\Ldap\Exception\LdapException;
 
 class Ldap extends AbstractAdapter
 {
+
     /**
      * The Zend\Ldap\Ldap context.
      *
@@ -167,10 +168,8 @@ class Ldap extends AbstractAdapter
     {
         $options = $this->getLdap()->getOptions();
         $name = $options['accountDomainName'];
-        if (!$name) {
+        if (!$name)
             $name = $options['accountDomainNameShort'];
-        }
-
         return $name ? $name : '';
     }
 
@@ -213,6 +212,7 @@ class Ldap extends AbstractAdapter
          * credentials against it.
          */
         foreach ($this->options as $options) {
+
             if (!is_array($options)) {
                 throw new Exception\InvalidArgumentException('Adapter options array not an array');
             }
@@ -220,10 +220,8 @@ class Ldap extends AbstractAdapter
             $dname = '';
 
             try {
-                if ($messages[1]) {
+                if ($messages[1])
                     $messages[] = $messages[1];
-                }
-
                 $messages[1] = '';
                 $messages[] = $this->optionsToString($options);
 
@@ -275,6 +273,7 @@ class Ldap extends AbstractAdapter
                     $failedAuthorities[$dname] = $groupResult;
                 }
             } catch (LdapException $zle) {
+
                 /* LDAP based authentication is notoriously difficult to diagnose. Therefore
                  * we bend over backwards to capture and record every possible bit of
                  * information when something goes wrong.
@@ -342,16 +341,9 @@ class Ldap extends AbstractAdapter
                 switch ($key) {
                     case 'groupScope':
                         $value = (int) $value;
-                        if (in_array(
-                            $value,
-                            array(
-                                ZendLdap\Ldap::SEARCH_SCOPE_BASE,
-                                ZendLdap\Ldap::SEARCH_SCOPE_ONE,
-                                ZendLdap\Ldap::SEARCH_SCOPE_SUB,
-                            ),
-                            true
-                        )) {
-                            $adapterOptions[$key] = $value;
+                        if (in_array($value, array(ZendLdap\Ldap::SEARCH_SCOPE_BASE,
+                                ZendLdap\Ldap::SEARCH_SCOPE_ONE, ZendLdap\Ldap::SEARCH_SCOPE_SUB), true)) {
+                           $adapterOptions[$key] = $value;
                         }
                         break;
                     case 'memberIsDn':
