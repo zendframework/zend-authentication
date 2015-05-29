@@ -2,6 +2,10 @@ sudo: false
 
 language: php
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 env:
   global:
     - TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED=true
