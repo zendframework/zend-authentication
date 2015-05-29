@@ -28,22 +28,22 @@
              functionality works as expected. Such tests include those for
              Zend\Soap and Zend\Session, which require that headers not be sent
              in order to work. -->
-        <const name="TESTS_ZEND_OB_ENABLED" value="false" />
+        <env name="TESTS_ZEND_OB_ENABLED" value="false" />
 
         <!-- Note: the following is a FULL list of ALL POSSIBLE constants
              currently in use in ZF2 for ALL COMPONENTS; you should choose the
              constants appropriate to the component you are migrating. -->
 
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED" value="false" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE" value=":memory:" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_ENABLED" value="false" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_HOSTNAME" value="127.0.0.1" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_PORT" value="50000" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_USERNAME" value="" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_PASSWORD" value="" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_DATABASE" value="*LOCAL" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_CREDENTIAL_TABLE" value="YOURLIB.TESTING_USERS" />
-        <const name="TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED" value="false" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED" value="false" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE" value=":memory:" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_ENABLED" value="false" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_HOSTNAME" value="127.0.0.1" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_PORT" value="50000" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_USERNAME" value="" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_PASSWORD" value="" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_DATABASE" value="*LOCAL" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_CREDENTIAL_TABLE" value="YOURLIB.TESTING_USERS" />
+        <env name="TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED" value="false" />
 
     </php>
 </phpunit>
