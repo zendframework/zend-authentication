@@ -11,7 +11,7 @@ scope of `Zend\Authentication`. For more information about authorization and acc
 Zend Framework, please see the Zend\\\\Permissions\\\\Acl \<zend.permissions.acl\> or
 Zend\\\\Permissions\\\\Rbac \<zend.permissions.rbac\> component.
 
-> **Note**
+> **note**
 >
 > There is no `Zend\Authentication\Authentication` class, instead the class
 `Zend\Authentication\AuthenticationService` is provided. This class uses underlying authentication
@@ -156,7 +156,7 @@ custom class may instead be used by providing an object that implements
 `Zend\Authentication\Storage\StorageInterface` to
 `Zend\Authentication\AuthenticationService::setStorage()`.
 
-> **Note**
+> **note**
 >
 > If automatic persistent storage of the identity is not appropriate for a particular use case, then
 developers may forget using the `Zend\Authentication\AuthenticationService` class altogether,

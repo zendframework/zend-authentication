@@ -1,6 +1,6 @@
 # Database Table Authentication
 
-> **Note**
+> **note**
 >
 > `Zend\Authentication\Adapter\DbTable` has been deprecated, as its responsibilities have been
 splitted off into `Zend\Authentication\Adapter\DbTable\CallbackCheck` and
@@ -269,7 +269,7 @@ $adapter = new AuthAdapter($db,
                           );
 ```
 
-> **Note**
+> **note**
 >
 > You can improve security even more by using a static salt value hard coded into your application.
 In the case that your database is compromised (e. g. by an *SQL* injection attack) but your web

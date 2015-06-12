@@ -159,7 +159,7 @@ require a username be in DN form when binding (see the `bindRequiresDn` option i
 Options** section below), which means we can omit a number of options associated with retrieving the
 DN for a username being authenticated.
 
-> **Note**
+> **note**
 >
 > **What is a Distinguished Name?**
 >
@@ -178,7 +178,7 @@ numeric indexes) and should not contain any special characters used by the assoc
 With multiple sets of server options, the adapter can authenticate users in multiple domains and
 provide failover so that if one server is not available, another will be queried.
 
-> **Note**
+> **note**
 >
 > **The Gory Details: What Happens in the Authenticate Method?**
 >
@@ -207,7 +207,7 @@ methods.
 Each set of server options **in the context of Zend\\Authentication\\Adapter\\Ldap** consists of the
 following options, which are passed, largely unmodified, to `Zend\Ldap\Ldap::setOptions()`:
 
-> **Note**
+> **note**
 >
 > If you enable **useStartTls = TRUE** or **useSsl = TRUE** you may find that the *LDAP* client
 generates an error claiming that it cannot validate the server's certificate. Assuming the *PHP*
@@ -233,7 +233,7 @@ logged as well (although the final message always includes the string from index
 
 For *ADS*, the following options are noteworthy:
 
-> **Note**
+> **note**
 >
 > Technically there should be no danger of accidental cross-domain authentication with the current
 `Zend\Authentication\Adapter\Ldap` implementation, since server domains are explicitly checked, but

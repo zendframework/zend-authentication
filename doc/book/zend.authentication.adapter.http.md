@@ -38,7 +38,7 @@ authentication is successful.
 The `Zend\Authentication\Adapter\Http` class requires a configuration array passed to its
 constructor. There are several configuration options available, and some are required:
 
-> **Note**
+> **note**
 >
 > The current implementation of the `nonce_timeout` has some interesting side effects. This setting
 is supposed to determine the valid lifetime of a given nonce, or effectively how long a client's
