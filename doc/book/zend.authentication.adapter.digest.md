@@ -17,7 +17,7 @@ Digest authentication:
 The above elements are separated by colons, as in the following example (in which the password is
 "**somePassword**"):
 
-``` {.sourceCode .text}
+```text
 someUser:Some Realm:fde17b91c3a510ecbaf7dbd37f59d4f8
 ```
 

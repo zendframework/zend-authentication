@@ -64,7 +64,7 @@ The file resolver is a very simple class. It has a single property specifying a 
 also be passed to the constructor. Its `resolve()` method walks through the text file, searching for
 a line with a matching username and realm. The text file format similar to Apache htpasswd files:
 
-``` {.sourceCode .text}
+```text
 <username>:<realm>:<credentials>\n
 ```
 

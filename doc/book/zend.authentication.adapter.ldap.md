@@ -79,7 +79,7 @@ order, until the credentials are successfully authenticated. The names of the se
 **Server Options** section below. Note that `Zend\Config\Reader\Ini` requires that any values with
 "equals" characters (**=**) will need to be quoted (like the DNs shown below).
 
-``` {.sourceCode .ini}
+```ini
 [production]
 
 ldap.log_path = /tmp/ldap.log
