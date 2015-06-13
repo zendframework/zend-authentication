@@ -17,19 +17,19 @@ instance methods, one for each option.
 
 The available configuration options include:
 
--   **tableName**: This is the name of the database table that contains the authentication
+- **tableName**: This is the name of the database table that contains the authentication
 credentials, and against which the database authentication query is performed.
--   **identityColumn**: This is the name of the database table column used to represent the
-identity. The identity column must contain unique values, such as a username or e-mail address.
--   **credentialColumn**: This is the name of the database table column used to represent the
+- **identityColumn**: This is the name of the database table column used to represent the identity.
+The identity column must contain unique values, such as a username or e-mail address.
+- **credentialColumn**: This is the name of the database table column used to represent the
 credential. Under a simple identity and password authentication scheme, the credential value
 corresponds to the password. See also the `credentialTreatment` option.
--   **credentialTreatment**: In many cases, passwords and other sensitive data are encrypted,
-hashed, encoded, obscured, salted or otherwise treated through some function or algorithm. By
-specifying a parameterized treatment string with this method, such as '`MD5(?)`' or '`PASSWORD(?)`',
-a developer may apply such arbitrary *SQL* upon input credential data. Since these functions are
-specific to the underlying *RDBMS*, check the database manual for the availability of such functions
-for your database system.
+- **credentialTreatment**: In many cases, passwords and other sensitive data are encrypted, hashed,
+encoded, obscured, salted or otherwise treated through some function or algorithm. By specifying a
+parameterized treatment string with this method, such as '`MD5(?)`' or '`PASSWORD(?)`', a developer
+may apply such arbitrary *SQL* upon input credential data. Since these functions are specific to the
+underlying *RDBMS*, check the database manual for the availability of such functions for your
+database system.
 
 ## Basic Usage
 

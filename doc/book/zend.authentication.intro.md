@@ -78,17 +78,17 @@ the `Zend\Authentication\Result` object upon construction, so that the following
 provide a basic set of user-facing operations that are common to the results of
 `Zend\Authentication` adapters:
 
--   `isValid()`- returns `TRUE` if and only if the result represents a successful authentication
+- `isValid()`- returns `TRUE` if and only if the result represents a successful authentication
 attempt
--   `getCode()`- returns a `Zend\Authentication\Result` constant identifier for determining the type
+- `getCode()`- returns a `Zend\Authentication\Result` constant identifier for determining the type
 of authentication failure or whether success has occurred. This may be used in situations where the
 developer wishes to distinguish among several authentication result types. This allows developers to
 maintain detailed authentication result statistics, for example. Another use of this feature is to
 provide specific, customized messages to users for usability reasons, though developers are
 encouraged to consider the risks of providing such detailed reasons to users, instead of a general
 authentication failure message. For more information, see the notes below.
--   `getIdentity()`- returns the identity of the authentication attempt
--   `getMessages()`- returns an array of messages regarding a failed authentication attempt
+- `getIdentity()`- returns the identity of the authentication attempt
+- `getMessages()`- returns an array of messages regarding a failed authentication attempt
 
 A developer may wish to branch based on the type of authentication result in order to perform more
 specific operations. Some operations developers might find useful are locking accounts after too
@@ -204,12 +204,12 @@ $storage->add(new OAuth); // Note: imaginary storage, not part of ZF2
 Now if the `Chain` Storage is accessed its underlying Storage will get accessed in the order in
 which they were added to the chain. Thus first the `Session` Storage is used. Now either:
 
--   The `Session` Storage is non-empty and the `Chain` will use its contents.
--   The `Session` Storage is empty. Next the `OAuth` Storage is accessed.
-    -   If this one is also empty the Chain will act as empty.
-    -   If this one is non-empty the `Chain` will use its contents. However it will also populate
-all Storage with higher priority. Thus the `Session` Storage will be populated with the contents of
-the `Oauth` Storage.
+- The `Session` Storage is non-empty and the `Chain` will use its contents.
+- The `Session` Storage is empty. Next the `OAuth` Storage is accessed.
+- If this one is also empty the Chain will act as empty.
+- If this one is non-empty the `Chain` will use its contents. However it will also populate all
+Storage with higher priority. Thus the `Session` Storage will be populated with the contents of the
+`Oauth` Storage.
 
 The priority of Storage in the Chain can be made explicit via the `Chain::add` method.
 
@@ -325,8 +325,8 @@ $result = $auth->authenticate($authAdapter);
 
 There are two provided ways to use `Zend\Authentication` adapters:
 
--   indirectly, through `Zend\Authentication\AuthenticationService::authenticate()`
--   directly, through the adapter's `authenticate()` method
+- indirectly, through `Zend\Authentication\AuthenticationService::authenticate()`
+- directly, through the adapter's `authenticate()` method
 
 The following example illustrates how to use a `Zend\Authentication` adapter indirectly, through the
 use of the `Zend\Authentication\AuthenticationService` class:

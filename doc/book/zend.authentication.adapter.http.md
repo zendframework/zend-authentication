@@ -12,17 +12,17 @@ network.
 
 **Major Features:**
 
--   Supports both Basic and Digest authentication.
--   Issues challenges in all supported schemes, so client can respond with any scheme it supports.
--   Supports proxy authentication.
--   Includes support for authenticating against text files and provides an interface for
+- Supports both Basic and Digest authentication.
+- Issues challenges in all supported schemes, so client can respond with any scheme it supports.
+- Supports proxy authentication.
+- Includes support for authenticating against text files and provides an interface for
 authenticating against other sources, such as databases.
 
 There are a few notable features of *RFC-2617* that are not implemented yet:
 
--   Nonce tracking, which would allow for "stale" support, and increased replay attack protection.
--   Authentication with integrity checking, or "auth-int".
--   Authentication-Info *HTTP* header.
+- Nonce tracking, which would allow for "stale" support, and increased replay attack protection.
+- Authentication with integrity checking, or "auth-int".
+- Authentication-Info *HTTP* header.
 
 ## Design Overview
 

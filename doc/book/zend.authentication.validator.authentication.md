@@ -8,10 +8,10 @@ being able to introspect the error.
 
 The available configuration options include:
 
--   **adapter**: This is an instance of `Zend\Authentication\Adapter`.
--   **identity**: This is the identity or name of the identity in the passed in context.
--   **credential**: This is the credential or the name of the credential in the passed in context.
--   **service**: This is an instance of `Zend\Authentication\AuthenticationService`
+- **adapter**: This is an instance of `Zend\Authentication\Adapter`.
+- **identity**: This is the identity or name of the identity in the passed in context.
+- **credential**: This is the credential or the name of the credential in the passed in context.
+- **service**: This is an instance of `Zend\Authentication\AuthenticationService`
 
 ## Basic Usage
 
