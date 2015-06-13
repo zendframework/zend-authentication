@@ -159,11 +159,9 @@ require a username be in DN form when binding (see the `bindRequiresDn` option i
 Options** section below), which means we can omit a number of options associated with retrieving the
 DN for a username being authenticated.
 
-> **note**
->
-> **What is a Distinguished Name?**
->
-> A DN or "distinguished name" is a string that represents the path to an object within the *LDAP*
+> ## Note
+#### What is a Distinguished Name?
+A DN or "distinguished name" is a string that represents the path to an object within the *LDAP*
 directory. Each comma-separated component is an attribute and value representing a node. The
 components are evaluated in reverse. For example, the user account **CN=Bob
 Carter,CN=Users,DC=w,DC=net** is located directly within the **CN=Users,DC=w,DC=net container**.
@@ -178,11 +176,9 @@ numeric indexes) and should not contain any special characters used by the assoc
 With multiple sets of server options, the adapter can authenticate users in multiple domains and
 provide failover so that if one server is not available, another will be queried.
 
-> **note**
->
-> **The Gory Details: What Happens in the Authenticate Method?**
->
-> When the `authenticate()` method is called, the adapter iterates over each set of server options,
+> ## Note
+#### The Gory Details: What Happens in the Authenticate Method?
+When the `authenticate()` method is called, the adapter iterates over each set of server options,
 sets them on the internal `Zend\Ldap\Ldap` instance, and calls the `Zend\Ldap\Ldap::bind()` method
 with the username and password being authenticated. The `Zend\Ldap\Ldap` class checks to see if the
 username is qualified with a domain (e.g., has a domain component like `alice@foo.net` or
@@ -207,9 +203,8 @@ methods.
 Each set of server options **in the context of Zend\\Authentication\\Adapter\\Ldap** consists of the
 following options, which are passed, largely unmodified, to `Zend\Ldap\Ldap::setOptions()`:
 
-> **note**
->
-> If you enable **useStartTls = TRUE** or **useSsl = TRUE** you may find that the *LDAP* client
+> ## Note
+If you enable **useStartTls = TRUE** or **useSsl = TRUE** you may find that the *LDAP* client
 generates an error claiming that it cannot validate the server's certificate. Assuming the *PHP*
 *LDAP* extension is ultimately linked to the OpenLDAP client libraries, to resolve this issue you
 can set "`TLS_REQCERT never`" in the OpenLDAP client `ldap.conf` (and restart the web server) to
@@ -233,9 +228,8 @@ logged as well (although the final message always includes the string from index
 
 For *ADS*, the following options are noteworthy:
 
-> **note**
->
-> Technically there should be no danger of accidental cross-domain authentication with the current
+> ## Note
+Technically there should be no danger of accidental cross-domain authentication with the current
 `Zend\Authentication\Adapter\Ldap` implementation, since server domains are explicitly checked, but
 this may not be true of a future implementation that discovers the domain at runtime, or if an
 alternative adapter is used (e.g., Kerberos). In general, account name ambiguity is known to be the

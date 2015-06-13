@@ -1,8 +1,7 @@
 # Database Table Authentication
 
-> **note**
->
-> `Zend\Authentication\Adapter\DbTable` has been deprecated, as its responsibilities have been
+> ## Note
+`Zend\Authentication\Adapter\DbTable` has been deprecated, as its responsibilities have been
 splitted off into `Zend\Authentication\Adapter\DbTable\CallbackCheck` and
 `Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter`. Use
 `Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter` instead of
@@ -269,11 +268,10 @@ $adapter = new AuthAdapter($db,
                           );
 ```
 
-> **note**
->
-> You can improve security even more by using a static salt value hard coded into your application.
-In the case that your database is compromised (e. g. by an *SQL* injection attack) but your web
-server is intact your data is still unusable for the attacker.
+> ## Note
+You can improve security even more by using a static salt value hard coded into your application. In
+the case that your database is compromised (e. g. by an *SQL* injection attack) but your web server
+is intact your data is still unusable for the attacker.
 
 Another alternative is to use the `getDbSelect()` method of the
 `Zend\Authentication\Adapter\DbTable` after the adapter has been constructed. This method will
