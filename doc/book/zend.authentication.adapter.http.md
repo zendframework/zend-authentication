@@ -76,17 +76,22 @@ should be the *MD5* hash described above.
 There are two equally easy ways to create a File resolver:
 
 ```php
+<?php
 use Zend\Authentication\Adapter\Http\FileResolver;
+
 $path     = 'files/passwd.txt';
 $resolver = new FileResolver($path);
+
 ```
 
 or
 
 ```php
+<?php
 $path     = 'files/passwd.txt';
 $resolver = new FileResolver();
 $resolver->setFile($path);
+
 ```
 
 If the given path is empty or not readable, an exception is thrown.
@@ -96,12 +101,14 @@ If the given path is empty or not readable, an exception is thrown.
 First, set up an array with the required configuration values:
 
 ```php
+<?php
 $config = array(
     'accept_schemes' => 'basic digest',
     'realm'          => 'My Web Site',
     'digest_domains' => '/members_only /my_account',
     'nonce_timeout'  => 3600,
 );
+
 ```
 
 This array will cause the adapter to accept either Basic or Digest authentication, and will require
@@ -112,13 +119,16 @@ course, behaves as described above.
 Next, create the `Zend\Authentication\Adapter\Http` object:
 
 ```php
+<?php
 $adapter = new Zend\Authentication\Adapter\Http($config);
+
 ```
 
 Since we're supporting both Basic and Digest authentication, we need two different resolver objects.
 Note that this could just as easily be two different classes:
 
 ```php
+<?php
 use Zend\Authentication\Adapter\Http\FileResolver;
 
 $basicResolver = new FileResolver();
@@ -129,12 +139,14 @@ $digestResolver->setFile('files/digestPasswd.txt');
 
 $adapter->setBasicResolver($basicResolver);
 $adapter->setDigestResolver($digestResolver);
+
 ```
 
 Finally, we perform the authentication. The adapter needs a reference to both the Request and
 Response objects in order to do its job:
 
 ```php
+<?php
 assert($request instanceof Zend\Http\Request);
 assert($response instanceof Zend\Http\Response);
 
@@ -145,4 +157,5 @@ $result = $adapter->authenticate();
 if (!$result->isValid()) {
     // Bad username/password, or canceled password prompt
 }
+
 ```

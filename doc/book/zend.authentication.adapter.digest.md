@@ -41,6 +41,7 @@ array values associated with these keys correspond to the values set before `aut
 called.
 
 ```php
+<?php
 use Zend\Authentication\Adapter\Digest as AuthAdapter;
 
 $adapter = new AuthAdapter($filename,
@@ -61,4 +62,5 @@ Array
     [username] => someUser
 )
 */
+
 ```

@@ -37,6 +37,7 @@ for authentication. Other details, such as how the authentication service is que
 omitted for brevity:
 
 ```php
+<?php
 use Zend\Authentication\Adapter\AdapterInterface;
 
 class My\Auth\Adapter implements AdapterInterface
@@ -97,6 +98,7 @@ are attempted, and providing specific, customized authentication result messages
 following result codes are available:
 
 ```php
+<?php
 use Zend\Authentication\Result;
 
 Result::SUCCESS
@@ -110,6 +112,7 @@ Result::FAILURE_UNCATEGORIZED
 The following example illustrates how a developer may branch on the result code:
 
 ```php
+<?php
 // inside of AuthController / loginAction
 $result = $this->auth->authenticate($adapter);
 
@@ -131,6 +134,7 @@ switch ($result->getCode()) {
         /** do stuff for other failure **/
         break;
 }
+
 ```
 
 ## Identity Persistence
@@ -170,6 +174,7 @@ attempted, since `Zend\Authentication\AuthenticationService::authenticate()` per
 storage of the identity.
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 
@@ -185,6 +190,7 @@ $auth->setStorage(new SessionStorage('someNamespace'));
 // Authenticate, saving the result, and persisting the identity on
 // success
 $result = $auth->authenticate($authAdapter);
+
 ```
 
 ### Chain Storage
@@ -196,9 +202,11 @@ The `Chain` can for example be configured to first use a `Session` Storage and t
 a secondary Storage. One could configure this in the following way:
 
 ```php
+<?php
 $storage = new Chain;
 $storage->add(new Session);
 $storage->add(new OAuth); // Note: imaginary storage, not part of ZF2
+
 ```
 
 Now if the `Chain` Storage is accessed its underlying Storage will get accessed in the order in
@@ -214,8 +222,10 @@ Storage with higher priority. Thus the `Session` Storage will be populated with 
 The priority of Storage in the Chain can be made explicit via the `Chain::add` method.
 
 ```php
+<?php
 $chain->add(new A, 2);
 $chain->add(new B, 10); // First use B
+
 ```
 
 ### Implementing Customized Storage
@@ -232,6 +242,7 @@ In order to use an identity persistence storage class other than
 `Zend\Authentication\Storage\StorageInterface`:
 
 ```php
+<?php
 use Zend\Authentication\Storage\StorageInterface;
 
 class My\Storage implements StorageInterface
@@ -305,6 +316,7 @@ In order to use this custom storage class, `Zend\Authentication\AuthenticationSe
 is invoked before an authentication query is attempted:
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 
 // Instruct AuthenticationService to use the custom storage class
@@ -319,6 +331,7 @@ $auth->setStorage(new My\Storage());
 // Authenticate, saving the result, and persisting the identity on
 // success
 $result = $auth->authenticate($authAdapter);
+
 ```
 
 ## Usage
@@ -332,6 +345,7 @@ The following example illustrates how to use a `Zend\Authentication` adapter ind
 use of the `Zend\Authentication\AuthenticationService` class:
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 
 // instantiate the authentication service
@@ -354,12 +368,14 @@ if (!$result->isValid()) {
     // $result->getIdentity() === $auth->getIdentity()
     // $result->getIdentity() === $username
 }
+
 ```
 
 Once authentication has been attempted in a request, as in the above example, it is a simple matter
 to check whether a successfully authenticated identity exists:
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 
 $auth = new AuthenticationService();
@@ -372,13 +388,16 @@ if ($auth->hasIdentity()) {
     // Identity exists; get it
     $identity = $auth->getIdentity();
 }
+
 ```
 
 To remove an identity from persistent storage, simply use the `clearIdentity()` method. This
 typically would be used for implementing an application "logout" operation:
 
 ```php
+<?php
 $auth->clearIdentity();
+
 ```
 
 When the automatic use of persistent storage is inappropriate for a particular use case, a developer
@@ -388,6 +407,7 @@ and then calling its `authenticate()` method. Adapter-specific details are discu
 documentation for each adapter. The following example directly utilizes `My\Auth\Adapter`:
 
 ```php
+<?php
 // Set up the authentication adapter
 $authAdapter = new My\Auth\Adapter($username, $password);
 
@@ -403,4 +423,5 @@ if (!$result->isValid()) {
     // Authentication succeeded
     // $result->getIdentity() === $username
 }
+
 ```

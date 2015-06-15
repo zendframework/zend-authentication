@@ -18,6 +18,7 @@ To incorporate `Zend\Authentication\Adapter\Ldap` authentication into your appli
 if you're not using `Zend\Mvc`, the meat of your code should look something like the following:
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\Ldap as AuthAdapter;
 use Zend\Config\Reader\Ini as ConfigReader;
@@ -64,6 +65,7 @@ if ($log_path) {
         }
     }
 }
+
 ```
 
 Of course, the logging code is optional, but it is highly recommended that you use a logger.

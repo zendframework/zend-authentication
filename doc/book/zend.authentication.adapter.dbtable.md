@@ -42,6 +42,7 @@ inserts a row against which we can perform an authentication query later. This e
 *PDO* SQLite extension to be available:
 
 ```php
+<?php
 use Zend\Db\Adapter\Adapter as DbAdapter;
 
 // Create a SQLite database connection
@@ -66,6 +67,7 @@ $sqlInsert = "INSERT INTO users (username, password, real_name) "
 
 // Insert the data
 $dbAdapter->query($sqlInsert);
+
 ```
 
 With the database connection and table data available, an instance of
@@ -73,6 +75,7 @@ With the database connection and table data available, an instance of
 the constructor or deferred as parameters to setter methods after instantiation:
 
 ```php
+<?php
 use Zend\Authentication\Adapter\DbTable as AuthAdapter;
 
 // Configure the instance with constructor parameters...
@@ -90,6 +93,7 @@ $authAdapter
     ->setIdentityColumn('username')
     ->setCredentialColumn('password')
 ;
+
 ```
 
 At this point, the authentication adapter instance is ready to accept authentication queries. In
@@ -97,6 +101,7 @@ order to formulate an authentication query, the input credential values are pass
 prior to calling the `authenticate()` method:
 
 ```php
+<?php
 // Set the input credential values (e.g., from a login form)
 $authAdapter
     ->setIdentity('my_username')
@@ -104,6 +109,7 @@ $authAdapter
 ;
 
 // Perform the authentication query, saving the result
+
 ```
 
 In addition to the availability of the `getIdentity()` method upon the authentication result object,
@@ -111,6 +117,7 @@ In addition to the availability of the `getIdentity()` method upon the authentic
 success:
 
 ```php
+<?php
 // Print the identity
 echo $result->getIdentity() . "\n\n";
 
@@ -128,6 +135,7 @@ Array
     [real_name] => My Real Name
 )
 */
+
 ```
 
 Since the table row contains the credential value, it is important to secure the values against
@@ -137,6 +145,7 @@ When retrieving the result object, we can either specify what columns to return,
 omit:
 
 ```php
+<?php
 $columnsToReturn = array(
     'id', 'username', 'real_name'
 );
@@ -175,6 +184,7 @@ information, is solved by using the `getResultRowObject()` method to return a **
 The following code snippet illustrates its use:
 
 ```php
+<?php
 // authenticate with Zend\Authentication\Adapter\DbTable
 $result = $this->_auth->authenticate($adapter);
 
@@ -195,12 +205,11 @@ if ($result->isValid()) {
     ));
 
     /* ... */
-
 } else {
 
     /* ... */
-
 }
+
 ```
 
 ### Advanced Usage By Example
@@ -216,6 +225,7 @@ mechanisms that can be leveraged for additional checks at authentication time to
 user problems.
 
 ```php
+<?php
 use Zend\Authentication\Adapter\DbTable as AuthAdapter;
 
 // The status field value of an account is not equal to "compromised"
@@ -233,6 +243,7 @@ $adapter = new AuthAdapter($db,
                            'password',
                            'MD5(?) AND active = "TRUE"'
                            );
+
 ```
 
 Another scenario can be the implementation of a salting mechanism. Salting is a term referring to a
@@ -243,29 +254,35 @@ force attack on the database using pre-computed hash values from a dictionary.
 Therefore, we need to modify our table to store our salt string:
 
 ```php
+<?php
 $sqlAlter = "ALTER TABLE [users] "
           . "ADD COLUMN [password_salt] "
           . "AFTER [password]";
+
 ```
 
 Here's a simple way to generate a salt string for every user at registration:
 
 ```php
+<?php
 $dynamicSalt = '';
 for ($i = 0; $i < 50; $i++) {
     $dynamicSalt .= chr(rand(33, 126));
 }
+
 ```
 
 And now let's build the adapter:
 
 ```php
+<?php
 $adapter = new AuthAdapter($db,
                            'users',
                            'username',
                            'password',
                            "MD5(CONCAT('staticSalt', ?, password_salt))"
                           );
+
 ```
 
 > ## Note
@@ -285,6 +302,7 @@ An example of a situation where one might want to use the `getDbSelect()` method
 status of a user, in other words to see if that user's account is enabled.
 
 ```php
+<?php
 // Continuing with the example from above
 $adapter = new AuthAdapter($db,
                            'users',
@@ -299,4 +317,5 @@ $select->where('active = "TRUE"');
 
 // authenticate, this ensures that users.active = TRUE
 $adapter->authenticate();
+
 ```

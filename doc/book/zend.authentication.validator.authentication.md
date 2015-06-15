@@ -16,6 +16,7 @@ The available configuration options include:
 ## Basic Usage
 
 ```php
+<?php
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 
@@ -30,4 +31,5 @@ $validator->setCredential('myCredentialContext');
 $validator->isValid('myIdentity', array(
      'myCredentialContext' => 'myCredential',
 ));
+
 ```
