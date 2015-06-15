@@ -8,8 +8,8 @@ Authentication is loosely defined as determining whether an entity actually is w
 be (i.e., identification), based on some set of credentials. Authorization, the process of deciding
 whether to allow an entity access to, or to perform operations upon, other entities is outside the
 scope of `Zend\Authentication`. For more information about authorization and access control with
-Zend Framework, please see the [Zend\\Permissions\\Acl ](zend.permissions.acl) or
-[Zend\\Permissions\\Rbac ](zend.permissions.rbac) component.
+Zend Framework, please see the [Zend\\Permissions\\Acl](zend.permissions.acl) or
+[Zend\\Permissions\\Rbac](zend.permissions.rbac) component.
 
 > ## Note
 There is no `Zend\Authentication\Authentication` class, instead the class
@@ -154,7 +154,7 @@ authentication attempt using the *PHP* session. Upon a successful authentication
 `Zend\Authentication\AuthenticationService::authenticate()` stores the identity from the
 authentication result into persistent storage. Unless specified otherwise,
 `Zend\Authentication\AuthenticationService` uses a storage class named
-`Zend\Authentication\Storage\Session`, which, in turn, uses [Zend\\Session ](zend.session). A custom
+`Zend\Authentication\Storage\Session`, which, in turn, uses [Zend\\Session](zend.session). A custom
 class may instead be used by providing an object that implements
 `Zend\Authentication\Storage\StorageInterface` to
 `Zend\Authentication\AuthenticationService::setStorage()`.
@@ -169,7 +169,7 @@ instead using an adapter class directly.
 `Zend\Authentication\Storage\Session` uses a session namespace of '`Zend_Auth`'. This namespace may
 be overridden by passing a different value to the constructor of
 `Zend\Authentication\Storage\Session`, and this value is internally passed along to the constructor
-of [Zend\\Session\\Container ](zend.session). This should occur before authentication is attempted,
+of [Zend\\Session\\Container](zend.session). This should occur before authentication is attempted,
 since `Zend\Authentication\AuthenticationService::authenticate()` performs the automatic storage of
 the identity.
 
