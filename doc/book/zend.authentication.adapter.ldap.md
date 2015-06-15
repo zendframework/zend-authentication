@@ -121,8 +121,8 @@ Canonicalization** section below).
 The `Zend\Authentication\Adapter\Ldap` constructor accepts three parameters.
 
 The `$options` parameter is required and must be an array containing one or more sets of options.
-Note that it is **an array of arrays** of Zend\\\\Ldap\\\\Ldap \<zend.ldap.introduction\> options.
-Even if you will be using only one *LDAP* server, the options must still be within another array.
+Note that it is **an array of arrays** of [Zend\\Ldap\\Ldap ](zend.ldap.introduction) options. Even
+if you will be using only one *LDAP* server, the options must still be within another array.
 
 Below is [print\_r()](http://php.net/print_r) output of an example options parameter containing two
 sets of server options for *LDAP* servers `s0.foo.net` and `dc1.w.net` (the same options as the
