@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>HTTP - zend-authentication</title>
+
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/zf.css" rel="stylesheet">
+    <link href="../../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="../..">zend-authentication</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adapters <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../intro/">Intro</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">DbTable</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../dbtable/intro/">Intro</a>
+</li>
+
+        
+            
+<li >
+    <a href="../dbtable/credential-treatment/">CredentialTreatmentAdapter</a>
+</li>
+
+        
+            
+<li >
+    <a href="../dbtable/callback-check/">CallbackCheck</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li >
+    <a href="../digest/">Digest</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">HTTP</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../ldap/">LDAP</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../storage/">Identity Persistence</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../validator/">Validation</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-authentication">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#http-authentication-adapter">HTTP Authentication Adapter</a></li>
+        
+            <li><a href="#major-features">Major Features</a></li>
+        
+            <li><a href="#requirements">Requirements</a></li>
+        
+            <li><a href="#design-overview">Design Overview</a></li>
+        
+            <li><a href="#configuration-options">Configuration Options</a></li>
+        
+            <li><a href="#resolvers">Resolvers</a></li>
+        
+            <li><a href="#basic-usage">Basic Usage</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../digest/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../ldap/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../..">Docs</a> &raquo;</li>
+  
+    
+      
+        <li>Adapters &raquo;</li>
+      
+    
+  
+  <li class="active">HTTP</li>
+</ol>
+
+<h1 id="http-authentication-adapter">HTTP Authentication Adapter</h1>
+<p><code>Zend\Authentication\Adapter\Http</code> provides a mostly-compliant implementation of
+<a href="http://tools.ietf.org/html/rfc2617">RFC-2617</a>,
+<a href="http://en.wikipedia.org/wiki/Basic_authentication_scheme">Basic</a> and
+<a href="http://en.wikipedia.org/wiki/Digest_access_authentication">Digest</a> HTTP
+Authentication. Digest authentication is a method of HTTP authentication that
+improves upon Basic authentication by providing a way to authenticate without
+having to transmit the password in clear text across the network.</p>
+<h2 id="major-features">Major Features</h2>
+<ul>
+<li>Supports both Basic and Digest authentication.</li>
+<li>Issues challenges in all supported schemes, so client can respond with any
+  scheme it supports.</li>
+<li>Supports proxy authentication.</li>
+<li>Includes support for authenticating against text files and provides an
+  interface for authenticating against other sources, such as databases.</li>
+</ul>
+<p>There are a few notable features of RFC-2617 that are not implemented yet:</p>
+<ul>
+<li>Nonce tracking, which would allow for "stale" support, and increased replay
+  attack protection.</li>
+<li>Authentication with integrity checking, or "auth-int".</li>
+<li>Authentication-Info HTTP header.</li>
+</ul>
+<h2 id="requirements">Requirements</h2>
+<p>The HTTP authentication adapter requires <a href="https://github.com/zendframework/zend-http">zend-http</a>
+in order to do its work:</p>
+<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-http</code></pre>
+
+
+<h2 id="design-overview">Design Overview</h2>
+<p>This adapter consists of two sub-components, the HTTP authentication class
+itself, and its "Resolvers." The HTTP authentication class encapsulates the
+logic for carrying out both Basic and Digest authentication. It consumes
+Resolvers to look up a client's identity in some data store (text file by
+default), and retrieve the credentials from the data store. The "resolved"
+credentials are then compared to the values submitted by the client to
+determine whether authentication is successful.</p>
+<h2 id="configuration-options">Configuration Options</h2>
+<p><code>Zend\Authentication\Adapter\Http</code> requires a configuration array passed to its
+constructor. There are several configuration options available, and some are
+required:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Option Name</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accept_schemes</code></td>
+<td>Yes</td>
+<td>Determines which authentication schemes the adapter will accept from the client. Must be a space-separated list containing <code>basic</code> and/or <code>digest</code>.</td>
+</tr>
+<tr>
+<td><code>realm</code></td>
+<td>Yes</td>
+<td>Sets the authentication realm; usernames should be unique within a given realm.</td>
+</tr>
+<tr>
+<td><code>digest_domains</code></td>
+<td>Yes, when <code>accept_schemes</code> contains digest</td>
+<td>Space-separated list of URIs for which the same authentication information is valid. The URIs need not all point to the same server.</td>
+</tr>
+<tr>
+<td><code>nonce_timeout</code></td>
+<td>Yes, when <code>accept_schemes</code> contains digest</td>
+<td>Sets the number of seconds for which the nonce is valid. See notes below.</td>
+</tr>
+<tr>
+<td><code>use_opaque</code></td>
+<td>No</td>
+<td>Specifies whether to send the opaque value in the header. True by default.</td>
+</tr>
+<tr>
+<td><code>algorithm</code></td>
+<td>No</td>
+<td>Specified the algorithm. Defaults to MD5, the only supported option (for now).</td>
+</tr>
+<tr>
+<td><code>proxy_auth</code></td>
+<td>No</td>
+<td>Disabled by default. Enable to perform Proxy authentication, instead of normal origin server authentication.</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<h3 id="nonce-timeout">nonce timeout</h3>
+<p>The current implementation of the <code>nonce_timeout</code> has some interesting side
+effects. This setting is supposed to determine the valid lifetime of a given
+nonce, or effectively how long a client's authentication information is
+accepted. As an example, if it's set to 3600, it will cause the adapter to
+prompt the client for new credentials every hour, on the hour.  This will be
+resolved in a future release, once nonce tracking and stale support are
+implemented.</p>
+</blockquote>
+<h2 id="resolvers">Resolvers</h2>
+<p>A resolver's job is to take a username and realm, and return some kind of
+credential value. Basic authentication expects to receive the base64-encoded
+version of the user's password. Digest authentication expects to receive a hash
+of the user's username, the realm, and their password (each separated by
+colons). Currently, the only supported hash algorithm is MD5.</p>
+<p><code>Zend\Authentication\Adapter\Http</code> relies on objects implementing
+<code>Zend\Authentication\Adapter\Http\ResolverInterface</code>. The component includes
+resolvers for plain text files and Apache <code>htpasswd</code>-generated files; you can
+also provide your own implementations.</p>
+<h3 id="file-resolver">File Resolver</h3>
+<p>The file resolver is a very simple class. It has a single property specifying a
+filename, which can also be passed to the constructor. Its <code>resolve()</code> method
+walks through the text file, searching for a line with a matching username and
+realm. The text file format is similar to Apache <code>htpasswd</code> files:</p>
+<pre class="codehilite"><code class="language-text">&lt;username&gt;:&lt;realm&gt;:&lt;credentials&gt;</code></pre>
+
+
+<p>Each line consists of three fields &mdash; username, realm, and credentials
+&mdash; each separated by a colon.  The credentials field is opaque to the file
+resolver; it simply returns that value as-is to the caller. Therefore, this
+same file format serves both Basic and Digest authentication. In Basic
+authentication, the credentials field should be written in clear text. In
+Digest authentication, it should be the MD5 hash described above.</p>
+<p>There are two ways to create a file resolver:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\Http\FileResolver;
+
+$path     = 'data/passwd.txt';
+$resolver = new FileResolver($path);</code></pre>
+
+
+<p>or</p>
+<pre class="codehilite"><code class="language-php">$path     = 'data/passwd.txt';
+$resolver = new FileResolver();
+$resolver-&gt;setFile($path);</code></pre>
+
+
+<p>If the given path is empty or not readable, an exception is thrown.</p>
+<h3 id="apache-resolver">Apache Resolver</h3>
+<p><code>Zend\Authentication\Adapter\Http\ApacheResolver</code> operates similarly to the
+<code>FileResolver</code>, but is capable of reading files generated by Apache's <code>htpasswd</code>
+facility, as described in the <a href="http://httpd.apache.org/docs/current/misc/password_encryptions.html">Apache documentation</a>.</p>
+<p>In order to do so, you will need to also install <a href="http://zendframework.github.io/zend-crypt/">zend-crypt</a>:</p>
+<pre class="codehilite"><code class="language-bash">$ composer require zendframework/zend-crypt</code></pre>
+
+
+<p>In all other ways, it behaves like the <code>FileResolver</code>, meaning you instantiate
+it with a path to the <code>htpasswd</code>-generated file, or inject the path after
+instantiation:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\Http\ApacheResolver;
+
+$path = 'data/htpasswd';
+
+// Inject at instantiation:
+$resolver = new ApacheResolver($path);
+
+// Or afterwards:
+$resolver = new ApacheResolver();
+$resolver-&gt;setFile($path);</code></pre>
+
+
+<h2 id="basic-usage">Basic Usage</h2>
+<p>First, set up an array with the required configuration values:</p>
+<pre class="codehilite"><code class="language-php">$config = [
+    'accept_schemes' =&gt; 'basic digest',
+    'realm'          =&gt; 'My Web Site',
+    'digest_domains' =&gt; '/members_only /my_account',
+    'nonce_timeout'  =&gt; 3600,
+];</code></pre>
+
+
+<p>This array will cause the adapter to accept either Basic or Digest
+authentication, and will require authenticated access to all the areas of the
+site under <code>/members_only</code> and <code>/my_account</code>. The realm value is usually
+displayed by the browser in the password dialog box. The <code>nonce_timeout</code>
+behaves as described above.</p>
+<p>Next, create the <code>Zend\Authentication\Adapter\Http</code> object:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\Http;
+
+$adapter = Http($config);</code></pre>
+
+
+<p>Since we're supporting both Basic and Digest authentication, we need two
+different resolver objects.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\Http\FileResolver;
+
+$basicResolver  = new FileResolver('data/basic-passwd.txt');
+$digestResolver = new FileResolver('data/digest-passwd.txt');
+
+$adapter-&gt;setBasicResolver($basicResolver);
+$adapter-&gt;setDigestResolver($digestResolver);</code></pre>
+
+
+<p>Finally, we perform authentication. The adapter requires zend-http request and
+response instances in order to lookup credentials and provide challenge responses:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Http\Request;
+use Zend\Http\Response;
+
+// $request is an instance of Request
+// $response is an instance of Response
+$adapter-&gt;setRequest($request);
+$adapter-&gt;setResponse($response);
+
+$result = $adapter-&gt;authenticate();
+if (! $result-&gt;isValid()) {
+    // Bad username/password, or canceled password prompt
+}</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../digest/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../ldap/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../js/prism-zf.js"></script>
+
+    <script>var base_url = '../..';</script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+    <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>

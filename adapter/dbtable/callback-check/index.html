@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../../../img/favicon.ico">
+
+    <title>CallbackCheck - zend-authentication</title>
+
+    <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../../../css/base.css" rel="stylesheet">
+    <link href="../../../css/zf.css" rel="stylesheet">
+    <link href="../../../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../../../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="../../..">zend-authentication</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adapters <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../intro/">Intro</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">DbTable</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../intro/">Intro</a>
+</li>
+
+        
+            
+<li >
+    <a href="../credential-treatment/">CredentialTreatmentAdapter</a>
+</li>
+
+        
+            
+<li class="active">
+    <a href="./">CallbackCheck</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li >
+    <a href="../../digest/">Digest</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../http/">HTTP</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../ldap/">LDAP</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../storage/">Identity Persistence</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../../validator/">Validation</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-authentication">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#callback-verification">Callback Verification</a></li>
+        
+            <li><a href="#configuration-options">Configuration options</a></li>
+        
+            <li><a href="#basic-usage">Basic Usage</a></li>
+        
+            <li><a href="#advanced-usage">Advanced Usage</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../credential-treatment/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../../digest/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../../..">Docs</a> &raquo;</li>
+  
+    
+      
+        <li>Adapters &raquo;</li>
+      
+    
+      
+        <li>DbTable &raquo;</li>
+      
+    
+  
+  <li class="active">CallbackCheck</li>
+</ol>
+
+<h1 id="callback-verification">Callback Verification</h1>
+<p>Some verification operations cannot be performed well on RDBMS servers. Other
+times, you may be unsure which RDBMS system you will be using long-term, and
+need to ensure authentication will work consistently. For these situations, you
+can use the <code>Zend\Authentication\Adapter\DbTable\CallbackCheck</code> adapter.
+Similar to the <a href="../credential-treatment/">CredentialTreatmentAdapter</a>, it
+accepts a table name, identity column, and credential column; however, instead
+of a credential treatment, it accepts a <em>credential validation callback</em> that
+is executed when the database returns any matches, and which can be used to
+perform additional credential verifications.</p>
+<h2 id="configuration-options">Configuration options</h2>
+<p>The available configuration options include:</p>
+<ul>
+<li><code>tableName</code>: This is the name of the database table that contains the
+  authentication credentials, and against which the database authentication
+  query is performed.</li>
+<li><code>identityColumn</code>: This is the name of the database table column used to
+  represent the identity.  The identity column must contain unique values, such
+  as a username or e-mail address.</li>
+<li><code>credentialColumn</code>: This is the name of the database table column used to
+  represent the credential. Under a simple identity and password authentication
+  scheme, the credential value corresponds to the password.</li>
+<li><code>credentialValidationCallback</code>: A PHP callable to execute when the database returns matches. The callback will receive:</li>
+<li>the value of the <code>credentialColumn</code> returned from the database</li>
+<li>the credential that was used by the adapter during authentication</li>
+</ul>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>Many databases do not provide functions that implement a cryptographically
+secure hashing mechanism. Additionally, you may want to ensure that should you
+switch database systems, hashing is consistent. This is a perfect use case for
+the <code>CallbackCheck</code> adapter; you can implement the password hashing and
+verification within PHP instead.</p>
+<p>The following code creates an adapter for an in-memory database, creates a
+simple table schema, and inserts a row against which we can perform an
+authentication query later. This example requires the PDO SQLite extension to
+be available:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Db\Adapter\Adapter as DbAdapter;
+
+// Create a SQLite database connection
+$dbAdapter = new DbAdapter([
+    'driver'   =&gt; 'Pdo_Sqlite',
+    'database' =&gt; 'data/sqlite.db',
+]);
+
+// Build a simple table creation query
+$sqlCreate = 'CREATE TABLE [users] ('
+    . '[id] INTEGER  NOT NULL PRIMARY KEY, '
+    . '[username] VARCHAR(50) UNIQUE NOT NULL, '
+    . '[password] VARCHAR(255) NULL, '
+    . '[real_name] VARCHAR(150) NULL)';
+
+// Create the authentication credentials table
+$dbAdapter-&gt;query($sqlCreate);
+
+// Build a query to insert a row for which authentication may succeed
+$sqlInsert = &quot;INSERT INTO users (username, password, real_name) &quot;
+    . &quot;VALUES ('my_username', 'my_password', 'My Real Name')&quot;;
+
+// Insert the data
+$dbAdapter-&gt;query($sqlInsert);</code></pre>
+
+
+<p>As you add users, you will need to create a hash of the password provided and
+insert that into the database. For users on PHP 5.5+, you can use
+<a href="http://php.net/password_hash">password_hash()</a>:</p>
+<pre class="codehilite"><code class="language-php">$hash = password_hash($password, PASSWORD_DEFAULT);</code></pre>
+
+
+<blockquote>
+<h3 id="password-hash-length">Password hash length</h3>
+<p>As of the time of writing, PHP uses a bcrypt algorithm by default for hashing
+passwords with <code>password_hash()</code>, and this produces 60 character strings. However,
+the default may change over time, and php.net recommends using 255 character
+fields for storage to allow for larger hash sizes in the future.</p>
+</blockquote>
+<p>To verify a password, we'll create a callback that uses
+<a href="http://php.net/manual/en/function.password-verify.php">password_verify()</a>:</p>
+<pre class="codehilite"><code class="language-php">$passwordValidation = function ($hash, $password) {
+    return password_verify($password, $hash);
+};</code></pre>
+
+
+<p>Now that we have the database connection and a password validation function,
+we can create our <code>Zend\Authentication\Adapter\DbTable\CallbackCheck</code> adapter
+instance, passing the options to the constructor or later via setter methods:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\DbTable\CallbackCheck as AuthAdapter;
+
+// Configure the instance with constructor parameters:
+$authAdapter = new AuthAdapter(
+    $dbAdapter,
+    'users',
+    'username',
+    'password',
+    $passwordValidation
+);
+
+// Or configure the instance with setter methods:
+$authAdapter = new AuthAdapter($dbAdapter);
+
+$authAdapter
+    -&gt;setTableName('users')
+    -&gt;setIdentityColumn('username')
+    -&gt;setCredentialColumn('password')
+    -&gt;setCredentialValidatinCallback($passwordValidation);</code></pre>
+
+
+<p>At this point, the authentication adapter instance is ready to accept
+authentication queries. In order to formulate an authentication query, the
+input credential values are passed to the adapter prior to calling the
+<code>authenticate()</code> method:</p>
+<pre class="codehilite"><code class="language-php">// Set the input credential values (e.g., from a login form):
+$authAdapter
+    -&gt;setIdentity('my_username')
+    -&gt;setCredential('my_password');
+
+// Perform the authentication query, saving the result
+$result = $authAdapter-&gt;authenticate();</code></pre>
+
+
+<p>In addition to the availability of the <code>getIdentity()</code> method upon the
+authentication result object, <code>Zend\Authentication\Adapter\DbTable\CallbackCheck</code>
+also supports retrieving the table row upon authentication success:</p>
+<pre class="codehilite"><code class="language-php">// Print the identity:
+echo $result-&gt;getIdentity() . &quot;\n\n&quot;;
+
+// Print the result row:
+print_r($authAdapter-&gt;getResultRowObject());
+
+/* Output:
+my_username
+
+Array
+(
+    [id] =&gt; 1
+    [username] =&gt; my_username
+    [password] =&gt; my_password
+    [real_name] =&gt; My Real Name
+)
+*/</code></pre>
+
+
+<p>Since the table row contains the credential value, it is important to secure
+the values against unintended access.</p>
+<p>When retrieving the result object, we can either specify what columns to
+return, or what columns to omit:</p>
+<pre class="codehilite"><code class="language-php">// Specify the columns to return:
+$columnsToReturn = [
+    'id',
+    'username',
+    'real_name',
+];
+print_r($authAdapter-&gt;getResultRowObject($columnsToReturn));
+
+/* Output:
+
+Array
+(
+   [id] =&gt; 1
+   [username] =&gt; my_username
+   [real_name] =&gt; My Real Name
+)
+*/
+
+// Or specify the columns to omit; when using this approach,
+// pass a null value as the first argument to getResultRowObject():
+$columnsToOmit = ['password'];
+print_r($authAdapter-&gt;getResultRowObject(null, $columnsToOmit);
+
+/* Output:
+
+Array
+(
+   [id] =&gt; 1
+   [username] =&gt; my_username
+   [real_name] =&gt; My Real Name
+)
+*/</code></pre>
+
+
+<h2 id="advanced-usage">Advanced Usage</h2>
+<p>While the basic use case will fit most scenarios, there may be cases where you have
+specialized needs, such as additional criteria that needs to be met for a user to
+match.</p>
+<h3 id="adding-criteria-to-match">Adding criteria to match</h3>
+<p>Since the validation callback is only provided the hash value from the database
+and the credential provided by the user, you cannot do more complex matching
+within it. However, you can add criteria to the SQL sent to the server by
+retrieving the <code>Zend\Db\Sql\Select</code> instance is uses.</p>
+<p>As an example, many websites require a user to activate their account before
+allowing them to login for the first time. We can add that criteria as follows:</p>
+<pre class="codehilite"><code class="language-php">// Create a basic adapter, with only an MD5() credential treatment:
+$adapter = new AuthAdapter(
+    $db,
+    'users',
+    'username',
+    'password',
+    $passwordValidation
+);
+
+// Now retrieve the Select instance and modify it:
+$select = $adapter-&gt;getDbSelect();
+$select-&gt;where('active = &quot;TRUE&quot;');
+
+// Authenticate; this will include &quot;users.active = TRUE&quot; in the WHERE clause:
+$adapter-&gt;authenticate();</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../credential-treatment/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../../digest/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../../js/prism-zf.js"></script>
+
+    <script>var base_url = '../../..';</script>
+    <script data-main="../../../mkdocs/js/search.js" src="../../../mkdocs/js/require.js"></script>
+    <script src="../../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>

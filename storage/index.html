@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Identity Persistence - zend-authentication</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/zf.css" rel="stylesheet">
+    <link href="../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="..">zend-authentication</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adapters <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../adapter/intro/">Intro</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">DbTable</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../adapter/dbtable/intro/">Intro</a>
+</li>
+
+        
+            
+<li >
+    <a href="../adapter/dbtable/credential-treatment/">CredentialTreatmentAdapter</a>
+</li>
+
+        
+            
+<li >
+    <a href="../adapter/dbtable/callback-check/">CallbackCheck</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li >
+    <a href="../adapter/digest/">Digest</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../adapter/http/">HTTP</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../adapter/ldap/">LDAP</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Identity Persistence</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../validator/">Validation</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-authentication">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#identity-persistence">Identity Persistence</a></li>
+        
+            <li><a href="#default-persistence-in-the-php-session">Default Persistence in the PHP Session</a></li>
+        
+            <li><a href="#modifying-the-session-namespace">Modifying the Session Namespace</a></li>
+        
+            <li><a href="#chain-storage">Chain Storage</a></li>
+        
+            <li><a href="#implementing-custom-storage">Implementing Custom Storage</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../adapter/ldap/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../validator/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="..">Docs</a> &raquo;</li>
+  
+    
+  
+  <li class="active">Identity Persistence</li>
+</ol>
+
+<h1 id="identity-persistence">Identity Persistence</h1>
+<p>Authenticating a request that includes authentication credentials is useful, but
+it is also often useful to persist the authenticated identity between requests, so
+the user does not need to provide credentials with each request.</p>
+<p>HTTP is a stateless protocol; however, techniques such as cookies and sessions
+have been developed in order to facilitate maintaining state across multiple
+requests in server-side web applications.</p>
+<h2 id="default-persistence-in-the-php-session">Default Persistence in the PHP Session</h2>
+<p>By default, zend-authentication provides persistent storage of the identity from a successful
+authentication attempt using PHP session facilities. Upon a successful authentication attempt,
+<code>Zend\Authentication\AuthenticationService::authenticate()</code> stores the identity from the
+authentication result into persistent storage. Unless specified otherwise,
+<code>Zend\Authentication\AuthenticationService</code> uses a storage class named
+<code>Zend\Authentication\Storage\Session</code>, which depends on
+<a href="https://github.com/zendframework/zend-session">zend-session</a>.</p>
+<p>You may also implement <code>Zend\Authentication\Storage\StorageInterface</code>, and
+provide your implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
+<blockquote>
+<h3 id="bypass-the-authenticationservice">Bypass the AuthenticationService</h3>
+<p>If automatic persistent storage of the identity is not appropriate for your
+use case, you can skip usage of <code>Zend\Authentication\AuthenticationService</code>
+altogether, and instead use an adapter directly.</p>
+</blockquote>
+<h2 id="modifying-the-session-namespace">Modifying the Session Namespace</h2>
+<p><code>Zend\Authentication\Storage\Session</code> uses the session namespace <code>Zend_Auth</code>.
+This namespace may be overridden by passing a different value to the constructor
+of <code>Zend\Authentication\Storage\Session</code>, and this value is internally passed
+along to the constructor of <a href="https://github.com/zendframework/zend-session">Zend\Session\Container</a>.
+This should occur before authentication is attempted, since
+<code>Zend\Authentication\AuthenticationService::authenticate()</code> injects the
+authenticated identity into the configured storage.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Storage\Session as SessionStorage;
+
+$auth = new AuthenticationService();
+
+// Use 'someNamespace' instead of 'Zend_Auth'
+$auth-&gt;setStorage(new SessionStorage('someNamespace'));
+
+// Set up the auth adapter, $authAdapter
+$authAdapter = /* ... */;
+
+// Authenticate, saving the result, and persisting the identity on success:
+$result = $auth-&gt;authenticate($authAdapter);</code></pre>
+
+
+<h2 id="chain-storage">Chain Storage</h2>
+<p>A website might use multiple storage strategies for identity persistence; the
+<code>Chain</code> Storage can be used to glue these together.</p>
+<p>For example, the <code>Chanin</code> can be configured to first use <code>Session</code> storage and
+then use an <code>OAuth</code> storage adapter. One could configure this in the following
+way:</p>
+<pre class="codehilite"><code class="language-php">$storage = new Chain;
+$storage-&gt;add(new Session);
+$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication</code></pre>
+
+
+<p>When the <code>Chain</code> Storage is used, its underlying storage adapters will be
+consulted in the order in which they were added to the chain. Using our scenario
+above, the <code>Session</code> storage adapter will be consulted first. When that happens:</p>
+<ul>
+<li>If the <code>Session</code> storage is non-empty, the <code>Chain</code> will use and return its
+  contents.</li>
+<li>If the <code>Session</code> storage is empty, the <code>Chain</code> will move on to the <code>OAuth</code>
+  storage adapter.</li>
+<li>If the <code>OAuth</code> storage is empty, the <code>Chain</code> will return an empty result.</li>
+<li>If the <code>OAuth</code> storage is non-empty, the <code>Chain</code> will use and return its
+  contents. However, it will <em>also</em> populate all storage adapters with higher
+  priority with the contents; in our example, the <code>Session</code> storage will be
+  populated, but if we'd added any adapters after the <code>OAuth</code> adapter, they
+  would not.</li>
+</ul>
+<p>The priority of storage adapters in the Chain can be made explicit via the
+<code>Chain::add</code> method, which accepts a second argument indicating the priority.
+(Per standard priority queue usage, higher values have higher priority, and
+lower or negative values have lower priority.)</p>
+<pre class="codehilite"><code class="language-php">$chain-&gt;add(new A, 2);
+$chain-&gt;add(new B, 10); // B will be used first</code></pre>
+
+
+<h2 id="implementing-custom-storage">Implementing Custom Storage</h2>
+<p>Sometimes developers may need to use a different identity storage mechanism than
+that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, implement
+<code>Zend\Authentication\Storage\StorageInterface</code> and supply an instance of your
+implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
+<p>The following examples demonstrate the process.</p>
+<p>First, implement <code>Zend\Authentication\Storage\StorageInterface</code>:</p>
+<pre class="codehilite"><code class="language-php">&lt;?php
+namespace My;
+
+use Zend\Authentication\Storage\StorageInterface;
+
+class Storage implements StorageInterface
+{
+    /**
+     * Returns true if and only if storage is empty.
+     *
+     * @return boolean
+     * @throws \Zend\Authentication\Exception\ExceptionInterface If it is
+     *     impossible to determine whether storage is empty.
+     */
+    public function isEmpty()
+    {
+        /**
+         * @todo implementation
+         */
+    }
+
+    /**
+     * Returns the contents of storage.
+     *
+     * Behavior is undefined when storage is empty.
+     *
+     * @return mixed
+     * @throws \Zend\Authentication\Exception\ExceptionInterface If reading
+     *     contents from storage is impossible
+     */
+
+    public function read()
+    {
+        /**
+         * @todo implementation
+         */
+    }
+
+    /**
+     * Writes $contents to storage.
+     *
+     * @param  mixed $contents
+     * @return void
+     * @throws \Zend\Authentication\Exception\ExceptionInterface If writing
+     *     $contents to storage is impossible
+     */
+
+    public function write($contents)
+    {
+        /**
+         * @todo implementation
+         */
+    }
+
+    /**
+     * Clears contents from storage.
+     *
+     * @return void
+     * @throws \Zend\Authentication\Exception\ExceptionInterface If clearing
+     *     contents from storage is impossible.
+     */
+
+    public function clear()
+    {
+        /**
+         * @todo implementation
+         */
+    }
+}</code></pre>
+
+
+<p>In order to use this custom storage class, <code>Zend\Authentication\AuthenticationService::setStorage()</code>
+is invoked before an authentication query is attempted:</p>
+<pre class="codehilite"><code class="language-php">use My\Storage;
+use Zend\Authentication\AuthenticationService;
+
+// Create the authentication service instance:
+$auth = new AuthenticationService();
+
+// Instruct the authentication service to use the custom storage class:
+$auth-&gt;setStorage(new Storage());
+
+// Create the authentication adapter:
+$adapter = /* ... */;
+
+// Authenticate, saving the result, and persisting the identity on success:
+$result = $auth-&gt;authenticate($adapter);</code></pre>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../adapter/ldap/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../validator/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/prism-zf.js"></script>
+
+    <script>var base_url = '..';</script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>

@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>LDAP - zend-authentication</title>
+
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/zf.css" rel="stylesheet">
+    <link href="../../css/prism-zf.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <span class="navbar-brand">
+              <a class="logo-link" href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Zend Framework"><img src="../../img/zf-logo-mark.png" height="28" alt="Zend Framework" /></a>
+              <a href="../..">zend-authentication</a>
+            </span>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">Home</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../intro/">Intro</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Adapters <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../intro/">Intro</a>
+</li>
+
+                        
+                            
+  <li class="dropdown-submenu">
+    <a tabindex="-1" href="">DbTable</a>
+    <ul class="dropdown-menu">
+        
+            
+<li >
+    <a href="../dbtable/intro/">Intro</a>
+</li>
+
+        
+            
+<li >
+    <a href="../dbtable/credential-treatment/">CredentialTreatmentAdapter</a>
+</li>
+
+        
+            
+<li >
+    <a href="../dbtable/callback-check/">CallbackCheck</a>
+</li>
+
+        
+    </ul>
+  </li>
+
+                        
+                            
+<li >
+    <a href="../digest/">Digest</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../http/">HTTP</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">LDAP</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../storage/">Identity Persistence</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../validator/">Validation</a>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="component-toggle" data-toggle="tooltip" data-placement="bottom" title="Show component list">
+                        <i class="fa fa-book"></i> Components
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li>
+                        <a href="https://github.com/zendframework/zend-authentication">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- content:begin -->
+    <div class="container">
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#ldap-authentication">LDAP Authentication</a></li>
+        
+            <li><a href="#usage">Usage</a></li>
+        
+            <li><a href="#the-api">The API</a></li>
+        
+            <li><a href="#server-options">Server Options</a></li>
+        
+            <li><a href="#collecting-debugging-messages">Collecting Debugging Messages</a></li>
+        
+            <li><a href="#common-options-for-specific-servers">Common Options for Specific Servers</a></li>
+        
+    
+    </ul>
+
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../http/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../../storage/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../..">Docs</a> &raquo;</li>
+  
+    
+      
+        <li>Adapters &raquo;</li>
+      
+    
+  
+  <li class="active">LDAP</li>
+</ol>
+
+<h1 id="ldap-authentication">LDAP Authentication</h1>
+<p><code>Zend\Authentication\Adapter\Ldap</code> supports web application authentication with
+LDAP services. Its features include username and domain name canonicalization,
+multi-domain authentication, and failover capabilities. It has been tested to
+work with <a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/">Microsoft Active Directory</a>
+and <a href="http://www.openldap.org/">OpenLDAP</a>, but it should also work with other
+LDAP service providers.</p>
+<p>This documentation includes a guide on using <code>Zend\Authentication\Adapter\Ldap</code>,
+an exploration of its API, an outline of the various available options,
+diagnostic information for troubleshooting authentication problems, and example
+options for both Active Directory and OpenLDAP servers.</p>
+<h2 id="usage">Usage</h2>
+<p>The following example demonstrates creating and configuring the <code>Ldap</code>
+authentication adapter, and also illustrates how to work with the
+authentication messages returned in the authentication result.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Adapter\Ldap as LdapAdapter;
+
+// Retrieve the username and pasword from the request somehow.
+$username = /* ... */;
+$password = /* ... */;
+
+$auth = new AuthenticationService();
+
+$config = [
+    'server1' =&gt; [
+        'host'                   =&gt; 's0.foo.net',
+        'accountDomainName'      =&gt; 'foo.net',
+        'accountDomainNameShort' =&gt; 'FOO',
+        'accountCanonicalForm'   =&gt; 3,
+        'username'               =&gt; 'CN=user1,DC=foo,DC=net',
+        'password'               =&gt; 'pass1',
+        'baseDn'                 =&gt; 'OU=Sales,DC=foo,DC=net',
+        'bindRequiresDn'         =&gt; true,
+    ],
+    'server2' =&gt; [
+        'host'                   =&gt; 'dc1.w.net',
+        'useStartTls'            =&gt; true,
+        'accountDomainName'      =&gt; 'w.net',
+        'accountDomainNameShort' =&gt; 'W',
+        'accountCanonicalForm'   =&gt; 3,
+        'baseDn'                 =&gt; 'CN=Users,DC=w,DC=net',
+    ],
+];
+
+$adapter = new LdapAdapter($config, $username, $password);
+
+$result = $auth-&gt;authenticate($adapter);
+
+// Messages from position 2 and up are informational messages from the LDAP
+// server:
+foreach ($result-&gt;getMessages() as $i =&gt; $message) {
+    if ($i &lt; 2) {
+        continue;
+    }
+
+    // Potentially log the $message
+}</code></pre>
+
+
+<p>As noted in the above example, the returned authentication result contains
+messages even on success.  LDAP has some notoriety for difficulty in debugging,
+and the <code>Ldap</code> adapter attempts to assist you with this by providing
+informational messages for every authentication attempt. A later section in
+this document provides more detail on the messages returned.</p>
+<p>You will note that the configuration contains information for multiple servers.
+When multiple server configuration is provided, the adapter will loop through
+each until one provides successful authentication.  The above configuration
+will instruct the adapter to attempt authenticattion against the OpenLDAP
+server <code>s0.foo.net</code> first, falling back to the Active Directory server
+<code>dc1.w.net</code>on failure.</p>
+<p>With servers in different domains, this configuration illustrates multi-domain
+authentication. You can also have multiple servers in the same domain to
+provide redundancy.</p>
+<p>Note that in this case, even though OpenLDAP has no need for the short NetBIOS
+style domain name used by Windows, we provide it here for name canonicalization
+purposes (described in the <a href="#username-canonicalization">Username Canonicalization</a>
+section below).</p>
+<p>A later section on <a href="#server-options">server options</a> details all available options)</p>
+<h2 id="the-api">The API</h2>
+<p>The <code>Zend\Authentication\Adapter\Ldap</code> constructor accepts three parameters.</p>
+<p>The <code>$options</code> parameter is required and must be an array containing one or
+more sets of options.  Note that it is <strong>an array of arrays</strong>, with each
+sub-array providing <a href="http://framework.zend.com/manual/current/en/modules/zend.ldap.introduction.html">zend-ldap</a>
+options. Even if you will be using only one LDAP server, the options must still
+be within a sub-array.</p>
+<p>Referring back to the example in the previous section, the information provided
+in each set of options is different mainly because Active Directory does not
+require a username be in DN form when binding (see the <code>bindRequiresDn</code> option
+in the <a href="#server-options">Server Options</a> section below), which means we can
+omit a number of options associated with retrieving the DN for a username being
+authenticated.</p>
+<blockquote>
+<h3 id="what-is-a-distinguished-name">What is a Distinguished Name?</h3>
+<p>A DN or "distinguished name" is a string that represents the path to an
+object within the LDAP directory. Each comma-separated component is an
+attribute and value representing a node. The components are evaluated in
+reverse. For example, the user account <code>CN=Bob Carter,CN=Users,DC=w,DC=net</code>
+is located directly within the <code>CN=Users,DC=w,DC=net container</code>.  This
+structure is best explored with an LDAP browser like the ADSI Edit MMC
+snap-in for Active Directory or phpLDAPadmin.</p>
+</blockquote>
+<p>The names of servers (e.g. 'server1' and 'server2' shown above) are largely
+arbitrary and only used for informational purposes by the adapter. We recommend
+using string identifiers that omit any HTML/XML entity references to ensure
+they do not break any logging displays.</p>
+<p>With multiple sets of server options, the adapter can authenticate users in
+multiple domains and provide failover so that if one server is not available,
+another will be queried.</p>
+<blockquote>
+<h3 id="the-gory-details-what-happens-in-the-authenticate-method">The Gory Details: What Happens in the Authenticate Method?</h3>
+<p>When the <code>authenticate()</code> method is called, the adapter iterates over each
+set of server options, passes them to the internal <code>Zend\Ldap\Ldap</code> instance,
+and calls the <code>Zend\Ldap\Ldap::bind()</code> method with the username and password
+being authenticated.</p>
+<p><code>Zend\Ldap\Ldap</code> checks to see if the username is qualified with a domain
+(e.g., has a domain component like <code>alice@foo.net</code> or <code>FOO\alice</code>). If a
+domain is present, but does not match either of the server's domain names
+(e.g., <code>foo.net</code> or <code>FOO</code>), a special exception is thrown and caught by
+<code>Zend\Authentication\Adapter\Ldap</code> that causes that server to be ignored, and
+progression to the next server configured.</p>
+<p>If a domain matches, or if the user did not supply a qualified username,
+<code>Zend\Ldap\Ldap</code> proceeds to try to bind with the supplied credentials. if
+the bind is unsuccessful, <code>Zend\Ldap\Ldap</code> throws a
+<code>Zend\Ldap\Exception\LdapException</code> which is caught by
+<code>Zend\Authentication\Adapter\Ldap</code> and, again, the adapter progresses to the
+next configured server.</p>
+<p>If the bind is successful, server iteration stops, and the adapter's
+<code>authenticate()</code> method returns a successful result.</p>
+<p>If all configured servers fail to authenticate, <code>authenticate()</code> returns a
+failure result with error messages from the last server consulted.</p>
+</blockquote>
+<p>The username and password parameters of the <code>Zend\Authentication\Adapter\Ldap</code>
+constructor represent the credentials being authenticated (i.e., the
+credentials supplied by the user through your HTML login form). Alternatively,
+they may also be set with the <code>setUsername()</code> and <code>setPassword()</code> methods.</p>
+<h2 id="server-options">Server Options</h2>
+<p>Each set of server options in the context of <code>Zend\Authentication\Adapter\Ldap</code>
+consists of the following options, which are passed, largely unmodified, to
+<code>Zend\Ldap\Ldap::setOptions()</code>:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td>The hostname of LDAP server that these options represent. This option is required.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td>The port on which the LDAP server is listening. If <code>useSsl</code> is <code>TRUE</code>, the default port value is 636. If <code>useSsl</code> is <code>FALSE</code>, the default port value is 389.</td>
+</tr>
+<tr>
+<td><code>useStartTls</code></td>
+<td>Whether or not the LDAP client should use TLS (aka SSLv2) encrypted transport. A value of <code>TRUE</code> is strongly favored in production environments to prevent passwords from be transmitted in clear text. The default value is <code>FALSE</code>, as servers frequently require that a certificate be installed separately after installation. The <code>useSsl</code> and <code>useStartTls</code> options are mutually exclusive. The <code>useStartTls</code> option should be favored over <code>useSsl</code>, but not all servers support this newer mechanism.</td>
+</tr>
+<tr>
+<td><code>useSsl</code></td>
+<td>Whether or not the LDAP client should use SSL encrypted transport. The <code>useSsl</code> and <code>useStartTls</code> options are mutually exclusive, but <code>useStartTls</code> should be favored if the server and LDAP client library support it. This value also changes the default port value (see port description above).</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>The DN of the account used to perform account DN lookups. LDAP servers that require the username to be in DN form when performing the “bind” require this option. Meaning, if <code>bindRequiresDn</code> is <code>TRUE</code>, this option is required. This account does not need to be a privileged account; an account with read-only access to objects under the <code>baseDn</code> is all that is necessary (and preferred based on the Principle of Least Privilege).</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>The password of the account used to perform account DN lookups. If this option is not supplied, the LDAP client will attempt an “anonymous bind” when performing account DN lookups.</td>
+</tr>
+<tr>
+<td><code>bindRequiresDn</code></td>
+<td>Some LDAP servers require that the username used to bind be in DN form like <code>CN=Alice Baker,OU=Sales,DC=foo,DC=net</code> (basically all servers except Active Directory). If this option is <code>TRUE</code>, this instructs <code>Zend\Ldap\Ldap</code> to automatically retrieve the DN corresponding to the username being authenticated, if it is not already in DN form, and then re-bind with the proper DN. The default value is <code>FALSE</code>. Currently only Microsoft Active Directory Server (ADS) is known not to require usernames to be in DN form when binding, and therefore this option may be <code>FALSE</code> with AD (and it should be, as retrieving the DN requires an extra round trip to the server). Otherwise, this option must be set to <code>TRUE</code> (e.g. for OpenLDAP). This option also controls the default <code>accountFilterFormat</code> used when searching for accounts. See the <code>accountFilterFormat</code> option.</td>
+</tr>
+<tr>
+<td><code>baseDn</code></td>
+<td>The DN under which all accounts being authenticated are located. This option is required. if you are uncertain about the correct baseDn value, it should be sufficient to derive it from the user’s DNS domain using <code>DC=</code> components. For example, if the user’s principal name is <code>alice@foo.net</code>, a <code>baseDn</code> of <code>DC=foo,DC=net</code> should work. A more precise location (e.g., <code>OU=Sales,DC=foo,DC=net</code>) will be more efficient, however.</td>
+</tr>
+<tr>
+<td><code>accountCanonicalForm</code></td>
+<td>A value of 2, 3, or 4 indicating the form to which account names should be canonicalized after successful authentication. Values are as follows: 2 for traditional username style names (e.g., <code>alice</code>), 3 for backslash-style names (e.g., <code>FOO\alice</code>) or 4 for principal style usernames (e.g., <code>alice@foo.net</code>). The default value is 4 (e.g., <code>alice@foo.net</code>). For example, with a value of 3, the identity returned by <code>Zend\Authentication\Result::getIdentity()</code> (and <code>Zend\Authentication\AuthenticationService::getIdentity()</code>, if <code>Zend\Authentication\AuthenticationService</code> was used) will always be <code>FOO\alice</code>, regardless of what form Alice supplied, whether it be <code>alice</code>, <code>alice@foo.net</code>, <code>FOO\alice</code>, <code>FoO\aLicE</code>, <code>foo.net\alice</code>, etc. See the []Account Name Canonicalization](http://framework.zend.com/manual/current/en/modules/zend.ldap.introduction.html#account-name-canonicalization) section in the zend-ldap documentation for details. Note that when using multiple sets of server options it is recommended, but not required, that the same <code>accountCanonicalForm</code> be used with all server options so that the resulting usernames are always canonicalized to the same form (e.g., if you canonicalize to <code>EXAMPLE\username</code> with an AD server but to <code>username@example.com</code> with an OpenLDAP server, that may be awkward for the application’s high-level logic).</td>
+</tr>
+<tr>
+<td><code>accountDomainName</code></td>
+<td>The FQDN domain name for which the target LDAP server is an authority (e.g., <code>example.com</code>). This option is used to canonicalize names so that the username supplied by the user can be converted as necessary for binding. It is also used to determine if the server is an authority for the supplied username (e.g., if <code>accountDomainName</code> is <code>foo.net</code> and the user supplies <code>bob@bar.net</code>, the server will not be queried, and a failure will result). This option is not required, but if it is not supplied, usernames in principal name form (e.g., <code>alice@foo.net</code>) are not supported. It is strongly recommended that you supply this option, as there are many use-cases that require generating the principal name form.</td>
+</tr>
+<tr>
+<td><code>accountDomainNameShort</code></td>
+<td>The ‘short’ domain for which the target LDAP server is an authority (e.g., <code>FOO</code>). Note that there is a 1:1 mapping between the <code>accountDomainName</code> and <code>accountDomainNameShort</code>. This option should be used to specify the NetBIOS domain name for Windows networks, but may also be used by non-AD servers (e.g., for consistency when multiple sets of server options with the backslash style <code>accountCanonicalForm</code>). This option is not required but if it is not supplied, usernames in backslash form (e.g., <code>FOO\alice</code>) are not supported.</td>
+</tr>
+<tr>
+<td><code>accountFilterFormat</code></td>
+<td>The LDAP search filter used to search for accounts. This string is a <code>printf()</code>-style expression that must contain one <code>%s</code> to accommodate the username. The default value is <code>(&amp;(objectClass=user)(sAMAccountName=%s))</code>, unless <code>bindRequiresDn</code> is set to <code>TRUE</code>, in which case the default is <code>(&amp;(objectClass=posixAccount)(uid=%s))</code>. For example, if for some reason you wanted to use <code>bindRequiresDn = true</code> with AD you would need to set <code>accountFilterFormat = '(&amp;(objectClass=user)(sAMAccountName=%s))'</code>.</td>
+</tr>
+<tr>
+<td><code>optReferrals</code></td>
+<td>If set to <code>TRUE</code>, this option indicates to the LDAP client that referrals should be followed. The default value is <code>FALSE</code>.</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<h3 id="tls-and-ssl">TLS and SSL</h3>
+<p>If you enable <code>useStartTls = TRUE</code> or <code>useSsl = TRUE</code> you may find that the
+LDAP client generates an error claiming that it cannot validate the server's
+certificate. Assuming the PHP LDAP extension is ultimately linked to the
+OpenLDAP client libraries, to resolve this issue you can set <code>TLS_REQCERT
+never</code> in the OpenLDAP client <code>ldap.conf</code> (and restart the web server) to
+indicate to the OpenLDAP client library that you trust the server.
+Alternately, if you are concerned that the server could be spoofed, you can
+export the LDAP server's root certificate and put it on the web server so
+that the OpenLDAP client can validate the server's identity.</p>
+</blockquote>
+<h2 id="collecting-debugging-messages">Collecting Debugging Messages</h2>
+<p><code>Zend\Authentication\Adapter\Ldap</code> collects debugging information within its
+<code>authenticate()</code> method. This information is stored in the
+<code>Zend\Authentication\Result</code> object as messages. The array returned by
+<code>Zend\Authentication\Result::getMessages()</code> is described as follows:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Messages Array Index</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Index 0</td>
+<td>A generic, user-friendly message that is suitable for displaying to users (e.g., "Invalid credentials"). If the authentication is successful, this string is empty.</td>
+</tr>
+<tr>
+<td>Index 1</td>
+<td>A more detailed error message that is not suitable to be displayed to users but should be logged for the benefit of server operators. If the authentication is successful, this string is empty.</td>
+</tr>
+<tr>
+<td>Indexes 2 and higher</td>
+<td>All log messages in order starting at index 2.</td>
+</tr>
+</tbody>
+</table></div>
+<p>In practice, index 0 should be displayed to the user (e.g., using the
+<a href="https://zendframework.github.io/zend-mvc-plugin-flashmessenger">FlashMessenger helper</a>),
+index 1 should be logged and, if debugging information is being collected,
+indexes 2 and higher could be logged as well (although the final message always
+includes the string from index 1).</p>
+<h2 id="common-options-for-specific-servers">Common Options for Specific Servers</h2>
+<h3 id="options-for-active-directory">Options for Active Directory</h3>
+<p>For AD*, the following options are noteworthy:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Additional Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td>As with all servers, this option is required.</td>
+</tr>
+<tr>
+<td><code>useStartTls</code></td>
+<td>For the sake of security, this should be <code>TRUE</code> if the server has the necessary certificate installed.</td>
+</tr>
+<tr>
+<td><code>useSsl</code></td>
+<td>Possibly used as an alternative to <code>useStartTls</code> (see above).</td>
+</tr>
+<tr>
+<td><code>baseDn</code></td>
+<td>As with all servers, this option is required. By default, AD places all user accounts under the Users container (e.g., <code>CN=Users,DC=foo,DC=net</code>), but the default is not common in larger organizations. Ask your AD administrator what the best DN for accounts for your application would be.</td>
+</tr>
+<tr>
+<td><code>accountCanonicalForm</code></td>
+<td>You almost certainly want this to be 3 for backslash style names (e.g., <code>FOO\alice</code>), which are most familiar to Windows users. You should not use the unqualified form 2 (e.g., <code>alice</code>), as this may grant access to your application to users with the same username in other trusted domains (e.g., <code>BAR\alice</code> and <code>FOO\alice</code> will be treated as the same user). (See also note below.)</td>
+</tr>
+<tr>
+<td><code>accountDomainName</code></td>
+<td>This is required with AD unless <code>accountCanonicalForm</code> 2 is used, which, again, is discouraged.</td>
+</tr>
+<tr>
+<td><code>accountDomainNameShort</code></td>
+<td>The NetBIOS name of the domain that users are in and for which the AD server is an authority. This is required if the backslash style <code>accountCanonicalForm</code> is used.</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<h4 id="use-qualified-account-names">Use qualified account names</h4>
+<p>Technically there should be no danger of accidental cross-domain
+authentication with the current <code>Zend\Authentication\Adapter\Ldap</code>
+implementation, since server domains are explicitly checked, but this may not
+be true of a future implementation that discovers the domain at runtime, or
+if an alternative adapter is used (e.g., Kerberos). In general, account name
+ambiguity is known to be the source of security issues, so always try to use
+qualified account names.</p>
+</blockquote>
+<h3 id="options-for-openldap">Options for OpenLDAP</h3>
+<p>For OpenLDAP or a generic LDAP server using a typical posixAccount style
+schema, the following options are noteworthy:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Additional Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td>As with all servers, this option is required.</td>
+</tr>
+<tr>
+<td>useStartTls</td>
+<td>For the sake of security, this should be <code>TRUE</code> if the server has the necessary certificate installed.</td>
+</tr>
+<tr>
+<td>useSsl</td>
+<td>Possibly used as an alternative to <code>useStartTls</code> (see above).</td>
+</tr>
+<tr>
+<td>username</td>
+<td>Required and must be a DN, as OpenLDAP requires that usernames be in DN form when performing a bind. Try to use an unprivileged account.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>The password corresponding to the username above, but this may be omitted if the LDAP server permits an anonymous binding to query user accounts.</td>
+</tr>
+<tr>
+<td>bindRequiresDn</td>
+<td>Required and must be TRUE, as OpenLDAP requires that usernames be in DN form when performing a bind.</td>
+</tr>
+<tr>
+<td>baseDn</td>
+<td>As with all servers, this option is required and indicates the DN under which all accounts being authenticated are located.</td>
+</tr>
+<tr>
+<td>accountCanonicalForm</td>
+<td>Optional, but the default value is 4 (principal style names like <code>alice@foo.net</code>), which may not be ideal if your users are used to backslash style names (e.g., <code>FOO\alice</code>). For backslash style names, use value 3.</td>
+</tr>
+<tr>
+<td>accountDomainName</td>
+<td>Required unless you're using <code>accountCanonicalForm</code> 2, which is not recommended.</td>
+</tr>
+<tr>
+<td>accountDomainNameShort</td>
+<td>If AD is not also being used, this value is not required. Otherwise, if <code>accountCanonicalForm</code> 3 is used, this option is required and should be a short name that corresponds adequately to the <code>accountDomainName</code> (e.g., if your <code>accountDomainName</code> is <code>foo.net</code>, a good <code>accountDomainNameShort</code> value might be <code>FOO</code>).</td>
+</tr>
+</tbody>
+</table></div>
+
+<hr />
+
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../http/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../../storage/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
+    </div>
+    <!-- content:end -->
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        <p>
+        <small>Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a><br></small>
+        </p>
+        <p><small><a href="http://framework.zend.com">Learn more about Zend Framework</a></small></p>
+    </footer>
+
+    <script src="../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../js/prism-zf.js"></script>
+
+    <script>var base_url = '../..';</script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+    <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="zf-components">
+  <div class="zf-components-grid">
+    <div class="zf-logo">
+      <a href="http://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="http://framework.zend.com/images/logos/zf-logo-mark.png" alt="Zend Framework" width="250" /></a>
+    </div>
+
+    <div class="component-list"></div>
+
+    <p class="zf-components-rollup"><a href="#">Hide list</a></p>
+  </div>
+</div>
+
+    <script>
+  // Prepare the component list dropdown for display
+  $(function () {
+    var components = $(".zf-components"),
+        componentList = components.find(".component-list"),
+        sidebar = $(".bs-sidebar.affix"),
+        sidebarInitialPos = sidebar.css("position"),
+        hidden,
+        componentToggle = $(".component-toggle"),
+        navbar = $(".navbar-fixed-top"),
+        rollUpLink = $(".zf-components-rollup a");
+
+    // Initial setup on document load
+    components.insertBefore(navbar);
+    $(".zf-logo a").tooltip();
+    componentToggle.tooltip();
+    rollUpLink.attr({ href: "#", alt: "Hide component list" });
+
+    // Cast initial sidebar position value
+    if (undefined === sidebarInitialPos) {
+      sidebarInitialPos = "fixed";
+    }
+
+    // Setup onclick events to toggle list
+    componentToggle.click(toggleComponentList);
+    rollUpLink.click(toggleComponentList);
+
+    // Toggle the component list display
+    function toggleComponentList(event) {
+      event.preventDefault();
+
+      if (hidden === undefined) {
+        // Not loaded yet; load and display.
+        loadComponentList();
+        return;
+      }
+
+      if (hidden) {
+        // Hidden; display.
+        showComponentList();
+        return;
+      }
+
+      // Currently visible; hide
+      hideComponentList();
+    }
+
+    // Show the component list
+    function showComponentList() {
+      navbar.css({position: "relative"});
+      sidebar.css({position: "relative"});
+      components
+        .css({"margin-top": "-" + components.outerHeight() + "px"})
+        .show()
+        .animate({"margin-top": 0}, {
+          complete: function () {
+            componentToggle
+              .data("placement", "top")
+              .attr("data-original-title", "Hide component list");
+            hidden = false;
+          },
+          queue: false
+        });
+    }
+
+    // Hide the component list
+    function hideComponentList() {
+      components.animate({"margin-top": "-" + components.outerHeight() + "px"}, {
+        complete: function () {
+          navbar.css({position: "fixed"});
+          sidebar.css({position: sidebarInitialPos});
+          componentToggle
+            .data("placement", "bottom")
+            .attr("data-original-title", "Show component list");
+          components.hide();
+          hidden = true;
+        },
+        queue: false
+      });
+      sidebar.animate({ top: sidebarInitialTop + "px" }, { queue: false});
+    }
+
+    // Inject a component into the componet list DOM.
+    function injectComponent(index, component) {
+      componentList.append('<div class="component"><h4><a href="' + component.url + '">' + component.name + '</a></h4><p>' + component.description + '</p></div>');
+    }
+
+    // Parse the component list, build the DOM, and display it.
+    function parseComponentList(components) {
+      $.each(components, injectComponent);
+      showComponentList();
+    }
+
+    // Fetch the component list and display it.
+    function loadComponentList () {
+      $.ajax({
+        url: "//zendframework.github.io/zf-mkdoc-theme/scripts/zf-component-list.json",
+        dataType: "text json",
+        success: parseComponentList,
+        error: function (e) {
+          console.log("Error occurred with XHR call", e);
+        }
+      });
+    }
+  });
+</script>
+    </body>
+
+</html>
