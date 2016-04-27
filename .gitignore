@@ -8,6 +8,7 @@
 nbproject
 tmp/
 doc/html/
+zf-mkdoc-theme/
 
 clover.xml
 composer.lock

@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#9](https://github.com/zendframework/zend-authentication/pull/9) adds and
+  publishes documentation to https://zendframework.github.io/zend-authentication/
 
 ### Deprecated
 

@@ -1,0 +1,20 @@
+docs_dir: doc/book
+site_dir: doc/html
+pages:
+    - index.md
+    - Intro: intro.md
+    - Adapters:
+        - Intro: adapter/intro.md
+        - DbTable:
+            - Intro: adapter/dbtable/intro.md
+            - CredentialTreatmentAdapter: adapter/dbtable/credential-treatment.md
+            - CallbackCheck: adapter/dbtable/callback-check.md
+        - Digest: adapter/digest.md
+        - HTTP: adapter/http.md
+        - LDAP: adapter/ldap.md
+    - "Identity Persistence": storage.md
+    - Validation: validator.md
+site_name: zend-authentication
+site_description: zend-authentication
+repo_url: 'https://github.com/zendframework/zend-authentication'
+copyright: 'Copyright (c) 2016 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
