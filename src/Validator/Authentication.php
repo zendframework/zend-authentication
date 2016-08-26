@@ -72,7 +72,7 @@ class Authentication extends AbstractValidator
      * Authentication\Result codes mapping
      * @var array
      */
-    static protected $codeMap = [
+    protected static $codeMap = [
         Result::FAILURE_IDENTITY_NOT_FOUND => self::IDENTITY_NOT_FOUND,
         Result::FAILURE_CREDENTIAL_INVALID => self::CREDENTIAL_INVALID,
         Result::FAILURE_IDENTITY_AMBIGUOUS => self::IDENTITY_AMBIGUOUS,
