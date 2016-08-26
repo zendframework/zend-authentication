@@ -9,13 +9,26 @@
 
 namespace ZendTest\Authentication\TestAsset;
 
-use Zend\Authentication\Adapter\AdapterInterface;
+use Zend\Authentication\Adapter\AbstractAdapter as AuthenticationAdapter;
 use Zend\Authentication\Result as AuthenticationResult;
 
-class SuccessAdapter implements AdapterInterface
+class ValidatableAdapter extends AuthenticationAdapter
 {
+    /**
+     * @var int Authentication result code
+     */
+    protected $code;
+
+    /**
+     * @param int $code
+     */
+    public function __construct($code = AuthenticationResult::SUCCESS)
+    {
+        $this->code = $code;
+    }
+
     public function authenticate()
     {
-        return new AuthenticationResult(AuthenticationResult::SUCCESS, 'someIdentity');
+        return new AuthenticationResult($this->code, 'someIdentity');
     }
 }

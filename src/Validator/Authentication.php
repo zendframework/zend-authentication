@@ -69,6 +69,17 @@ class Authentication extends AbstractValidator
     protected $service;
 
     /**
+     * Authentication\Result codes mapping
+     * @var array
+     */
+    static protected $codeMap = [
+        Result::FAILURE_IDENTITY_NOT_FOUND => self::IDENTITY_NOT_FOUND,
+        Result::FAILURE_CREDENTIAL_INVALID => self::CREDENTIAL_INVALID,
+        Result::FAILURE_IDENTITY_AMBIGUOUS => self::IDENTITY_AMBIGUOUS,
+        Result::FAILURE_UNCATEGORIZED      => self::UNCATEGORIZED,
+    ];
+
+    /**
      * Sets validator options
      *
      * @param mixed $options
@@ -189,11 +200,16 @@ class Authentication extends AbstractValidator
     }
 
     /**
-     * Is Valid
+     * Returns true if and only if authentication result is valid
      *
-     * @param  mixed $value
-     * @param  array $context
+     * If authentication result fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
+     * @param  mixed $value   OPTIONAL Credential (or field)
+     * @param  array $context OPTIONAL Authentication data (identity and/or credential)
      * @return bool
+     * @throws Exception\RuntimeException
      */
     public function isValid($value = null, $context = null)
     {
@@ -201,49 +217,54 @@ class Authentication extends AbstractValidator
             $this->setCredential($value);
         }
 
+        if ($this->identity === null) {
+            throw new Exception\RuntimeException('Identity must be set prior to validation');
+        }
         if (($context !== null) && array_key_exists($this->identity, $context)) {
             $identity = $context[$this->identity];
         } else {
             $identity = $this->identity;
         }
-        if (! $this->identity) {
-            throw new Exception\RuntimeException('Identity must be set prior to validation');
-        }
 
+        if ($this->credential === null) {
+            throw new Exception\RuntimeException('Credential must be set prior to validation');
+        }
         if (($context !== null) && array_key_exists($this->credential, $context)) {
             $credential = $context[$this->credential];
         } else {
             $credential = $this->credential;
         }
 
-        if (! $this->adapter) {
-            throw new Exception\RuntimeException('Adapter must be set prior to validation');
-        }
-        $this->adapter->setIdentity($identity);
-        $this->adapter->setCredential($credential);
-
-        if (! $this->service) {
+        if (!$this->service) {
             throw new Exception\RuntimeException('AuthenticationService must be set prior to validation');
         }
+
+        if (!$this->adapter) {
+            $adapter = $this->service->getAdapter();
+            if (!$adapter) {
+                throw new Exception\RuntimeException('Adapter must be set prior to validation');
+            }
+            if (!$adapter instanceof ValidatableAdapterInterface) {
+                throw new Exception\RuntimeException(sprintf(
+                    'Adapter must be an instance of ValidatableAdapterInterface, %s given',
+                    (is_object($adapter) ? get_class($adapter) : gettype($adapter))
+                ));
+            }
+        } else {
+            $adapter = $this->adapter;
+        }
+
+        $adapter->setIdentity($identity);
+        $adapter->setCredential($credential);
+
         $result = $this->service->authenticate($this->adapter);
 
-        if ($result->getCode() != Result::SUCCESS) {
-            switch ($result->getCode()) {
-                case Result::FAILURE_IDENTITY_NOT_FOUND:
-                    $this->error(self::IDENTITY_NOT_FOUND);
-                    break;
-                case Result::FAILURE_CREDENTIAL_INVALID:
-                    $this->error(self::CREDENTIAL_INVALID);
-                    break;
-                case Result::FAILURE_IDENTITY_AMBIGUOUS:
-                    $this->error(self::IDENTITY_AMBIGUOUS);
-                    break;
-                case Result::FAILURE_UNCATEGORIZED:
-                    $this->error(self::UNCATEGORIZED);
-                    break;
-                default:
-                    $this->error(self::GENERAL);
+        if (!$result->isValid()) {
+            $code = self::GENERAL;
+            if (array_key_exists($result->getCode(), static::$codeMap)) {
+                $code = static::$codeMap[$result->getCode()];
             }
+            $this->error($code);
 
             return false;
         }

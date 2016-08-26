@@ -35,7 +35,7 @@ class AuthenticationServiceTest extends \PHPUnit\Framework\TestCase
     public function testAdapter()
     {
         $this->assertNull($this->auth->getAdapter());
-        $successAdapter = new TestAsset\SuccessAdapter();
+        $successAdapter = new TestAsset\ValidatableAdapter();
         $ret = $this->auth->setAdapter($successAdapter);
         $this->assertSame($ret, $this->auth);
         $this->assertSame($successAdapter, $this->auth->getAdapter());
@@ -56,7 +56,7 @@ class AuthenticationServiceTest extends \PHPUnit\Framework\TestCase
 
     public function testAuthenticateSetAdapter()
     {
-        $result = $this->authenticate(new TestAsset\SuccessAdapter());
+        $result = $this->authenticate(new TestAsset\ValidatableAdapter());
         $this->assertInstanceOf('Zend\Authentication\Result', $result);
         $this->assertTrue($this->auth->hasIdentity());
         $this->assertEquals('someIdentity', $this->auth->getIdentity());
@@ -78,7 +78,7 @@ class AuthenticationServiceTest extends \PHPUnit\Framework\TestCase
     protected function authenticate($adapter = null)
     {
         if ($adapter === null) {
-            $adapter = new TestAsset\SuccessAdapter();
+            $adapter = new TestAsset\ValidatableAdapter();
         }
         return $this->auth->authenticate($adapter);
     }

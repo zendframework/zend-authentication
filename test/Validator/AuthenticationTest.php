@@ -11,8 +11,10 @@ namespace ZendTest\Authentication\Validator;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
+use Zend\Authentication\Adapter\ValidatableAdapterInterface;
 use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Result as AuthenticationResult;
+use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 use ZendTest\Authentication as AuthTest;
 
 /**
@@ -20,13 +22,26 @@ use ZendTest\Authentication as AuthTest;
  */
 class AuthenticationTest extends TestCase
 {
+    /**
+     * @var AuthenticationValidator
+     */
     protected $validator;
+
+    /**
+     * @var AuthenticationService
+     */
+    protected $authService;
+
+    /**
+     * @var ValidatableAdapterInterface
+     */
+    protected $authAdapter;
 
     public function setUp()
     {
         $this->validator = new AuthenticationValidator();
         $this->authService = new AuthenticationService();
-        $this->authAdapter = new AuthTest\TestAsset\SuccessAdapter();
+        $this->authAdapter = new AuthTest\TestAsset\ValidatableAdapter();
     }
 
     public function testOptions()
@@ -68,6 +83,7 @@ class AuthenticationTest extends TestCase
         $this->expectExceptionMessage('Adapter must be set prior to validation');
         $this->validator->setIdentity('username');
         $this->validator->isValid('password');
+        $this->validator->setService($this->authService);
     }
 
     public function testNoServiceThrowsRuntimeException()
@@ -113,5 +129,98 @@ class AuthenticationTest extends TestCase
         $adapter = $this->validator->getAdapter();
         $this->assertEquals('myusername', $adapter->getIdentity());
         $this->assertEquals('mypassword', $adapter->getCredential());
+    }
+
+    /**
+     * @param int   $code
+     * @param bool  $valid
+     * @param array $messages
+     *
+     * @dataProvider errorMessagesProvider
+     */
+    public function testErrorMessages($code, $valid, $messages)
+    {
+        $adapter = new AuthTest\TestAsset\ValidatableAdapter($code);
+
+        $this->validator->setAdapter($adapter);
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->setCredential('credential');
+
+        $this->assertEquals($valid, $this->validator->isValid());
+        $this->assertEquals($messages, $this->validator->getMessages());
+    }
+
+    /**
+     * Test using Authentication Service's adapter
+     */
+    public function testUsingAdapterFromService()
+    {
+        $this->authService->setAdapter($this->authAdapter);
+
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->isValid('password');
+
+        $this->assertEquals('username', $this->validator->getIdentity());
+        $this->assertEquals('password', $this->validator->getCredential());
+        $this->assertEquals('username', $this->authAdapter->getIdentity());
+        $this->assertEquals('password', $this->authAdapter->getCredential());
+        $this->assertNull($this->validator->getAdapter());
+        $this->assertTrue($this->validator->isValid());
+    }
+
+    /**
+     * Ensures that isValid() throws an exception when Authentication Service's
+     * adapter is not an instance of ValidatableAdapterInterface
+     */
+    public function testUsingNoValiatableAdapterFromServiceThrowsRuntimeException()
+    {
+        $this->setExpectedException(
+            'RuntimeException',
+            'Adapter must be an instance of ValidatableAdapterInterface, ' .
+            'ZendTest\Authentication\TestAsset\SuccessAdapter given'
+        );
+
+        $adapter = new AuthTest\TestAsset\SuccessAdapter();
+        $this->authService->setAdapter($adapter);
+
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->isValid('password');
+    }
+
+    public function errorMessagesProvider()
+    {
+        return [
+            [
+                AuthenticationResult::FAILURE,
+                false,
+                [AuthenticationValidator::GENERAL => 'Authentication failed'],
+            ],
+            [
+                AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
+                false,
+                [AuthenticationValidator::IDENTITY_NOT_FOUND => 'Invalid identity'],
+            ],
+            [
+                AuthenticationResult::FAILURE_IDENTITY_AMBIGUOUS,
+                false,
+                [AuthenticationValidator::IDENTITY_AMBIGUOUS => 'Identity is ambiguous'],
+            ],
+            [
+                AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
+                false,
+                [AuthenticationValidator::CREDENTIAL_INVALID => 'Invalid password'],
+            ],
+            [
+                AuthenticationResult::FAILURE_UNCATEGORIZED,
+                false,
+                [AuthenticationValidator::UNCATEGORIZED => 'Authentication failed'],
+            ],
+            [
+                AuthenticationResult::SUCCESS, true, [],
+            ],
+        ];
     }
 }
