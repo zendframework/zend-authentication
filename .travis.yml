@@ -23,7 +23,6 @@ env:
     - secure: "EkN2Vnzdt2UUN740UtTsM5PzfEBIBPN4fhgjc0kFYGSVKPB/bvsKAMgMKLl7Q1+YrcncpjfuiXuPlhKQhe2zgNGMncBfcOKePgxVstuzHed19ssQK5g67gTChNcqI679RKaSpN1CQwf5y0bZ8qHEPtv3JBuBJT9osPqNlLUQ37kQPC8417EYfmiLi1JL04rHsvitX1rRYZgGV53vFtCdpvy4/w/Iy5NU1KkoiiwueMtR80SL15qRmFYBgBxi5jrW/IpwDCDT+SOX2ZaPHq6Jv4Qb8ndyFoswIJD0PBpB98QpyG+5t7ciTmZGO7xW+aLmpE4Ci38OMkzeoCXzyOLL6Li8+VstjUD2atJ0uNyl60benchapOZoHVT7Nm51fUaXAzjR+Q6XalF1lyExgeEZ56yM6NHBVwOWl+8Rly4xhP4v3u4vCwHQ/R6dZbAhcPkr3CgFr4ra31kDTfJHnVKlhDnNz3jtn/kBofmtMdRAknVLhTlTwAc2K4ZBgXMPz7bJvMDiCDh695vqChREKcsciH2B6Ad8q3C/mV/ior8errFZfupRvvP3fEXEgei0YSrigh1mzvFjZFYMMs52EkZ6qd8YtBRJLJxfBNAIatp/RW+urpPA7JtSdyff1fesyZQBAqbJhMfUXwYsj6OuQPjAZ6yB/6D9TjCufG+Mha/y+wo="
 
 matrix:
-  fast_finish: true
   include:
     - php: 5.5
       env:
