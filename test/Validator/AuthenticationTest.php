@@ -77,8 +77,11 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
     public function testEqualsMessageTemplates()
     {
         $validator = $this->validator;
-        $this->assertAttributeEquals($validator->getOption('messageTemplates'),
-                                     'messageTemplates', $validator);
+        $this->assertAttributeEquals(
+            $validator->getOption('messageTemplates'),
+            'messageTemplates',
+            $validator
+        );
     }
 
     public function testWithoutContext()

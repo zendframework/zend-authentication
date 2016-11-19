@@ -49,7 +49,7 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_ENABLED')) {
+        if (! getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_ENABLED')) {
             $this->markTestSkipped('Tests are not enabled in phpunit.xml');
         }
 
@@ -183,7 +183,8 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
             'REAL_NAME'
         ]);
         $this->assertEquals(
-            'O:8:"stdClass":2:{s:8:"USERNAME";s:11:"my_username";s:9:"REAL_NAME";s:12:"My Real Name";}', serialize($resultRow)
+            'O:8:"stdClass":2:{s:8:"USERNAME";s:11:"my_username";s:9:"REAL_NAME";s:12:"My Real Name";}',
+            serialize($resultRow)
         );
     }
 
@@ -198,7 +199,8 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
         // Since we did not set db2_attr_case, column names will be upper case, as expected
         $resultRow = $this->authAdapter->getResultRowObject(null, 'PASSWORD');
         $this->assertEquals(
-            'O:8:"stdClass":3:{s:2:"ID";i:1;s:8:"USERNAME";s:11:"my_username";s:9:"REAL_NAME";s:12:"My Real Name";}', serialize($resultRow)
+            'O:8:"stdClass":3:{s:2:"ID";i:1;s:8:"USERNAME";s:11:"my_username";s:9:"REAL_NAME";s:12:"My Real Name";}',
+            serialize($resultRow)
         );
     }
 
@@ -405,7 +407,10 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
     protected function setupAuthAdapter()
     {
         $this->authAdapter = new Adapter\DbTable\CredentialTreatmentAdapter(
-            $this->db, $this->tableName, 'username', 'password'
+            $this->db,
+            $this->tableName,
+            'username',
+            'password'
         );
     }
 }

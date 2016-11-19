@@ -299,7 +299,8 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $bad = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
         $bad = preg_replace(
             '/realm="([^"]+)"/',  // cut out the realm
-            '', $bad
+            '',
+            $bad
         );
 
         $data = $this->_doAuth($bad, 'digest');
@@ -315,7 +316,8 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $bad = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
         $bad = preg_replace(
             '/response="([^"]+)"/',  // cut out the realm
-            'response="foobar"', $bad
+            'response="foobar"',
+            $bad
         );
 
         $data = $this->_doAuth($bad, 'both');

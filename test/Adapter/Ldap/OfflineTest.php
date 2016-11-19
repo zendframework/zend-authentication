@@ -38,7 +38,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetLdap()
     {
-        if (!extension_loaded('ldap')) {
+        if (! extension_loaded('ldap')) {
             $this->markTestSkipped('LDAP is not enabled');
         }
         $this->adapter->setLdap(new Ldap\Ldap());

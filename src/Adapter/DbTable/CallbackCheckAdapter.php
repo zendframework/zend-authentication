@@ -61,7 +61,7 @@ class CallbackCheckAdapter extends AbstractAdapter
      */
     public function setCredentialValidationCallback($validationCallback)
     {
-        if (!is_callable($validationCallback)) {
+        if (! is_callable($validationCallback)) {
             throw new Exception\InvalidArgumentException('Invalid callback provided');
         }
         $this->credentialValidationCallback = $validationCallback;
