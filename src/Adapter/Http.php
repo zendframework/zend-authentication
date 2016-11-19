@@ -376,8 +376,10 @@ class Http implements AdapterInterface
      * @see Http::challengeClient()
      * @return Authentication\Result Always returns a non-identity Auth result
      */
+    // @codingStandardsIgnoreStart
     protected function _challengeClient()
     {
+        // @codingStandardsIgnoreEnd
         trigger_error(sprintf(
             'The method "%s" is deprecated and will be removed in the future; '
             . 'please use the public method "%s::challengeClient()" instead',
@@ -431,8 +433,10 @@ class Http implements AdapterInterface
      *
      * @return string Authenticate header value
      */
+    // @codingStandardsIgnoreStart
     protected function _basicHeader()
     {
+        // @codingStandardsIgnoreEnd
         return 'Basic realm="' . $this->realm . '"';
     }
 
@@ -444,8 +448,10 @@ class Http implements AdapterInterface
      *
      * @return string Authenticate header value
      */
+    // @codingStandardsIgnoreStart
     protected function _digestHeader()
     {
+        // @codingStandardsIgnoreEnd
         $wwwauth = 'Digest realm="' . $this->realm . '", '
                  . 'domain="' . $this->domains . '", '
                  . 'nonce="' . $this->_calcNonce() . '", '
@@ -463,8 +469,10 @@ class Http implements AdapterInterface
      * @throws Exception\ExceptionInterface
      * @return Authentication\Result
      */
+    // @codingStandardsIgnoreStart
     protected function _basicAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         if (empty($header)) {
             throw new Exception\RuntimeException('The value of the client Authorization header is required');
         }
@@ -519,13 +527,17 @@ class Http implements AdapterInterface
      * @throws Exception\ExceptionInterface
      * @return Authentication\Result Valid auth result only on successful auth
      */
+    // @codingStandardsIgnoreStart
     protected function _digestAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         if (empty($header)) {
             throw new Exception\RuntimeException('The value of the client Authorization header is required');
         }
         if (empty($this->digestResolver)) {
-            throw new Exception\RuntimeException('A digestResolver object must be set before doing Digest authentication');
+            throw new Exception\RuntimeException(
+                'A digestResolver object must be set before doing Digest authentication'
+            );
         }
 
         $data = $this->_parseDigestAuth($header);
@@ -606,8 +618,10 @@ class Http implements AdapterInterface
      *
      * @return string The nonce value
      */
+    // @codingStandardsIgnoreStart
     protected function _calcNonce()
     {
+        // @codingStandardsIgnoreEnd
         // Once subtle consequence of this timeout calculation is that it
         // actually divides all of time into nonceTimeout-sized sections, such
         // that the value of timeout is the point in time of the next
@@ -643,8 +657,10 @@ class Http implements AdapterInterface
      *
      * @return string The opaque value
      */
+    // @codingStandardsIgnoreStart
     protected function _calcOpaque()
     {
+        // @codingStandardsIgnoreEnd
         return hash('md5', 'Opaque Data:' . __CLASS__);
     }
 
@@ -655,8 +671,10 @@ class Http implements AdapterInterface
      * @return array|bool Data elements from header, or false if any part of
      *                    the header is invalid
      */
+    // @codingStandardsIgnoreStart
     protected function _parseDigestAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         $temp = null;
         $data = [];
 

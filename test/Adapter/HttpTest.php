@@ -10,14 +10,16 @@
 
 namespace ZendTest\Authentication\Adapter;
 
-use Zend\Authentication\Adapter;
+use ZendTest\Authentication\TestAsset\Wrapper;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * @var Wrapper
      */
     protected $_wrapper;
+    // @codingStandardsIgnoreEnd
 
     public function setUp()
     {
@@ -40,13 +42,5 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testProtectedMethodChallengeClientTriggersErrorDeprecated()
     {
         $this->_wrapper->_challengeClient();
-    }
-}
-
-class Wrapper extends Adapter\Http
-{
-    public function __call($method, $args)
-    {
-        return call_user_func_array([$this, $method], $args);
     }
 }

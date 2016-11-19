@@ -135,7 +135,8 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testAuthenticateFailureIdentityAmbiguous()
     {
-        $sqlInsert = "INSERT INTO {$this->tableName} (id, username, password, real_name) VALUES (2, 'my_username', 'my_password', 'My Real Name')";
+        $sqlInsert = "INSERT INTO {$this->tableName} (id, username, password, real_name) "
+            . "VALUES (2, 'my_username', 'my_password', 'My Real Name')";
         $this->db->query($sqlInsert, DbAdapter::QUERY_MODE_EXECUTE);
 
         $this->authAdapter->setIdentity('my_username');
@@ -250,7 +251,10 @@ class CredentialTreatmentAdapterDb2Test extends \PHPUnit_Framework_TestCase
      */
     public function testCatchExceptionNoTable()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException', 'A table must be supplied for');
+        $this->setExpectedException(
+            'Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
+            'A table must be supplied for'
+        );
         $adapter = new Adapter\DbTable($this->db);
         $adapter->authenticate();
     }

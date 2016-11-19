@@ -19,6 +19,7 @@ use Zend\Http\Response;
  */
 class ProxyTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -60,6 +61,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @var Http\FileResolver
      */
     protected $_digestResolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets up test configuration
@@ -303,8 +305,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @param  string $scheme       Which authentication scheme to use
      * @return array Containing the result, the response headers, and the status
      */
+    // @codingStandardsIgnoreStart
     public function _doAuth($clientHeader, $scheme)
     {
+        // @codingStandardsIgnoreEnd
         // Set up stub request and response objects
         $response = new Response;
         $response->setStatusCode(200);
@@ -354,8 +358,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      *
      * @return string
      */
+    // @codingStandardsIgnoreStart
     protected function _digestChallenge()
     {
+        // @codingStandardsIgnoreEnd
         return [
             'type'   => 'Digest ',
             'realm'  => 'realm="' . $this->_digestConfig['realm'] . '"',
@@ -370,8 +376,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @param  string $pass
      * @return string
      */
+    // @codingStandardsIgnoreStart
     protected function _digestReply($user, $pass)
     {
+        // @codingStandardsIgnoreEnd
         $nc       = '00000001';
         $timeout  = ceil(time() / 300) * 300;
         $nonce    = md5($timeout . ':PHPUnit:Zend\\Authentication\\Adapter\\Http');
@@ -401,8 +409,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @param  string $expected Expected Proxy-Authenticate header value
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkUnauthorized($data, $expected)
     {
+        // @codingStandardsIgnoreEnd
         extract($data); // $result, $status, $headers
 
         // Make sure the result is false
@@ -435,8 +445,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @param  array $data Authentication results
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkOK($data)
     {
+        // @codingStandardsIgnoreEnd
         extract($data); // $result, $status, $headers
 
         // Make sure the result is true
@@ -453,8 +465,10 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
      * @param  array $data Authentication results
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkBadRequest($data)
     {
+        // @codingStandardsIgnoreEnd
         extract($data); // $result, $status, $headers
 
         // Make sure the result is false

@@ -96,7 +96,11 @@ class CallbackCheckAdapter extends AbstractAdapter
     protected function authenticateValidateResult($resultIdentity)
     {
         try {
-            $callbackResult = call_user_func($this->credentialValidationCallback, $resultIdentity[$this->credentialColumn], $this->credential);
+            $callbackResult = call_user_func(
+                $this->credentialValidationCallback,
+                $resultIdentity[$this->credentialColumn],
+                $this->credential
+            );
         } catch (\Exception $e) {
             $this->authenticateResultInfo['code']       = AuthenticationResult::FAILURE_UNCATEGORIZED;
             $this->authenticateResultInfo['messages'][] = $e->getMessage();

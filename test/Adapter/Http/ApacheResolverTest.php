@@ -16,6 +16,7 @@ use Zend\Authentication\Adapter\Http\ApacheResolver as Apache;
  */
 class ApacheResolverTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -41,6 +42,7 @@ class ApacheResolverTest extends \PHPUnit_Framework_TestCase
      * @var Apache
      */
     protected $_apache;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets the paths to files used in this test, and creates a shared resolver instance
@@ -75,7 +77,10 @@ class ApacheResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFileInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Path not readable'
+        );
         $this->_apache->setFile($this->_badPath);
     }
 
@@ -97,7 +102,10 @@ class ApacheResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Path not readable'
+        );
         $apache = new Apache($this->_badPath);
     }
 

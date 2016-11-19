@@ -16,6 +16,7 @@ use Zend\Authentication\Adapter\Http;
  */
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -43,6 +44,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      * @var Http\FileResolver
      */
     protected $_resolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets the paths to files used in this test, and creates a shared resolver instance
@@ -76,7 +78,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFileInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Path not readable'
+        );
         $this->_resolver->setFile($this->_badPath);
     }
 
@@ -98,7 +103,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Path not readable'
+        );
         $v = new Http\FileResolver($this->_badPath);
     }
 
@@ -109,7 +117,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolveUsernameEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Username is required');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Username is required'
+        );
         $this->_resolver->resolve('', '');
     }
 
@@ -120,7 +131,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolveRealmEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Realm is required');
+        $this->setExpectedException(
+            'Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface',
+            'Realm is required'
+        );
         $this->_resolver->resolve('username', '');
     }
 

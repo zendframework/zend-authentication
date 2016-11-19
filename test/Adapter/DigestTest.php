@@ -17,12 +17,14 @@ use Zend\Authentication;
  */
 class DigestTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
      * @var string
      */
     protected $_filesPath;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets the path to test files

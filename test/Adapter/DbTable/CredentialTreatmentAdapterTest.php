@@ -19,6 +19,7 @@ use Zend\Db\Adapter\Adapter as DbAdapter;
  */
 class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * SQLite database connection
      *
@@ -32,6 +33,7 @@ class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
      * @var \Zend\Authentication\Adapter\DbTable
      */
     protected $_adapter = null;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Set up test configuration
@@ -105,7 +107,8 @@ class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function testAuthenticateFailureIdentityAmbiguous()
     {
-        $sqlInsert = 'INSERT INTO users (username, password, real_name) VALUES ("my_username", "my_password", "My Real Name")';
+        $sqlInsert = 'INSERT INTO users (username, password, real_name) '
+            . 'VALUES ("my_username", "my_password", "My Real Name")';
         $this->_db->query($sqlInsert, DbAdapter::QUERY_MODE_EXECUTE);
 
         $this->_adapter->setIdentity('my_username');
@@ -163,7 +166,9 @@ class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
         $this->_adapter->authenticate();
         $resultRow = $this->_adapter->getResultRowObject(null, 'password');
         $this->assertEquals(
+            // @codingStandardsIgnoreStart
             'O:8:"stdClass":3:{s:2:"id";s:1:"1";s:8:"username";s:11:"my_username";s:9:"real_name";s:12:"My Real Name";}',
+            // @codingStandardsIgnoreEnd
             serialize($resultRow)
         );
     }
@@ -352,9 +357,10 @@ class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('my_username', $result2->getIdentity());
     }
 
-
+    // @codingStandardsIgnoreStart
     protected function _setupDbAdapter($optionalParams = [])
     {
+        // @codingStandardsIgnoreEnd
         $params = ['driver' => 'pdo_sqlite',
                         'dbname' => getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE')];
 
@@ -379,8 +385,10 @@ class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
         $this->_db->query($sqlInsert, DbAdapter::QUERY_MODE_EXECUTE);
     }
 
+    // @codingStandardsIgnoreStart
     protected function _setupAuthAdapter()
     {
+        // @codingStandardsIgnoreEnd
         $this->_adapter = new Adapter\DbTable\CredentialTreatmentAdapter($this->_db, 'users', 'username', 'password');
     }
 }

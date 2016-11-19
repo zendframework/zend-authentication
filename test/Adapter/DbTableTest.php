@@ -17,8 +17,10 @@ use Zend\Authentication\Adapter;
  */
 class DbTableTest extends DbTable\CredentialTreatmentAdapterTest
 {
+    // @codingStandardsIgnoreStart
     protected function _setupAuthAdapter()
     {
+        // @codingStandardsIgnoreEnd
         $this->_adapter = new Adapter\DbTable($this->_db, 'users', 'username', 'password');
     }
 }

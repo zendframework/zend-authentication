@@ -104,7 +104,9 @@ class AuthenticationService implements AuthenticationServiceInterface
     {
         if (! $adapter) {
             if (! $adapter = $this->getAdapter()) {
-                throw new Exception\RuntimeException('An adapter must be set or passed prior to calling authenticate()');
+                throw new Exception\RuntimeException(
+                    'An adapter must be set or passed prior to calling authenticate()'
+                );
             }
         }
         $result = $adapter->authenticate();

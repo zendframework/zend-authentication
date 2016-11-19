@@ -21,6 +21,7 @@ use Zend\Http\Response;
  */
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -62,6 +63,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @var Http\FileResolver
      */
     protected $_digestResolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets up test configuration
@@ -176,7 +178,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             $a->setRequest($request)
               ->setResponse($response);
             $result = $a->authenticate();
-            $this->fail("Tried Basic authentication without a resolver.\n" . \Zend\Debug::dump($result->getMessages(), null, false));
+            $this->fail("Tried Basic authentication without a resolver.\n"
+                . \Zend\Debug::dump($result->getMessages(), null, false));
         } catch (Adapter\Exception\ExceptionInterface $e) {
             // Good, it threw an exception
             unset($a);
@@ -194,7 +197,8 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
             $a->setRequest($request)
               ->setResponse($response);
             $result = $a->authenticate();
-            $this->fail("Tried Digest authentication without a resolver.\n" . \Zend\Debug::dump($result->getMessages(), null, false));
+            $this->fail("Tried Digest authentication without a resolver.\n"
+                . \Zend\Debug::dump($result->getMessages(), null, false));
         } catch (Adapter\Exception\ExceptionInterface $e) {
             // Good, it threw an exception
             unset($a);
