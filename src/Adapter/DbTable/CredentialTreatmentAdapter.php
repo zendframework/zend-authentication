@@ -62,7 +62,7 @@ class CredentialTreatmentAdapter extends AbstractAdapter
      *  'MD5(?)'
      *
      * @param  string $treatment
-     * @return CredentialTreatmentAdapter Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setCredentialTreatment($treatment)
     {
