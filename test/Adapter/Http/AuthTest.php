@@ -165,6 +165,14 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_checkOK($data);
     }
 
+    public function testBasicAuthValidCredsWithColon()
+    {
+        // Attempt Basic Authentication with a valid username and a password that contains a colon
+
+        $data = $this->_doAuth('Basic ' . base64_encode('Colon:PasswordWith:Colon'), 'basic');
+        $this->_checkOK($data);
+    }
+
     public function testBasicAuthBadCreds()
     {
         // Ensure that credentials containing invalid characters are treated as
