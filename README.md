@@ -1,7 +1,10 @@
 # zend-authentication
 
-[![Build Status](https://travis-ci.org/zendframework/zend-authentication/builds/225174044)](https://travis-ci.org/zendframework/zend-authentication/builds/225174044)
+[![Build Status](https://secure.travis-ci.org/zendframework/zend-authentication.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-authentication)
+[![Coverage Status](https://coveralls.io/repos/zendframework/zend-authentication/badge.svg?branch=master)](https://coveralls.io/r/zendframework/zend-authentication?branch=master)
 
-Fixes a bug the authentication header was split by every colon, which would make passwords containing a colon invalid 
+The `Zend\Authentication` component provides an API for authentication and
+includes concrete authentication adapters for common use case scenarios.
 
-Pull request: https://github.com/zendframework/zend-authentication/pull/29
+- File issues at https://github.com/zendframework/zend-authentication/issues
+- Documentation is at https://zendframework.github.io/zend-authentication/
