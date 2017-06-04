@@ -77,7 +77,8 @@ class FileResolverTest extends TestCase
      */
     public function testSetFileInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->expectException(Http\Exception\ExceptionInterface::class);
+        $this->expectExceptionMessage('Path not readable');
         $this->_resolver->setFile($this->_badPath);
     }
 
@@ -99,7 +100,8 @@ class FileResolverTest extends TestCase
      */
     public function testConstructInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->expectException(Http\Exception\ExceptionInterface::class);
+        $this->expectExceptionMessage('Path not readable');
         $v = new Http\FileResolver($this->_badPath);
     }
 
@@ -110,7 +112,8 @@ class FileResolverTest extends TestCase
      */
     public function testResolveUsernameEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Username is required');
+        $this->expectException(Http\Exception\ExceptionInterface::class);
+        $this->expectExceptionMessage('Username is required');
         $this->_resolver->resolve('', '');
     }
 
@@ -121,7 +124,8 @@ class FileResolverTest extends TestCase
      */
     public function testResolveRealmEmpty()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Realm is required');
+        $this->expectException(Http\Exception\ExceptionInterface::class);
+        $this->expectExceptionMessage('Realm is required');
         $this->_resolver->resolve('username', '');
     }
 

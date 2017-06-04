@@ -36,7 +36,7 @@ class HttpTest extends TestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error_Deprecated
+     * @expectedException \PHPUnit\Framework\Error\Deprecated
      */
     public function testProtectedMethodChallengeClientTriggersErrorDeprecated()
     {

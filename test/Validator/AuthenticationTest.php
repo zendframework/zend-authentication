@@ -10,6 +10,7 @@
 namespace ZendTest\Authentication\Validator;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 use Zend\Authentication\AuthenticationService;
 use ZendTest\Authentication as AuthTest;
@@ -56,20 +57,23 @@ class AuthenticationTest extends TestCase
 
     public function testNoIdentityThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'Identity must be set prior to validation');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Identity must be set prior to validation');
         $this->validator->isValid('password');
     }
 
     public function testNoAdapterThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'Adapter must be set prior to validation');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Adapter must be set prior to validation');
         $this->validator->setIdentity('username');
         $this->validator->isValid('password');
     }
 
     public function testNoServiceThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'AuthenticationService must be set prior to validation');
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('AuthenticationService must be set prior to validation');
         $this->validator->setIdentity('username');
         $this->validator->setAdapter($this->authAdapter);
         $this->validator->isValid('password');

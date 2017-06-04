@@ -21,3 +21,9 @@ require __DIR__ . '/../vendor/autoload.php';
 if (defined('TESTS_ZEND_OB_ENABLED') && constant('TESTS_ZEND_OB_ENABLED')) {
     ob_start();
 }
+
+use PHPUnit\Framework\Error\Deprecated;
+
+if (class_exists('PHPUnit_Framework_Error_Deprecated')) {
+    class_alias('PHPUnit_Framework_Error_Deprecated', Deprecated::class);
+}

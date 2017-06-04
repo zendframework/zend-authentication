@@ -11,6 +11,7 @@ namespace ZendTest\Authentication\Adapter\Http;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter\Http\ApacheResolver as Apache;
+use Zend\Authentication\Adapter\Http\Exception\ExceptionInterface;
 
 /**
  * @group      Zend_Auth
@@ -76,7 +77,8 @@ class ApacheResolverTest extends TestCase
      */
     public function testSetFileInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
+        $this->expectException(ExceptionInterface::class);
+        $this->expectExceptionMessage('Path not readable');
         $this->_apache->setFile($this->_badPath);
     }
 
@@ -98,8 +100,9 @@ class ApacheResolverTest extends TestCase
      */
     public function testConstructInvalid()
     {
-        $this->setExpectedException('Zend\\Authentication\\Adapter\\Http\\Exception\\ExceptionInterface', 'Path not readable');
-        $apache = new Apache($this->_badPath);
+        $this->expectException(ExceptionInterface::class);
+        $this->expectExceptionMessage('Path not readable');
+        new Apache($this->_badPath);
     }
 
     public function providePasswordFiles()
