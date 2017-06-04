@@ -211,8 +211,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionNoTable()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'A table must be supplied for');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('A table must be supplied for');
         $adapter = new Adapter\DbTable($this->_db);
         $adapter->authenticate();
     }
@@ -222,8 +222,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionNoIdentityColumn()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'An identity column must be supplied for the');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('An identity column must be supplied for the');
         $adapter = new Adapter\DbTable($this->_db, 'users');
         $adapter->authenticate();
     }
@@ -233,8 +233,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionNoCredentialColumn()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'A credential column must be supplied');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('A credential column must be supplied');
         $adapter = new Adapter\DbTable($this->_db, 'users', 'username');
         $adapter->authenticate();
     }
@@ -244,8 +244,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionNoIdentity()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'A value for the identity was not provided prior');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('A value for the identity was not provided prior');
         $this->_adapter->authenticate();
     }
 
@@ -254,8 +254,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionNoCredential()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'A credential value was not provided prior');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('A credential value was not provided prior');
         $this->_adapter->setIdentity('my_username');
         $this->_adapter->authenticate();
     }
@@ -265,8 +265,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testCatchExceptionBadSql()
     {
-        $this->setExpectedException('Zend\Authentication\Adapter\DbTable\Exception\RuntimeException',
-                                    'The supplied parameters to');
+        $this->expectException(Adapter\DbTable\Exception\RuntimeException::class);
+        $this->expectExceptionMessage('The supplied parameters to');
         $this->_adapter->setTableName('bad_table_name');
         $this->_adapter->setIdentity('value');
         $this->_adapter->setCredential('value');
