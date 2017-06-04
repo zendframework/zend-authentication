@@ -9,6 +9,7 @@
 
 namespace ZendTest\Authentication\Adapter\Http;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter\Http;
 use Zend\Http\Headers;
 use Zend\Http\Request;
@@ -17,7 +18,7 @@ use Zend\Http\Response;
 /**
  * @group      Zend_Auth
  */
-class ProxyTest extends \PHPUnit_Framework_TestCase
+class ProxyTest extends TestCase
 {
     /**
      * Path to test files

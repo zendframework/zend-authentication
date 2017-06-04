@@ -9,6 +9,7 @@
 
 namespace ZendTest\Authentication\Adapter\DbTable;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication;
 use Zend\Authentication\Adapter;
 use Zend\Db\Adapter\Adapter as DbAdapter;
@@ -17,7 +18,7 @@ use Zend\Db\Adapter\Adapter as DbAdapter;
  * @group      Zend_Auth
  * @group      Zend_Db_Table
  */
-class CredentialTreatmentAdapterTest extends \PHPUnit_Framework_TestCase
+class CredentialTreatmentAdapterTest extends TestCase
 {
     /**
      * SQLite database connection

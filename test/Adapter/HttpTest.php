@@ -10,9 +10,10 @@
 
 namespace ZendTest\Authentication\Adapter;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter;
 
-class HttpTest extends \PHPUnit_Framework_TestCase
+class HttpTest extends TestCase
 {
     /**
      * @var Wrapper

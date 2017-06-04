@@ -9,12 +9,13 @@
 
 namespace ZendTest\Authentication\Adapter\Http;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter\Http;
 
 /**
  * @group      Zend_Auth
  */
-class FileResolverTest extends \PHPUnit_Framework_TestCase
+class FileResolverTest extends TestCase
 {
     /**
      * Path to test files

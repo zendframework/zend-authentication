@@ -10,7 +10,7 @@
 namespace ZendTest\Authentication\Adapter;
 
 use Exception;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Zend\Authentication\Adapter\Callback;
 use Zend\Authentication\Result;
 
