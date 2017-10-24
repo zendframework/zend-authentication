@@ -206,7 +206,7 @@ class Authentication extends AbstractValidator
         } else {
             $identity = $this->identity;
         }
-        if (!$this->identity) {
+        if (! $this->identity) {
             throw new Exception\RuntimeException('Identity must be set prior to validation');
         }
 
@@ -216,13 +216,13 @@ class Authentication extends AbstractValidator
             $credential = $this->credential;
         }
 
-        if (!$this->adapter) {
+        if (! $this->adapter) {
             throw new Exception\RuntimeException('Adapter must be set prior to validation');
         }
         $this->adapter->setIdentity($identity);
         $this->adapter->setCredential($credential);
 
-        if (!$this->service) {
+        if (! $this->service) {
             throw new Exception\RuntimeException('AuthenticationService must be set prior to validation');
         }
         $result = $this->service->authenticate($this->adapter);

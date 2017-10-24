@@ -18,6 +18,7 @@ use Zend\Authentication\Adapter\Http\Exception\ExceptionInterface;
  */
 class ApacheResolverTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -43,6 +44,7 @@ class ApacheResolverTest extends TestCase
      * @var Apache
      */
     protected $_apache;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets the paths to files used in this test, and creates a shared resolver instance

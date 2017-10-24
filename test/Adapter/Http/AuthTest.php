@@ -20,6 +20,7 @@ use Zend\Http\Response;
  */
 class AuthTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -61,6 +62,7 @@ class AuthTest extends TestCase
      * @var Http\FileResolver
      */
     protected $_digestResolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Set up test configuration
@@ -300,7 +302,8 @@ class AuthTest extends TestCase
         $bad = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
         $bad = preg_replace(
             '/realm="([^"]+)"/',  // cut out the realm
-            '', $bad
+            '',
+            $bad
         );
 
         $data = $this->_doAuth($bad, 'digest');
@@ -316,7 +319,8 @@ class AuthTest extends TestCase
         $bad = $this->_digestReply('Bryce', 'ThisIsNotMyPassword');
         $bad = preg_replace(
             '/response="([^"]+)"/',  // cut out the realm
-            'response="foobar"', $bad
+            'response="foobar"',
+            $bad
         );
 
         $data = $this->_doAuth($bad, 'both');
@@ -330,8 +334,10 @@ class AuthTest extends TestCase
      * @param  string $scheme       Which authentication scheme to use
      * @return array Containing the result, response headers, and the status
      */
+    // @codingStandardsIgnoreStart
     protected function _doAuth($clientHeader, $scheme)
     {
+        // @codingStandardsIgnoreEnd
         // Set up stub request and response objects
         $request  = new Request;
         $response = new Response;
@@ -381,8 +387,10 @@ class AuthTest extends TestCase
      *
      * @return string
      */
+    // @codingStandardsIgnoreStart
     protected function _digestChallenge()
     {
+        // @codingStandardsIgnoreEnd
         return [
             'type'   => 'Digest ',
             'realm'  => 'realm="' . $this->_digestConfig['realm'] . '"',
@@ -395,8 +403,10 @@ class AuthTest extends TestCase
      *
      * @return string
      */
+    // @codingStandardsIgnoreStart
     protected function _digestReply($user, $pass)
     {
+        // @codingStandardsIgnoreEnd
         $nc       = '00000001';
         $timeout  = ceil(time() / 300) * 300;
         $nonce    = md5($timeout . ':PHPUnit:Zend\Authentication\Adapter\Http');
@@ -426,8 +436,10 @@ class AuthTest extends TestCase
      * @param  string $expected Expected Www-Authenticate header value
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkUnauthorized($data, $expected)
     {
+        // @codingStandardsIgnoreEnd
         $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 
@@ -461,8 +473,10 @@ class AuthTest extends TestCase
      * @param  array $data Authentication results
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkOK($data)
     {
+        // @codingStandardsIgnoreEnd
         $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 
@@ -480,8 +494,10 @@ class AuthTest extends TestCase
      * @param  array $data Authentication results
      * @return void
      */
+    // @codingStandardsIgnoreStart
     protected function _checkBadRequest($data)
     {
+        // @codingStandardsIgnoreEnd
         $result = $status = $headers = null;
         extract($data); // $result, $status, $headers
 

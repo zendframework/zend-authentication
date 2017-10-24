@@ -30,7 +30,7 @@ class FileResolver implements ResolverInterface
      */
     public function __construct($path = '')
     {
-        if (!empty($path)) {
+        if (! empty($path)) {
             $this->setFile($path);
         }
     }
@@ -44,7 +44,7 @@ class FileResolver implements ResolverInterface
      */
     public function setFile($path)
     {
-        if (empty($path) || !is_readable($path)) {
+        if (empty($path) || ! is_readable($path)) {
             throw new Exception\InvalidArgumentException('Path not readable: ' . $path);
         }
         $this->file = $path;
@@ -87,14 +87,14 @@ class FileResolver implements ResolverInterface
     {
         if (empty($username)) {
             throw new Exception\InvalidArgumentException('Username is required');
-        } elseif (!ctype_print($username) || strpos($username, ':') !== false) {
+        } elseif (! ctype_print($username) || strpos($username, ':') !== false) {
             throw new Exception\InvalidArgumentException(
                 'Username must consist only of printable characters, excluding the colon'
             );
         }
         if (empty($realm)) {
             throw new Exception\InvalidArgumentException('Realm is required');
-        } elseif (!ctype_print($realm) || strpos($realm, ':') !== false) {
+        } elseif (! ctype_print($realm) || strpos($realm, ':') !== false) {
             throw new Exception\InvalidArgumentException(
                 'Realm must consist only of printable characters, excluding the colon.'
             );
@@ -104,7 +104,7 @@ class FileResolver implements ResolverInterface
         ErrorHandler::start(E_WARNING);
         $fp     = fopen($this->file, 'r');
         $error = ErrorHandler::stop();
-        if (!$fp) {
+        if (! $fp) {
             throw new Exception\RuntimeException('Unable to open password file: ' . $this->file, 0, $error);
         }
 

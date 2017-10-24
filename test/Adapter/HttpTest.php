@@ -15,10 +15,12 @@ use Zend\Authentication\Adapter;
 
 class HttpTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * @var Wrapper
      */
     protected $_wrapper;
+    // @codingStandardsIgnoreEnd
 
     public function setUp()
     {

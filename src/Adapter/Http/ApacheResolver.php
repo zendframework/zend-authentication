@@ -41,7 +41,7 @@ class ApacheResolver implements ResolverInterface
      */
     public function __construct($path = '')
     {
-        if (!empty($path)) {
+        if (! empty($path)) {
             $this->setFile($path);
         }
     }
@@ -55,7 +55,7 @@ class ApacheResolver implements ResolverInterface
      */
     public function setFile($path)
     {
-        if (empty($path) || !is_readable($path)) {
+        if (empty($path) || ! is_readable($path)) {
             throw new Exception\InvalidArgumentException('Path not readable: ' . $path);
         }
         $this->file = $path;
@@ -103,13 +103,13 @@ class ApacheResolver implements ResolverInterface
             throw new Exception\InvalidArgumentException('Username is required');
         }
 
-        if (!ctype_print($username) || strpos($username, ':') !== false) {
+        if (! ctype_print($username) || strpos($username, ':') !== false) {
             throw new Exception\InvalidArgumentException(
                 'Username must consist only of printable characters, excluding the colon'
             );
         }
 
-        if (!empty($realm) && (!ctype_print($realm) || strpos($realm, ':') !== false)) {
+        if (! empty($realm) && (! ctype_print($realm) || strpos($realm, ':') !== false)) {
             throw new Exception\InvalidArgumentException(
                 'Realm must consist only of printable characters, excluding the colon'
             );
@@ -123,7 +123,7 @@ class ApacheResolver implements ResolverInterface
         ErrorHandler::start(E_WARNING);
         $fp    = fopen($this->file, 'r');
         $error = ErrorHandler::stop();
-        if (!$fp) {
+        if (! $fp) {
             throw new Exception\RuntimeException('Unable to open password file: ' . $this->file, 0, $error);
         }
 
@@ -147,8 +147,12 @@ class ApacheResolver implements ResolverInterface
         }
         fclose($fp);
 
-        if (!isset($matchedHash)) {
-            return new AuthResult(AuthResult::FAILURE_IDENTITY_NOT_FOUND, null, ['Username not found in provided htpasswd file']);
+        if (! isset($matchedHash)) {
+            return new AuthResult(
+                AuthResult::FAILURE_IDENTITY_NOT_FOUND,
+                null,
+                ['Username not found in provided htpasswd file']
+            );
         }
 
         // Plaintext password
@@ -158,7 +162,7 @@ class ApacheResolver implements ResolverInterface
 
         $apache = $this->getApachePassword();
         $apache->setUserName($username);
-        if (!empty($realm)) {
+        if (! empty($realm)) {
             $apache->setAuthName($realm);
         }
 

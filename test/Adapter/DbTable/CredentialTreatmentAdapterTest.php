@@ -20,6 +20,7 @@ use Zend\Db\Adapter\Adapter as DbAdapter;
  */
 class CredentialTreatmentAdapterTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * SQLite database connection
      *
@@ -33,19 +34,20 @@ class CredentialTreatmentAdapterTest extends TestCase
      * @var \Zend\Authentication\Adapter\DbTable
      */
     protected $_adapter = null;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Set up test configuration
      */
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED')) {
+        if (! getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED')) {
             $this->markTestSkipped('Tests are not enabled in phpunit.xml');
             return;
-        } elseif (!extension_loaded('pdo')) {
+        } elseif (! extension_loaded('pdo')) {
             $this->markTestSkipped('PDO extension is not loaded');
             return;
-        } elseif (!in_array('sqlite', \PDO::getAvailableDrivers())) {
+        } elseif (! in_array('sqlite', \PDO::getAvailableDrivers())) {
             $this->markTestSkipped('SQLite PDO driver is not available');
             return;
         }
@@ -106,7 +108,8 @@ class CredentialTreatmentAdapterTest extends TestCase
      */
     public function testAuthenticateFailureIdentityAmbiguous()
     {
-        $sqlInsert = 'INSERT INTO users (username, password, real_name) VALUES ("my_username", "my_password", "My Real Name")';
+        $sqlInsert = 'INSERT INTO users (username, password, real_name) '
+            . 'VALUES ("my_username", "my_password", "My Real Name")';
         $this->_db->query($sqlInsert, DbAdapter::QUERY_MODE_EXECUTE);
 
         $this->_adapter->setIdentity('my_username');
@@ -148,8 +151,10 @@ class CredentialTreatmentAdapterTest extends TestCase
         $this->_adapter->setCredential('my_password');
         $this->_adapter->authenticate();
         $resultRow = $this->_adapter->getResultRowObject(['username', 'real_name']);
-        $this->assertEquals('O:8:"stdClass":2:{s:8:"username";s:11:"my_username";s:9:"real_name";s:12:"My Real Name";}',
-                            serialize($resultRow));
+        $this->assertEquals(
+            'O:8:"stdClass":2:{s:8:"username";s:11:"my_username";s:9:"real_name";s:12:"My Real Name";}',
+            serialize($resultRow)
+        );
     }
 
     /**
@@ -161,8 +166,12 @@ class CredentialTreatmentAdapterTest extends TestCase
         $this->_adapter->setCredential('my_password');
         $this->_adapter->authenticate();
         $resultRow = $this->_adapter->getResultRowObject(null, 'password');
-        $this->assertEquals('O:8:"stdClass":3:{s:2:"id";s:1:"1";s:8:"username";s:11:"my_username";s:9:"real_name";s:12:"My Real Name";}',
-                            serialize($resultRow));
+        $this->assertEquals(
+            // @codingStandardsIgnoreStart
+            'O:8:"stdClass":3:{s:2:"id";s:1:"1";s:8:"username";s:11:"my_username";s:9:"real_name";s:12:"My Real Name";}',
+            // @codingStandardsIgnoreEnd
+            serialize($resultRow)
+        );
     }
 
     /**
@@ -290,8 +299,10 @@ class CredentialTreatmentAdapterTest extends TestCase
         $this->_adapter->setIdentity('my_username')
                        ->setCredential('my_password');
         $result = $this->_adapter->authenticate();
-        $this->assertContains('More than one record matches the supplied identity.',
-                                   $result->getMessages());
+        $this->assertContains(
+            'More than one record matches the supplied identity.',
+            $result->getMessages()
+        );
         $this->assertFalse($result->isValid());
     }
 
@@ -312,8 +323,10 @@ class CredentialTreatmentAdapterTest extends TestCase
                        ->setCredential('my_password')
                        ->setAmbiguityIdentity(true);
         $result = $this->_adapter->authenticate();
-        $this->assertNotContains('More than one record matches the supplied identity.',
-                                    $result->getMessages());
+        $this->assertNotContains(
+            'More than one record matches the supplied identity.',
+            $result->getMessages()
+        );
         $this->assertTrue($result->isValid());
         $this->assertEquals('my_username', $result->getIdentity());
 
@@ -325,19 +338,22 @@ class CredentialTreatmentAdapterTest extends TestCase
                        ->setCredential('my_otherpass')
                        ->setAmbiguityIdentity(true);
         $result2 = $this->_adapter->authenticate();
-        $this->assertNotContains('More than one record matches the supplied identity.',
-                                    $result->getMessages());
+        $this->assertNotContains(
+            'More than one record matches the supplied identity.',
+            $result->getMessages()
+        );
         $this->assertTrue($result2->isValid());
         $this->assertEquals('my_username', $result2->getIdentity());
     }
 
-
+    // @codingStandardsIgnoreStart
     protected function _setupDbAdapter($optionalParams = [])
     {
+        // @codingStandardsIgnoreEnd
         $params = ['driver' => 'pdo_sqlite',
                         'dbname' => getenv('TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE')];
 
-        if (!empty($optionalParams)) {
+        if (! empty($optionalParams)) {
             $params['options'] = $optionalParams;
         }
 
@@ -358,8 +374,10 @@ class CredentialTreatmentAdapterTest extends TestCase
         $this->_db->query($sqlInsert, DbAdapter::QUERY_MODE_EXECUTE);
     }
 
+    // @codingStandardsIgnoreStart
     protected function _setupAuthAdapter()
     {
+        // @codingStandardsIgnoreEnd
         $this->_adapter = new Adapter\DbTable\CredentialTreatmentAdapter($this->_db, 'users', 'username', 'password');
     }
 }

@@ -17,6 +17,7 @@ use Zend\Authentication\Adapter\Http;
  */
 class FileResolverTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -44,6 +45,7 @@ class FileResolverTest extends TestCase
      * @var Http\FileResolver
      */
     protected $_resolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets the paths to files used in this test, and creates a shared resolver instance

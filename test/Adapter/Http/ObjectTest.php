@@ -22,6 +22,7 @@ use Zend\Http\Response;
  */
 class ObjectTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -63,6 +64,7 @@ class ObjectTest extends TestCase
      * @var Http\FileResolver
      */
     protected $_digestResolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets up test configuration

@@ -33,7 +33,7 @@ class OnlineTest extends TestCase
 
     public function setUp()
     {
-        if (!getenv('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')) {
+        if (! getenv('TESTS_ZEND_AUTH_ADAPTER_LDAP_ONLINE_ENABLED')) {
             $this->markTestSkipped('LDAP online tests are not enabled');
         }
         $this->options = [
