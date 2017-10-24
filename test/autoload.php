@@ -5,6 +5,6 @@
  * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
-if (! class_exists(\PHPUnit_Framework_Error_Deprecated::class)) {
-    class_alias(\PHPUnit\Framework\Error\Deprecated::class, \PHPUnit_Framework_Error_Deprecated::class, true);
+if (! class_exists(\PHPUnit\Framework\Error\Deprecated::class)) {
+    class_alias(\PHPUnit_Framework_Error_Deprecated::class, \PHPUnit\Framework\Error\Deprecated::class, true);
 }
