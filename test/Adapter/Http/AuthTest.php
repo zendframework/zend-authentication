@@ -9,6 +9,7 @@
 
 namespace ZendTest\Authentication\Adapter\Http;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter\Http;
 use Zend\Http\Headers;
 use Zend\Http\Request;
@@ -17,7 +18,7 @@ use Zend\Http\Response;
 /**
  * @group      Zend_Auth
  */
-class AuthTest extends \PHPUnit_Framework_TestCase
+class AuthTest extends TestCase
 {
     /**
      * Path to test files

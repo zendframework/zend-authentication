@@ -9,13 +9,14 @@
 
 namespace ZendTest\Authentication\Adapter;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter;
 use Zend\Authentication;
 
 /**
  * @group      Zend_Auth
  */
-class DigestTest extends \PHPUnit_Framework_TestCase
+class DigestTest extends TestCase
 {
     /**
      * Path to test files
