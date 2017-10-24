@@ -1,52 +1,61 @@
 {
     "name": "zendframework/zend-authentication",
     "description": "provides an API for authentication and includes concrete authentication adapters for common use case scenarios",
+    "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "zf",
+        "zendframework",
         "authentication"
     ],
-    "homepage": "https://github.com/zendframework/zend-authentication",
-    "autoload": {
-        "psr-4": {
-            "Zend\\Authentication\\": "src/"
-        }
+    "support": {
+        "docs": "https://docs.zendframework.com/zend-authentication/",
+        "issues": "https://github.com/zendframework/zend-authentication/issues",
+        "source": "https://github.com/zendframework/zend-authentication",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/components"
     },
     "require": {
-        "php": "^7.0 || ^5.6",
-        "zendframework/zend-stdlib": "^2.7 || ^3.0"
+        "php": "^5.6 || ^7.0",
+        "zendframework/zend-stdlib": "^2.7.7 || ^3.1"
     },
     "require-dev": {
-        "zendframework/zend-db": "^2.7",
-        "zendframework/zend-crypt": "^2.6",
-        "zendframework/zend-http": "^2.5.4",
-        "zendframework/zend-ldap": "^2.6",
-        "zendframework/zend-session": "^2.6.2",
-        "zendframework/zend-validator": "^2.6",
-        "zendframework/zend-uri": "^2.5",
-        "zendframework/zend-coding-standard": "~1.0.0"
-        "phpunit/PHPUnit": "^6.2.1 || ^5.7.15"
+        "phpunit/phpunit": "^5.7.23 || ^6.4.3",
+        "zendframework/zend-coding-standard": "~1.0.0",
+        "zendframework/zend-crypt": "^2.6 || ^3.2.1",
+        "zendframework/zend-db": "^2.8.2",
+        "zendframework/zend-http": "^2.7",
+        "zendframework/zend-ldap": "^2.8",
+        "zendframework/zend-session": "^2.8",
+        "zendframework/zend-uri": "^2.5.2",
+        "zendframework/zend-validator": "^2.10.1"
     },
     "suggest": {
-        "zendframework/zend-db": "Zend\\Db component",
         "zendframework/zend-crypt": "Zend\\Crypt component",
+        "zendframework/zend-db": "Zend\\Db component",
         "zendframework/zend-http": "Zend\\Http component",
         "zendframework/zend-ldap": "Zend\\Ldap component",
         "zendframework/zend-session": "Zend\\Session component",
         "zendframework/zend-uri": "Zend\\Uri component",
         "zendframework/zend-validator": "Zend\\Validator component"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.5-dev",
-            "dev-develop": "2.6-dev"
+    "autoload": {
+        "psr-4": {
+            "Zend\\Authentication\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "ZendTest\\Authentication\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.5-dev",
+            "dev-develop": "2.6-dev"
         }
     },
     "scripts": {
