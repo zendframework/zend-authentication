@@ -56,7 +56,6 @@ matrix:
         - DEPS=latest
 
 before_install:
-  - echo "extension = ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
   - travis_retry composer self-update
 
