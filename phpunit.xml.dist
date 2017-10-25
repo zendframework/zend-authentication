@@ -16,8 +16,6 @@
     </filter>
 
     <php>
-        <ini name="date.timezone" value="UTC"/>
-
         <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_ENABLED" value="false" />
         <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_PDO_SQLITE_DATABASE" value=":memory:" />
         <env name="TESTS_ZEND_AUTH_ADAPTER_DBTABLE_DB2_ENABLED" value="false" />
