@@ -1,7 +1,6 @@
 {
     "name": "zendframework/zend-authentication",
     "description": "provides an API for authentication and includes concrete authentication adapters for common use case scenarios",
-    "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf",
@@ -12,6 +11,7 @@
         "docs": "https://docs.zendframework.com/zend-authentication/",
         "issues": "https://github.com/zendframework/zend-authentication/issues",
         "source": "https://github.com/zendframework/zend-authentication",
+        "rss": "https://github.com/zendframework/zend-authentication/releases.atom",
         "slack": "https://zendframework-slack.herokuapp.com",
         "forum": "https://discourse.zendframework.com/c/questions/components"
     },
