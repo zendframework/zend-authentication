@@ -10,7 +10,7 @@ set of credentials. Authorization, the process of deciding whether to allow an
 entity access to, or to perform operations upon, other entities is outside the
 scope of `Zend\Authentication`. For more information about authorization and
 access control with Zend Framework, please see the
-[zend-permissions-acl](https://zendframework.github.io/zend-permissions-acl/) or
+[zend-permissions-acl](https://docs.zendframework.com/zend-permissions-acl/) or
 [zend-permissions-rbac](https://github.com/zendframework/zend-permissions-rbac)
 components.
 
