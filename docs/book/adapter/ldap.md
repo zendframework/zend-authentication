@@ -179,7 +179,7 @@ Name                     | Description
 `optReferrals`           | If set to `TRUE`, this option indicates to the LDAP client that referrals should be followed. The default value is `FALSE`.
 
 > ### TLS and SSL
-> 
+>
 > If you enable `useStartTls = TRUE` or `useSsl = TRUE` you may find that the
 > LDAP client generates an error claiming that it cannot validate the server's
 > certificate. Assuming the PHP LDAP extension is ultimately linked to the
