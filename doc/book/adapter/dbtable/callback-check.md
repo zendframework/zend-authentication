@@ -3,7 +3,7 @@
 Some verification operations cannot be performed well on RDBMS servers. Other
 times, you may be unsure which RDBMS system you will be using long-term, and
 need to ensure authentication will work consistently. For these situations, you
-can use the `Zend\Authentication\Adapter\DbTable\CallbackCheck` adapter.
+can use the `Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter` adapter.
 Similar to the [CredentialTreatmentAdapter](credential-treatment.md), it
 accepts a table name, identity column, and credential column; however, instead
 of a credential treatment, it accepts a *credential validation callback* that
@@ -32,7 +32,7 @@ The available configuration options include:
 Many databases do not provide functions that implement a cryptographically
 secure hashing mechanism. Additionally, you may want to ensure that should you
 switch database systems, hashing is consistent. This is a perfect use case for
-the `CallbackCheck` adapter; you can implement the password hashing and
+the `CallbackCheckAdapter` adapter; you can implement the password hashing and
 verification within PHP instead.
 
 The following code creates an adapter for an in-memory database, creates a
@@ -92,11 +92,11 @@ $passwordValidation = function ($hash, $password) {
 ```
 
 Now that we have the database connection and a password validation function,
-we can create our `Zend\Authentication\Adapter\DbTable\CallbackCheck` adapter
+we can create our `Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter` adapter
 instance, passing the options to the constructor or later via setter methods:
 
 ```php
-use Zend\Authentication\Adapter\DbTable\CallbackCheck as AuthAdapter;
+use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter as AuthAdapter;
 
 // Configure the instance with constructor parameters:
 $authAdapter = new AuthAdapter(
@@ -133,7 +133,7 @@ $result = $authAdapter->authenticate();
 ```
 
 In addition to the availability of the `getIdentity()` method upon the
-authentication result object, `Zend\Authentication\Adapter\DbTable\CallbackCheck`
+authentication result object, `Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter`
 also supports retrieving the table row upon authentication success:
 
 ```php
