@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#34](https://github.com/zendframework/zend-authentication/pull/34) adds support for PHP 7.2.
 
 ### Changed
 
@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#30](https://github.com/zendframework/zend-authentication/pull/30) removes support for HHVM.
+
+- [#30](https://github.com/zendframework/zend-authentication/pull/30) removes support for PHP 5.5.
 
 ### Fixed
 
