@@ -51,7 +51,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#29](https://github.com/zendframework/zend-authentication/pull/29) fixes how the HTTP Auth adapter treats credentials,
+  ensuring it splits only on the first `:` character, and thus allows `:` characters
+  as part of the password segment of the credential.
 
 ## 2.5.3 - 2016-02-29
 
