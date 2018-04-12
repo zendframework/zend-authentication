@@ -188,7 +188,7 @@ abstract class AbstractAdapter extends BaseAdapter
      */
     public function getResultRowObject($returnColumns = null, $omitColumns = null)
     {
-        if (!$this->resultRow) {
+        if (! $this->resultRow) {
             return false;
         }
 
@@ -205,7 +205,7 @@ abstract class AbstractAdapter extends BaseAdapter
         } elseif (null !== $omitColumns) {
             $omitColumns = (array) $omitColumns;
             foreach ($this->resultRow as $resultColumn => $resultValue) {
-                if (!in_array($resultColumn, $omitColumns)) {
+                if (! in_array($resultColumn, $omitColumns)) {
                     $returnObject->{$resultColumn} = $resultValue;
                 }
             }

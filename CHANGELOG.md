@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.6.0 - TBD
+
+### Added
+
+- [#34](https://github.com/zendframework/zend-authentication/pull/34) adds support for PHP 7.2.
+
+### Changed
+
+- [#14](https://github.com/zendframework/zend-authentication/pull/14) modifies the `Zend\Authentication\Validator\Authentication` class such that
+  it now will pull an adapter from the composed `AuthenticationService` instance if no
+  authentication adapter is registered directly with the validator. This will only work
+  if the adapter is a `ValidatableAdapterInterface` implementation (all `AbstractAdapter`
+  instances are already implementations).
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#30](https://github.com/zendframework/zend-authentication/pull/30) removes support for HHVM.
+
+- [#30](https://github.com/zendframework/zend-authentication/pull/30) removes support for PHP 5.5.
+
+### Fixed
+
+- Nothing.
+
 ## 2.5.4 - 2018-04-12
 
 ### Added

@@ -10,14 +10,15 @@
 
 namespace ZendTest\Authentication\Adapter;
 
-use Zend\Authentication\Adapter;
+use PHPUnit\Framework\Error\Deprecated;
+use PHPUnit\Framework\TestCase;
 
-class HttpTest extends \PHPUnit_Framework_TestCase
+class HttpTest extends TestCase
 {
     /**
-     * @var Wrapper
+     * @var TestAsset\Wrapper
      */
-    protected $_wrapper;
+    private $wrapper;
 
     public function setUp()
     {
@@ -26,27 +27,17 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'realm'          => 'testing',
         ];
 
-        $this->_wrapper = new Wrapper($config);
+        $this->wrapper = new TestAsset\Wrapper($config);
     }
 
     public function tearDown()
     {
-        unset($this->_wrapper);
+        unset($this->wrapper);
     }
 
-    /**
-     * @expectedException PHPUnit_Framework_Error_Deprecated
-     */
     public function testProtectedMethodChallengeClientTriggersErrorDeprecated()
     {
-        $this->_wrapper->_challengeClient();
-    }
-}
-
-class Wrapper extends Adapter\Http
-{
-    public function __call($method, $args)
-    {
-        return call_user_func_array([$this, $method], $args);
+        $this->expectException(Deprecated::class);
+        $this->wrapper->_challengeClient();
     }
 }

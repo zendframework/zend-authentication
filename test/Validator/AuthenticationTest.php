@@ -1,30 +1,43 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication\Validator;
 
-use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
+use PHPUnit\Framework\TestCase;
+use RuntimeException;
+use Zend\Authentication\Adapter\ValidatableAdapterInterface;
 use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Exception;
+use Zend\Authentication\Result as AuthenticationResult;
+use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 use ZendTest\Authentication as AuthTest;
 
-/**
- * @group      Zend_Validator
- */
-class AuthenticationTest extends \PHPUnit_Framework_TestCase
+class AuthenticationTest extends TestCase
 {
+    /**
+     * @var AuthenticationValidator
+     */
     protected $validator;
+
+    /**
+     * @var AuthenticationService
+     */
+    protected $authService;
+
+    /**
+     * @var ValidatableAdapterInterface
+     */
+    protected $authAdapter;
 
     public function setUp()
     {
         $this->validator = new AuthenticationValidator();
         $this->authService = new AuthenticationService();
-        $this->authAdapter = new AuthTest\TestAsset\SuccessAdapter();
+        $this->authAdapter = new AuthTest\TestAsset\ValidatableAdapter();
     }
 
     public function testOptions()
@@ -55,30 +68,37 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
 
     public function testNoIdentityThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'Identity must be set prior to validation');
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Identity must be set prior to validation');
         $this->validator->isValid('password');
     }
 
     public function testNoAdapterThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'Adapter must be set prior to validation');
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage('Adapter must be set prior to validation');
+        $this->validator->setService($this->authService);
         $this->validator->setIdentity('username');
         $this->validator->isValid('password');
     }
 
     public function testNoServiceThrowsRuntimeException()
     {
-        $this->setExpectedException('RuntimeException', 'AuthenticationService must be set prior to validation');
-        $this->validator->setIdentity('username');
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage('AuthenticationService must be set prior to validation');
         $this->validator->setAdapter($this->authAdapter);
+        $this->validator->setIdentity('username');
         $this->validator->isValid('password');
     }
 
     public function testEqualsMessageTemplates()
     {
         $validator = $this->validator;
-        $this->assertAttributeEquals($validator->getOption('messageTemplates'),
-                                     'messageTemplates', $validator);
+        $this->assertAttributeEquals(
+            $validator->getOption('messageTemplates'),
+            'messageTemplates',
+            $validator
+        );
     }
 
     public function testWithoutContext()
@@ -105,5 +125,100 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
         $adapter = $this->validator->getAdapter();
         $this->assertEquals('myusername', $adapter->getIdentity());
         $this->assertEquals('mypassword', $adapter->getCredential());
+    }
+
+    public function errorMessagesProvider()
+    {
+        return [
+            'failure' => [
+                AuthenticationResult::FAILURE,
+                false,
+                [AuthenticationValidator::GENERAL => 'Authentication failed'],
+            ],
+            'identity-not-found' => [
+                AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
+                false,
+                [AuthenticationValidator::IDENTITY_NOT_FOUND => 'Invalid identity'],
+            ],
+            'identity-ambiguous' => [
+                AuthenticationResult::FAILURE_IDENTITY_AMBIGUOUS,
+                false,
+                [AuthenticationValidator::IDENTITY_AMBIGUOUS => 'Identity is ambiguous'],
+            ],
+            'credential-invalid' => [
+                AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
+                false,
+                [AuthenticationValidator::CREDENTIAL_INVALID => 'Invalid password'],
+            ],
+            'uncategorized' => [
+                AuthenticationResult::FAILURE_UNCATEGORIZED,
+                false,
+                [AuthenticationValidator::UNCATEGORIZED => 'Authentication failed'],
+            ],
+            'success' => [
+                AuthenticationResult::SUCCESS,
+                true,
+                [],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider errorMessagesProvider
+     * @param int   $code
+     * @param bool  $valid
+     * @param array $messages
+     */
+    public function testErrorMessages($code, $valid, $messages)
+    {
+        $adapter = new AuthTest\TestAsset\ValidatableAdapter($code);
+
+        $this->validator->setAdapter($adapter);
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->setCredential('credential');
+
+        $this->assertEquals($valid, $this->validator->isValid());
+        $this->assertEquals($messages, $this->validator->getMessages());
+    }
+
+    /**
+     * Test using Authentication Service's adapter
+     */
+    public function testUsingAdapterFromService()
+    {
+        $this->authService->setAdapter($this->authAdapter);
+
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->isValid('password');
+
+        $this->assertEquals('username', $this->validator->getIdentity());
+        $this->assertEquals('password', $this->validator->getCredential());
+        $this->assertEquals('username', $this->authAdapter->getIdentity());
+        $this->assertEquals('password', $this->authAdapter->getCredential());
+        $this->assertNull($this->validator->getAdapter());
+        $this->assertTrue($this->validator->isValid());
+    }
+
+    /**
+     * Ensures that isValid() throws an exception when Authentication Service's
+     * adapter is not an instance of ValidatableAdapterInterface
+     */
+    public function testUsingNonValidatableAdapterFromServiceThrowsRuntimeException()
+    {
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage(sprintf(
+            '%s; %s given',
+            ValidatableAdapterInterface::class,
+            AuthTest\TestAsset\SuccessAdapter::class
+        ));
+
+        $adapter = new AuthTest\TestAsset\SuccessAdapter();
+        $this->authService->setAdapter($adapter);
+
+        $this->validator->setService($this->authService);
+        $this->validator->setIdentity('username');
+        $this->validator->isValid('password');
     }
 }

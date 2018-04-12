@@ -1,20 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\AuthenticationService;
 
-/**
- * @group      Zend_Auth
- */
-class AuthenticationServiceTest extends \PHPUnit_Framework_TestCase
+class AuthenticationServiceTest extends TestCase
 {
     public function setUp()
     {
@@ -35,7 +31,7 @@ class AuthenticationServiceTest extends \PHPUnit_Framework_TestCase
     public function testAdapter()
     {
         $this->assertNull($this->auth->getAdapter());
-        $successAdapter = new TestAsset\SuccessAdapter();
+        $successAdapter = new TestAsset\ValidatableAdapter();
         $ret = $this->auth->setAdapter($successAdapter);
         $this->assertSame($ret, $this->auth);
         $this->assertSame($successAdapter, $this->auth->getAdapter());
@@ -56,7 +52,7 @@ class AuthenticationServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticateSetAdapter()
     {
-        $result = $this->authenticate(new TestAsset\SuccessAdapter());
+        $result = $this->authenticate(new TestAsset\ValidatableAdapter());
         $this->assertInstanceOf('Zend\Authentication\Result', $result);
         $this->assertTrue($this->auth->hasIdentity());
         $this->assertEquals('someIdentity', $this->auth->getIdentity());
@@ -78,7 +74,7 @@ class AuthenticationServiceTest extends \PHPUnit_Framework_TestCase
     protected function authenticate($adapter = null)
     {
         if ($adapter === null) {
-            $adapter = new TestAsset\SuccessAdapter();
+            $adapter = new TestAsset\ValidatableAdapter();
         }
         return $this->auth->authenticate($adapter);
     }

@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link       http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license    http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace Zend\Authentication\Validator;
@@ -31,6 +29,17 @@ class Authentication extends AbstractValidator
     const CREDENTIAL_INVALID = 'credentialInvalid';
     const UNCATEGORIZED      = 'uncategorized';
     const GENERAL            = 'general';
+
+    /**
+     * Authentication\Result codes mapping
+     * @const array
+     */
+    const CODE_MAP = [
+        Result::FAILURE_IDENTITY_NOT_FOUND => self::IDENTITY_NOT_FOUND,
+        Result::FAILURE_CREDENTIAL_INVALID => self::CREDENTIAL_INVALID,
+        Result::FAILURE_IDENTITY_AMBIGUOUS => self::IDENTITY_AMBIGUOUS,
+        Result::FAILURE_UNCATEGORIZED      => self::UNCATEGORIZED,
+    ];
 
     /**
      * Error Messages
@@ -71,7 +80,7 @@ class Authentication extends AbstractValidator
     /**
      * Sets validator options
      *
-     * @param mixed $options
+     * @param array|Traversable $options
      */
     public function __construct($options = null)
     {
@@ -109,7 +118,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Adapter
      *
-     * @param  ValidatableAdapterInterface $adapter
+     * @param ValidatableAdapterInterface $adapter
      * @return self Provides a fluent interface
      */
     public function setAdapter(ValidatableAdapterInterface $adapter)
@@ -132,13 +141,12 @@ class Authentication extends AbstractValidator
     /**
      * Set Identity
      *
-     * @param  mixed $identity
+     * @param mixed $identity
      * @return self Provides a fluent interface
      */
     public function setIdentity($identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
@@ -155,7 +163,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Credential
      *
-     * @param  mixed $credential
+     * @param mixed $credential
      * @return self Provides a fluent interface
      */
     public function setCredential($credential)
@@ -178,7 +186,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Service
      *
-     * @param  AuthenticationService $service
+     * @param AuthenticationService $service
      * @return self Provides a fluent interface
      */
     public function setService(AuthenticationService $service)
@@ -189,11 +197,16 @@ class Authentication extends AbstractValidator
     }
 
     /**
-     * Is Valid
+     * Returns true if and only if authentication result is valid
      *
-     * @param  mixed $value
-     * @param  array $context
+     * If authentication result fails validation, then this method returns false, and
+     * getMessages() will return an array of messages that explain why the
+     * validation failed.
+     *
+     * @param null|mixed $value OPTIONAL Credential (or field)
+     * @param null|array $context OPTIONAL Authentication data (identity and/or credential)
      * @return bool
+     * @throws Exception\RuntimeException
      */
     public function isValid($value = null, $context = null)
     {
@@ -201,53 +214,67 @@ class Authentication extends AbstractValidator
             $this->setCredential($value);
         }
 
-        if (($context !== null) && array_key_exists($this->identity, $context)) {
-            $identity = $context[$this->identity];
-        } else {
-            $identity = $this->identity;
-        }
-        if (!$this->identity) {
+        if ($this->identity === null) {
             throw new Exception\RuntimeException('Identity must be set prior to validation');
         }
 
-        if (($context !== null) && array_key_exists($this->credential, $context)) {
-            $credential = $context[$this->credential];
-        } else {
-            $credential = $this->credential;
+        $identity = ($context !== null) && array_key_exists($this->identity, $context)
+            ? $context[$this->identity]
+            : $this->identity;
+
+        if ($this->credential === null) {
+            throw new Exception\RuntimeException('Credential must be set prior to validation');
         }
 
-        if (!$this->adapter) {
-            throw new Exception\RuntimeException('Adapter must be set prior to validation');
-        }
-        $this->adapter->setIdentity($identity);
-        $this->adapter->setCredential($credential);
+        $credential = ($context !== null) && array_key_exists($this->credential, $context)
+            ? $context[$this->credential]
+            : $this->credential;
 
-        if (!$this->service) {
+        if (! $this->service) {
             throw new Exception\RuntimeException('AuthenticationService must be set prior to validation');
         }
-        $result = $this->service->authenticate($this->adapter);
 
-        if ($result->getCode() != Result::SUCCESS) {
-            switch ($result->getCode()) {
-                case Result::FAILURE_IDENTITY_NOT_FOUND:
-                    $this->error(self::IDENTITY_NOT_FOUND);
-                    break;
-                case Result::FAILURE_CREDENTIAL_INVALID:
-                    $this->error(self::CREDENTIAL_INVALID);
-                    break;
-                case Result::FAILURE_IDENTITY_AMBIGUOUS:
-                    $this->error(self::IDENTITY_AMBIGUOUS);
-                    break;
-                case Result::FAILURE_UNCATEGORIZED:
-                    $this->error(self::UNCATEGORIZED);
-                    break;
-                default:
-                    $this->error(self::GENERAL);
-            }
+        $adapter = $this->adapter ?: $this->getAdapterFromAuthenticationService();
+        $adapter->setIdentity($identity);
+        $adapter->setCredential($credential);
 
-            return false;
+        $result = $this->service->authenticate($adapter);
+
+        if ($result->isValid()) {
+            return true;
         }
 
-        return true;
+        $code = self::GENERAL;
+        if (array_key_exists($result->getCode(), self::CODE_MAP)) {
+            $code = self::CODE_MAP[$result->getCode()];
+        }
+        $this->error($code);
+
+        return false;
+    }
+
+    /**
+     * @return ValidatableAdapterInterface
+     * @throws Exception\RuntimeException if no adapter present in
+     *     authentication service
+     * @throws Exception\RuntimeException if adapter present in authentication
+     *     service is not a ValidatableAdapterInterface instance
+     */
+    private function getAdapterFromAuthenticationService()
+    {
+        $adapter = $this->service->getAdapter();
+        if (! $adapter) {
+            throw new Exception\RuntimeException('Adapter must be set prior to validation');
+        }
+
+        if (! $adapter instanceof ValidatableAdapterInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Adapter must be an instance of %s; %s given',
+                ValidatableAdapterInterface::class,
+                is_object($adapter) ? get_class($adapter) : gettype($adapter)
+            ));
+        }
+
+        return $adapter;
     }
 }

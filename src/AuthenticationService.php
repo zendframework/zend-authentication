@@ -102,9 +102,11 @@ class AuthenticationService implements AuthenticationServiceInterface
      */
     public function authenticate(Adapter\AdapterInterface $adapter = null)
     {
-        if (!$adapter) {
-            if (!$adapter = $this->getAdapter()) {
-                throw new Exception\RuntimeException('An adapter must be set or passed prior to calling authenticate()');
+        if (! $adapter) {
+            if (! $adapter = $this->getAdapter()) {
+                throw new Exception\RuntimeException(
+                    'An adapter must be set or passed prior to calling authenticate()'
+                );
             }
         }
         $result = $adapter->authenticate();
@@ -131,7 +133,7 @@ class AuthenticationService implements AuthenticationServiceInterface
      */
     public function hasIdentity()
     {
-        return !$this->getStorage()->isEmpty();
+        return ! $this->getStorage()->isEmpty();
     }
 
     /**

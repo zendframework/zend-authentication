@@ -167,7 +167,7 @@ class Ldap extends AbstractAdapter
     {
         $options = $this->getLdap()->getOptions();
         $name = $options['accountDomainName'];
-        if (!$name) {
+        if (! $name) {
             $name = $options['accountDomainNameShort'];
         }
 
@@ -189,12 +189,12 @@ class Ldap extends AbstractAdapter
         $username = $this->identity;
         $password = $this->credential;
 
-        if (!$username) {
+        if (! $username) {
             $code = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
             $messages[0] = 'A username is required';
             return new AuthenticationResult($code, '', $messages);
         }
-        if (!$password) {
+        if (! $password) {
             /* A password is required because some servers will
              * treat an empty password as an anonymous bind.
              */
@@ -213,7 +213,7 @@ class Ldap extends AbstractAdapter
          * credentials against it.
          */
         foreach ($this->options as $options) {
-            if (!is_array($options)) {
+            if (! is_array($options)) {
                 throw new Exception\InvalidArgumentException('Adapter options array not an array');
             }
             $adapterOptions = $this->prepareOptions($ldap, $options);
@@ -393,7 +393,7 @@ class Ldap extends AbstractAdapter
         $membership  = ZendLdap\Filter::equals($adapterOptions['memberAttr'], $user);
         $group       = ZendLdap\Filter::andFilter($groupName, $membership);
         $groupFilter = $adapterOptions['groupFilter'];
-        if (!empty($groupFilter)) {
+        if (! empty($groupFilter)) {
             $group = $group->addAnd($groupFilter);
         }
 
@@ -418,7 +418,7 @@ class Ldap extends AbstractAdapter
      */
     public function getAccountObject(array $returnAttribs = [], array $omitAttribs = [])
     {
-        if (!$this->authenticatedDn) {
+        if (! $this->authenticatedDn) {
             return false;
         }
 

@@ -9,6 +9,7 @@
 
 namespace ZendTest\Authentication\Adapter\Http;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter\Http;
 use Zend\Authentication\Adapter;
 use Zend\Authentication;
@@ -19,8 +20,9 @@ use Zend\Http\Response;
 /**
  * @group      Zend_Auth
  */
-class ObjectTest extends \PHPUnit_Framework_TestCase
+class ObjectTest extends TestCase
 {
+    // @codingStandardsIgnoreStart
     /**
      * Path to test files
      *
@@ -62,6 +64,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
      * @var Http\FileResolver
      */
     protected $_digestResolver;
+    // @codingStandardsIgnoreEnd
 
     /**
      * Sets up test configuration
@@ -101,44 +104,55 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         foreach ($configs as $config) {
             new Adapter\Http($config);
         }
+        $this->addToAssertionCount(1);
     }
 
-    public function testInvalidConfigs()
+    /**
+     * @return array
+     */
+    public function invalidConfigs()
     {
-        $badConfigs = [
+        return [
             'bad1' => [
-                'auth_type' => 'bogus',
-                'realm'     => 'Test Realm'
+                [
+                    'auth_type' => 'bogus',
+                    'realm'     => 'Test Realm',
+                ],
             ],
             'bad2' => [
-                'auth_type'      => 'digest',
-                'realm'          => 'Bad: "Chars"'."\n",
-                'digest_domains' => '/ /admin',
-                'nonce_timeout'  => 300
+                [
+                    'auth_type'      => 'digest',
+                    'realm'          => 'Bad: "Chars"'."\n",
+                    'digest_domains' => '/ /admin',
+                    'nonce_timeout'  => 300,
+                ],
             ],
             'bad3' => [
-                'auth_type'      => 'digest',
-                'realm'          => 'Test Realm',
-                'digest_domains' => 'no"quotes'."\tor tabs",
-                'nonce_timeout'  => 300
+                [
+                    'auth_type'      => 'digest',
+                    'realm'          => 'Test Realm',
+                    'digest_domains' => 'no"quotes'."\tor tabs",
+                    'nonce_timeout'  => 300,
+                ],
             ],
             'bad4' => [
-                'auth_type'      => 'digest',
-                'realm'          => 'Test Realm',
-                'digest_domains' => '/ /admin',
-                'nonce_timeout'  => 'junk'
+                [
+                    'auth_type'      => 'digest',
+                    'realm'          => 'Test Realm',
+                    'digest_domains' => '/ /admin',
+                    'nonce_timeout'  => 'junk',
+                ],
             ]
         ];
+    }
 
-        foreach ($badConfigs as $cfg) {
-            $t = null;
-            try {
-                $t = new Adapter\Http($cfg);
-                $this->fail('Accepted an invalid config');
-            } catch (Adapter\Exception\ExceptionInterface $e) {
-                // Good, it threw an exception
-            }
-        }
+    /**
+     * @dataProvider invalidConfigs
+     */
+    public function testInvalidConfigs($cfg)
+    {
+        $this->expectException(Adapter\Exception\ExceptionInterface::class);
+        new Adapter\Http($cfg);
     }
 
     public function testAuthenticateArgs()
@@ -156,49 +170,52 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $response = new Response;
 
         // If this throws an exception, it fails
-        $a->setRequest($request)
+        $response = $a->setRequest($request)
           ->setResponse($response)
           ->authenticate();
+
+        $this->assertInstanceOf(Authentication\Result::class, $response);
     }
 
-    public function testNoResolvers()
+    public function noResolvers()
+    {
+        return [
+            'basic' => [
+                'Basic',
+                '_basicConfig',
+            ],
+            'digest' => [
+                'Digest',
+                '_digestConfig',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider noResolvers
+     */
+    public function testNoResolvers($authHeader, $cfgProperty)
     {
         // Stub request for Basic auth
         $headers  = new Headers;
-        $headers->addHeaderLine('Authorization', 'Basic <followed by a space character');
+        $headers->addHeaderLine(
+            'Authorization',
+            sprintf(
+                '%s <followed by a space character',
+                $authHeader
+            )
+        );
+
         $request  = new Request;
         $request->setHeaders($headers);
         $response = new Response;
 
-        // Once for Basic
-        try {
-            $a = new Adapter\Http($this->_basicConfig);
-            $a->setRequest($request)
-              ->setResponse($response);
-            $result = $a->authenticate();
-            $this->fail("Tried Basic authentication without a resolver.\n" . \Zend\Debug::dump($result->getMessages(), null, false));
-        } catch (Adapter\Exception\ExceptionInterface $e) {
-            // Good, it threw an exception
-            unset($a);
-        }
+        $a = new Adapter\Http($this->$cfgProperty);
+        $a->setRequest($request)
+          ->setResponse($response);
 
-        // Stub request for Digest auth, must be reseted (recreated)
-        $headers  = new Headers;
-        $headers->addHeaderLine('Authorization', 'Digest <followed by a space character');
-        $request  = new Request;
-        $request->setHeaders($headers);
-
-        // Once for Digest
-        try {
-            $a = new Adapter\Http($this->_digestConfig);
-            $a->setRequest($request)
-              ->setResponse($response);
-            $result = $a->authenticate();
-            $this->fail("Tried Digest authentication without a resolver.\n" . \Zend\Debug::dump($result->getMessages(), null, false));
-        } catch (Adapter\Exception\ExceptionInterface $e) {
-            // Good, it threw an exception
-            unset($a);
-        }
+        $this->expectException(Adapter\Exception\ExceptionInterface::class);
+        $a->authenticate();
     }
 
     public function testWrongResolverUsed()
