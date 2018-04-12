@@ -33,8 +33,19 @@ class Authentication extends AbstractValidator
     const GENERAL            = 'general';
 
     /**
+     * Authentication\Result codes mapping
+     * @const array
+     */
+    const CODE_MAP = [
+        Result::FAILURE_IDENTITY_NOT_FOUND => self::IDENTITY_NOT_FOUND,
+        Result::FAILURE_CREDENTIAL_INVALID => self::CREDENTIAL_INVALID,
+        Result::FAILURE_IDENTITY_AMBIGUOUS => self::IDENTITY_AMBIGUOUS,
+        Result::FAILURE_UNCATEGORIZED      => self::UNCATEGORIZED,
+    ];
+
+    /**
      * Error Messages
-     * @var array
+     * @const array
      */
     protected $messageTemplates = [
         self::IDENTITY_NOT_FOUND => 'Invalid identity',
@@ -67,17 +78,6 @@ class Authentication extends AbstractValidator
      * @var AuthenticationService
      */
     protected $service;
-
-    /**
-     * Authentication\Result codes mapping
-     * @var array
-     */
-    protected static $codeMap = [
-        Result::FAILURE_IDENTITY_NOT_FOUND => self::IDENTITY_NOT_FOUND,
-        Result::FAILURE_CREDENTIAL_INVALID => self::CREDENTIAL_INVALID,
-        Result::FAILURE_IDENTITY_AMBIGUOUS => self::IDENTITY_AMBIGUOUS,
-        Result::FAILURE_UNCATEGORIZED      => self::UNCATEGORIZED,
-    ];
 
     /**
      * Sets validator options
@@ -248,8 +248,8 @@ class Authentication extends AbstractValidator
         }
 
         $code = self::GENERAL;
-        if (array_key_exists($result->getCode(), static::$codeMap)) {
-            $code = static::$codeMap[$result->getCode()];
+        if (array_key_exists($result->getCode(), self::CODE_MAP)) {
+            $code = self::CODE_MAP[$result->getCode()];
         }
         $this->error($code);
 
