@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication\TestAsset;
@@ -17,7 +15,7 @@ class ValidatableAdapter extends AuthenticationAdapter
     /**
      * @var int Authentication result code
      */
-    protected $code;
+    private $code;
 
     /**
      * @param int $code
@@ -27,6 +25,9 @@ class ValidatableAdapter extends AuthenticationAdapter
         $this->code = $code;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function authenticate()
     {
         return new AuthenticationResult($this->code, 'someIdentity');
