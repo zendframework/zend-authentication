@@ -2,12 +2,38 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.6.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 2.5.4 - TBD
 
 ### Added
 
 - [#9](https://github.com/zendframework/zend-authentication/pull/9) adds and
-  publishes documentation to https://zendframework.github.io/zend-authentication/
+  publishes documentation to https://docs.zendframework.com/zend-authentication/
+
+### Changed
+
+- Nothing.
 
 ### Deprecated
 
