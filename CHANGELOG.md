@@ -10,7 +10,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#14](https://github.com/zendframework/zend-authentication/pull/14) modifies the `Zend\Authentication\Validator\Authentication` class such that
+  it now will pull an adapter from the composed `AuthenticationService` instance if no
+  authentication adapter is registered directly with the validator. This will only work
+  if the adapter is a `ValidatableAdapterInterface` implementation (all `AbstractAdapter`
+  instances are already implementations).
 
 ### Deprecated
 
