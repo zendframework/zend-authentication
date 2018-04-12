@@ -492,8 +492,7 @@ class Http implements AdapterInterface
         if ($pos === false) {
             return $this->challengeClient();
         }
-        $username = substr($auth, 0, $pos);
-        $password = substr($auth, $pos + 1);
+        list($username, $password) = explode(':', $auth, 2);
 
         // Fix for ZF-1515: Now re-challenges on empty username or password
         if (empty($username) || empty($password)) {
