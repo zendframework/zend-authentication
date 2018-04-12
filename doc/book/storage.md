@@ -58,7 +58,7 @@ $result = $auth->authenticate($authAdapter);
 A website might use multiple storage strategies for identity persistence; the
 `Chain` Storage can be used to glue these together.
 
-For example, the `Chanin` can be configured to first use `Session` storage and
+For example, the `Chain` can be configured to first use `Session` storage and
 then use an `OAuth` storage adapter. One could configure this in the following
 way:
 
