@@ -32,7 +32,7 @@ The available configuration options include:
 Many databases do not provide functions that implement a cryptographically
 secure hashing mechanism. Additionally, you may want to ensure that should you
 switch database systems, hashing is consistent. This is a perfect use case for
-the `CallbackCheck` adapter; you can implement the password hashing and
+the `CallbackCheckAdapter` adapter; you can implement the password hashing and
 verification within PHP instead.
 
 The following code creates an adapter for an in-memory database, creates a
