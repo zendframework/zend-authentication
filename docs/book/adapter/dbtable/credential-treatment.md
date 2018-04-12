@@ -292,7 +292,7 @@ Another alternative is to use the `getDbSelect()` method to retrieve the
 `Zend\Db\Sql\Select` instance associated with the adapter and modify it. (The
 method is common to all `Zend\Authentication\Adapter\DbTable` adapters.) The
 `Select` instance is consumed by the `authenticate()` routine when building the
-SQL to execute on the RDMBS server.  It is important to note that this method
+SQL to execute on the RDBMS server.  It is important to note that this method
 will always return the same `Select` instance regardless if `authenticate()`
 has been called or not; identity and credential values are passed to the
 instance as placeholders.
