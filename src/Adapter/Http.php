@@ -220,7 +220,7 @@ class Http implements AdapterInterface
      * Setter for the basicResolver property
      *
      * @param  Http\ResolverInterface $resolver
-     * @return Http Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setBasicResolver(Http\ResolverInterface $resolver)
     {
@@ -243,7 +243,7 @@ class Http implements AdapterInterface
      * Setter for the digestResolver property
      *
      * @param  Http\ResolverInterface $resolver
-     * @return Http Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setDigestResolver(Http\ResolverInterface $resolver)
     {
@@ -266,7 +266,7 @@ class Http implements AdapterInterface
      * Setter for the Request object
      *
      * @param  HTTPRequest $request
-     * @return Http Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setRequest(HTTPRequest $request)
     {
@@ -289,7 +289,7 @@ class Http implements AdapterInterface
      * Setter for the Response object
      *
      * @param  HTTPResponse $response
-     * @return Http Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setResponse(HTTPResponse $response)
     {
