@@ -45,7 +45,7 @@ class Authentication extends AbstractValidator
 
     /**
      * Error Messages
-     * @const array
+     * @var array
      */
     protected $messageTemplates = [
         self::IDENTITY_NOT_FOUND => 'Invalid identity',
@@ -82,7 +82,7 @@ class Authentication extends AbstractValidator
     /**
      * Sets validator options
      *
-     * @param mixed $options
+     * @param array|Traversable $options
      */
     public function __construct($options = null)
     {
@@ -120,7 +120,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Adapter
      *
-     * @param  ValidatableAdapterInterface $adapter
+     * @param ValidatableAdapterInterface $adapter
      * @return Authentication
      */
     public function setAdapter(ValidatableAdapterInterface $adapter)
@@ -143,13 +143,12 @@ class Authentication extends AbstractValidator
     /**
      * Set Identity
      *
-     * @param  mixed          $identity
+     * @param mixed $identity
      * @return Authentication
      */
     public function setIdentity($identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
@@ -166,7 +165,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Credential
      *
-     * @param  mixed          $credential
+     * @param mixed $credential
      * @return Authentication
      */
     public function setCredential($credential)
@@ -189,7 +188,7 @@ class Authentication extends AbstractValidator
     /**
      * Set Service
      *
-     * @param  AuthenticationService $service
+     * @param AuthenticationService $service
      * @return Authentication
      */
     public function setService(AuthenticationService $service)
@@ -206,8 +205,8 @@ class Authentication extends AbstractValidator
      * getMessages() will return an array of messages that explain why the
      * validation failed.
      *
-     * @param  mixed $value   OPTIONAL Credential (or field)
-     * @param  array $context OPTIONAL Authentication data (identity and/or credential)
+     * @param null|mixed $value OPTIONAL Credential (or field)
+     * @param null|array $context OPTIONAL Authentication data (identity and/or credential)
      * @return bool
      * @throws Exception\RuntimeException
      */
