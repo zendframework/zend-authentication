@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2012-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication\Adapter\Http;
@@ -14,9 +12,6 @@ use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
-/**
- * @group      Zend_Auth
- */
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -165,10 +160,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_checkOK($data);
     }
 
-    public function testBasicAuthValidCredsWithColon()
+    public function testBasicAuthCanValidateCredentialsThatContainAColon()
     {
         // Attempt Basic Authentication with a valid username and a password that contains a colon
-
         $data = $this->_doAuth('Basic ' . base64_encode('Colon:PasswordWith:Colon'), 'basic');
         $this->_checkOK($data);
     }
