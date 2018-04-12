@@ -487,13 +487,20 @@ class Http implements AdapterInterface
         if (!ctype_print($auth)) {
             return $this->challengeClient();
         }
+
+        $pos = strpos($auth, ':');
+        if ($pos === false) {
+            return $this->challengeClient();
+        }
+        $username = substr($auth, 0, $pos);
+        $password = substr($auth, $pos + 1);
+
         // Fix for ZF-1515: Now re-challenges on empty username or password
-        $creds = array_filter(explode(':', $auth));
-        if (count($creds) != 2) {
+        if (empty($username) || empty($password)) {
             return $this->challengeClient();
         }
 
-        $result = $this->basicResolver->resolve($creds[0], $this->realm, $creds[1]);
+        $result = $this->basicResolver->resolve($username, $this->realm, $password);
 
         if ($result instanceof Authentication\Result && $result->isValid()) {
             return $result;
@@ -501,9 +508,9 @@ class Http implements AdapterInterface
 
         if (!$result instanceof Authentication\Result
             && !is_array($result)
-            && CryptUtils::compareStrings($result, $creds[1])
+            && CryptUtils::compareStrings($result, $password)
         ) {
-            $identity = ['username' => $creds[0], 'realm' => $this->realm];
+            $identity = ['username' => $username, 'realm' => $this->realm];
             return new Authentication\Result(Authentication\Result::SUCCESS, $identity);
         } elseif (is_array($result)) {
             return new Authentication\Result(Authentication\Result::SUCCESS, $result);
