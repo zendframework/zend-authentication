@@ -1,20 +1,16 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\AuthenticationService;
 
-/**
- * @group      Zend_Auth
- */
-class AuthenticationServiceTest extends \PHPUnit\Framework\TestCase
+class AuthenticationServiceTest extends TestCase
 {
     public function setUp()
     {
