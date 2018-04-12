@@ -9,13 +9,14 @@
 
 namespace ZendTest\Authentication\Adapter\Ldap;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Authentication\Adapter;
 use Zend\Ldap;
 
 /**
  * @group      Zend_Auth
  */
-class OfflineTest extends \PHPUnit_Framework_TestCase
+class OfflineTest extends TestCase
 {
     /**
      * Authentication adapter instance
@@ -38,7 +39,7 @@ class OfflineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetLdap()
     {
-        if (!extension_loaded('ldap')) {
+        if (! extension_loaded('ldap')) {
             $this->markTestSkipped('LDAP is not enabled');
         }
         $this->adapter->setLdap(new Ldap\Ldap());

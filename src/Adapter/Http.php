@@ -165,7 +165,7 @@ class Http implements AdapterInterface
         // Double-quotes are used to delimit the realm string in the HTTP header,
         // and colons are field delimiters in the password file.
         if (empty($config['realm']) ||
-            !ctype_print($config['realm']) ||
+            ! ctype_print($config['realm']) ||
             strpos($config['realm'], ':') !== false ||
             strpos($config['realm'], '"') !== false) {
             throw new Exception\InvalidArgumentException(
@@ -181,7 +181,7 @@ class Http implements AdapterInterface
             $this->algo = 'MD5';
 
             if (empty($config['digest_domains']) ||
-                !ctype_print($config['digest_domains']) ||
+                ! ctype_print($config['digest_domains']) ||
                 strpos($config['digest_domains'], '"') !== false) {
                 throw new Exception\InvalidArgumentException(
                     'Config key \'digest_domains\' is required, and must contain '
@@ -192,7 +192,7 @@ class Http implements AdapterInterface
             }
 
             if (empty($config['nonce_timeout']) ||
-                !is_numeric($config['nonce_timeout'])) {
+                ! is_numeric($config['nonce_timeout'])) {
                 throw new Exception\InvalidArgumentException(
                     'Config key \'nonce_timeout\' is required, and must be an integer'
                 );
@@ -329,11 +329,11 @@ class Http implements AdapterInterface
         }
 
         $headers = $this->request->getHeaders();
-        if (!$headers->has($getHeader)) {
+        if (! $headers->has($getHeader)) {
             return $this->challengeClient();
         }
         $authHeader = $headers->get($getHeader)->getFieldValue();
-        if (!$authHeader) {
+        if (! $authHeader) {
             return $this->challengeClient();
         }
 
@@ -342,7 +342,7 @@ class Http implements AdapterInterface
 
         // The server can issue multiple challenges, but the client should
         // answer with only the selected auth scheme.
-        if (!in_array($clientScheme, $this->supportedSchemes)) {
+        if (! in_array($clientScheme, $this->supportedSchemes)) {
             $this->response->setStatusCode(400);
             return new Authentication\Result(
                 Authentication\Result::FAILURE_UNCATEGORIZED,
@@ -352,7 +352,7 @@ class Http implements AdapterInterface
         }
 
         // client sent a scheme that is not the one required
-        if (!in_array($clientScheme, $this->acceptSchemes)) {
+        if (! in_array($clientScheme, $this->acceptSchemes)) {
             // challenge again the client
             return $this->challengeClient();
         }
@@ -376,8 +376,10 @@ class Http implements AdapterInterface
      * @see Http::challengeClient()
      * @return Authentication\Result Always returns a non-identity Auth result
      */
+    // @codingStandardsIgnoreStart
     protected function _challengeClient()
     {
+        // @codingStandardsIgnoreEnd
         trigger_error(sprintf(
             'The method "%s" is deprecated and will be removed in the future; '
             . 'please use the public method "%s::challengeClient()" instead',
@@ -431,8 +433,10 @@ class Http implements AdapterInterface
      *
      * @return string Authenticate header value
      */
+    // @codingStandardsIgnoreStart
     protected function _basicHeader()
     {
+        // @codingStandardsIgnoreEnd
         return 'Basic realm="' . $this->realm . '"';
     }
 
@@ -444,8 +448,10 @@ class Http implements AdapterInterface
      *
      * @return string Authenticate header value
      */
+    // @codingStandardsIgnoreStart
     protected function _digestHeader()
     {
+        // @codingStandardsIgnoreEnd
         $wwwauth = 'Digest realm="' . $this->realm . '", '
                  . 'domain="' . $this->domains . '", '
                  . 'nonce="' . $this->_calcNonce() . '", '
@@ -463,8 +469,10 @@ class Http implements AdapterInterface
      * @throws Exception\ExceptionInterface
      * @return Authentication\Result
      */
+    // @codingStandardsIgnoreStart
     protected function _basicAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         if (empty($header)) {
             throw new Exception\RuntimeException('The value of the client Authorization header is required');
         }
@@ -477,14 +485,14 @@ class Http implements AdapterInterface
         // Decode the Authorization header
         $auth = substr($header, strlen('Basic '));
         $auth = base64_decode($auth);
-        if (!$auth) {
+        if (! $auth) {
             throw new Exception\RuntimeException('Unable to base64_decode Authorization header value');
         }
 
         // See ZF-1253. Validate the credentials the same way the digest
         // implementation does. If invalid credentials are detected,
         // re-challenge the client.
-        if (!ctype_print($auth)) {
+        if (! ctype_print($auth)) {
             return $this->challengeClient();
         }
         // Fix for ZF-1515: Now re-challenges on empty username or password
@@ -499,8 +507,8 @@ class Http implements AdapterInterface
             return $result;
         }
 
-        if (!$result instanceof Authentication\Result
-            && !is_array($result)
+        if (! $result instanceof Authentication\Result
+            && ! is_array($result)
             && CryptUtils::compareStrings($result, $creds[1])
         ) {
             $identity = ['username' => $creds[0], 'realm' => $this->realm];
@@ -519,13 +527,17 @@ class Http implements AdapterInterface
      * @throws Exception\ExceptionInterface
      * @return Authentication\Result Valid auth result only on successful auth
      */
+    // @codingStandardsIgnoreStart
     protected function _digestAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         if (empty($header)) {
             throw new Exception\RuntimeException('The value of the client Authorization header is required');
         }
         if (empty($this->digestResolver)) {
-            throw new Exception\RuntimeException('A digestResolver object must be set before doing Digest authentication');
+            throw new Exception\RuntimeException(
+                'A digestResolver object must be set before doing Digest authentication'
+            );
         }
 
         $data = $this->_parseDigestAuth($header);
@@ -550,7 +562,7 @@ class Http implements AdapterInterface
         }
         // The opaque value is also required to match, but of course IE doesn't
         // play ball.
-        if (!$this->ieNoOpaque && $this->_calcOpaque() != $data['opaque']) {
+        if (! $this->ieNoOpaque && $this->_calcOpaque() != $data['opaque']) {
             return $this->challengeClient();
         }
 
@@ -606,8 +618,10 @@ class Http implements AdapterInterface
      *
      * @return string The nonce value
      */
+    // @codingStandardsIgnoreStart
     protected function _calcNonce()
     {
+        // @codingStandardsIgnoreEnd
         // Once subtle consequence of this timeout calculation is that it
         // actually divides all of time into nonceTimeout-sized sections, such
         // that the value of timeout is the point in time of the next
@@ -643,8 +657,10 @@ class Http implements AdapterInterface
      *
      * @return string The opaque value
      */
+    // @codingStandardsIgnoreStart
     protected function _calcOpaque()
     {
+        // @codingStandardsIgnoreEnd
         return hash('md5', 'Opaque Data:' . __CLASS__);
     }
 
@@ -655,16 +671,18 @@ class Http implements AdapterInterface
      * @return array|bool Data elements from header, or false if any part of
      *                    the header is invalid
      */
+    // @codingStandardsIgnoreStart
     protected function _parseDigestAuth($header)
     {
+        // @codingStandardsIgnoreEnd
         $temp = null;
         $data = [];
 
         // See ZF-1052. Detect invalid usernames instead of just returning a
         // 400 code.
         $ret = preg_match('/username="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])
-                  || !ctype_print($temp[1])
+        if (! $ret || empty($temp[1])
+                  || ! ctype_print($temp[1])
                   || strpos($temp[1], ':') !== false) {
             $data['username'] = '::invalid::';
         } else {
@@ -673,10 +691,10 @@ class Http implements AdapterInterface
         $temp = null;
 
         $ret = preg_match('/realm="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (!ctype_print($temp[1]) || strpos($temp[1], ':') !== false) {
+        if (! ctype_print($temp[1]) || strpos($temp[1], ':') !== false) {
             return false;
         } else {
             $data['realm'] = $temp[1];
@@ -684,10 +702,10 @@ class Http implements AdapterInterface
         $temp = null;
 
         $ret = preg_match('/nonce="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (!ctype_xdigit($temp[1])) {
+        if (! ctype_xdigit($temp[1])) {
             return false;
         }
 
@@ -695,7 +713,7 @@ class Http implements AdapterInterface
         $temp = null;
 
         $ret = preg_match('/uri="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
         // Section 3.2.2.5 in RFC 2617 says the authenticating server must
@@ -717,10 +735,10 @@ class Http implements AdapterInterface
         $temp = null;
 
         $ret = preg_match('/response="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (!$this->isValidMd5Hash($temp[1])) {
+        if (! $this->isValidMd5Hash($temp[1])) {
             return false;
         }
 
@@ -731,7 +749,7 @@ class Http implements AdapterInterface
         // that square with the algo we send out in the WWW-Authenticate header,
         // if it can easily be overridden by the client?
         $ret = preg_match('/algorithm="?(' . $this->algo . ')"?/', $header, $temp);
-        if ($ret && !empty($temp[1])
+        if ($ret && ! empty($temp[1])
                  && in_array($temp[1], $this->supportedAlgos)) {
             $data['algorithm'] = $temp[1];
         } else {
@@ -741,10 +759,10 @@ class Http implements AdapterInterface
 
         // Not optional in this implementation
         $ret = preg_match('/cnonce="([^"]+)"/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (!ctype_print($temp[1])) {
+        if (! ctype_print($temp[1])) {
             return false;
         }
 
@@ -754,10 +772,10 @@ class Http implements AdapterInterface
         // If the server sent an opaque value, the client must send it back
         if ($this->useOpaque) {
             $ret = preg_match('/opaque="([^"]+)"/', $header, $temp);
-            if (!$ret || empty($temp[1])) {
+            if (! $ret || empty($temp[1])) {
                 // Big surprise: IE isn't RFC 2617-compliant.
                 $headers = $this->request->getHeaders();
-                if (!$headers->has('User-Agent')) {
+                if (! $headers->has('User-Agent')) {
                     return false;
                 }
                 $userAgent = $headers->get('User-Agent')->getFieldValue();
@@ -770,8 +788,8 @@ class Http implements AdapterInterface
             }
 
             // This implementation only sends MD5 hex strings in the opaque value
-            if (!$this->ieNoOpaque &&
-                !$this->isValidMd5Hash($temp[1])) {
+            if (! $this->ieNoOpaque &&
+                ! $this->isValidMd5Hash($temp[1])) {
                 return false;
             }
 
@@ -782,10 +800,10 @@ class Http implements AdapterInterface
         // Not optional in this implementation, but must be one of the supported
         // qop types
         $ret = preg_match('/qop="?(' . implode('|', $this->supportedQops) . ')"?/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (!in_array($temp[1], $this->supportedQops)) {
+        if (! in_array($temp[1], $this->supportedQops)) {
             return false;
         }
 
@@ -796,10 +814,10 @@ class Http implements AdapterInterface
         // shouldn't be a quoted string, but apparently some implementations
         // quote it anyway. See ZF-1544.
         $ret = preg_match('/nc="?([0-9A-Fa-f]{8})"?/', $header, $temp);
-        if (!$ret || empty($temp[1])) {
+        if (! $ret || empty($temp[1])) {
             return false;
         }
-        if (8 != strlen($temp[1]) || !ctype_xdigit($temp[1])) {
+        if (8 != strlen($temp[1]) || ! ctype_xdigit($temp[1])) {
             return false;
         }
 

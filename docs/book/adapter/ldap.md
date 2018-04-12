@@ -179,7 +179,7 @@ Name                     | Description
 `optReferrals`           | If set to `TRUE`, this option indicates to the LDAP client that referrals should be followed. The default value is `FALSE`.
 
 > ### TLS and SSL
-> 
+>
 > If you enable `useStartTls = TRUE` or `useSsl = TRUE` you may find that the
 > LDAP client generates an error claiming that it cannot validate the server's
 > certificate. Assuming the PHP LDAP extension is ultimately linked to the
@@ -204,7 +204,7 @@ Index 1              | A more detailed error message that is not suitable to be 
 Indexes 2 and higher | All log messages in order starting at index 2.
 
 In practice, index 0 should be displayed to the user (e.g., using the
-[FlashMessenger helper](https://zendframework.github.io/zend-mvc-plugin-flashmessenger)),
+[FlashMessenger helper](https://docs.zendframework.com/zend-mvc-plugin-flashmessenger)),
 index 1 should be logged and, if debugging information is being collected,
 indexes 2 and higher could be logged as well (although the final message always
 includes the string from index 1).

@@ -10,8 +10,9 @@
 namespace ZendTest\Authentication\Adapter;
 
 use Exception;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase as TestCase;
 use Zend\Authentication\Adapter\Callback;
+use Zend\Authentication\Exception as AuthenticationException;
 use Zend\Authentication\Result;
 
 class CallbackTest extends TestCase
@@ -46,10 +47,8 @@ class CallbackTest extends TestCase
      */
     public function testSetCallbackThrowsException()
     {
-        $this->setExpectedException(
-            'Zend\Authentication\Exception\InvalidArgumentException',
-            'Invalid callback provided'
-        );
+        $this->expectException(AuthenticationException\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid callback provided');
         $this->adapter->setCallback('This is not a valid callback');
     }
 
@@ -80,10 +79,8 @@ class CallbackTest extends TestCase
      */
     public function testAuthenticateThrowsException()
     {
-        $this->setExpectedException(
-            'Zend\Authentication\Exception\RuntimeException',
-            'No callback provided'
-        );
+        $this->expectException(AuthenticationException\RuntimeException::class);
+        $this->expectExceptionMessage('No callback provided');
         $this->adapter->authenticate();
     }
 

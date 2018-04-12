@@ -14,7 +14,7 @@ use Zend\Authentication\AuthenticationService;
 /**
  * @group      Zend_Auth
  */
-class AuthenticationServiceTest extends \PHPUnit_Framework_TestCase
+class AuthenticationServiceTest extends \PHPUnit\Framework\TestCase
 {
     public function setUp()
     {

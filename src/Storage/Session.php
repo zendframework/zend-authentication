@@ -90,7 +90,7 @@ class Session implements StorageInterface
      */
     public function isEmpty()
     {
-        return !isset($this->session->{$this->member});
+        return ! isset($this->session->{$this->member});
     }
 
     /**
