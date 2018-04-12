@@ -7,7 +7,11 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - [#9](https://github.com/zendframework/zend-authentication/pull/9) adds and
-  publishes documentation to https://zendframework.github.io/zend-authentication/
+  publishes documentation to https://docs.zendframework.com/zend-authentication/
+
+### Changed
+
+- Nothing.
 
 ### Deprecated
 
@@ -19,7 +23,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#29](https://github.com/zendframework/zend-authentication/pull/29) fixes how the HTTP Auth adapter treats credentials,
+  ensuring it splits only on the first `:` character, and thus allows `:` characters
+  as part of the password segment of the credential.
 
 ## 2.5.3 - 2016-02-29
 
