@@ -172,7 +172,7 @@ Next, create the `Zend\Authentication\Adapter\Http` object:
 ```php
 use Zend\Authentication\Adapter\Http;
 
-$adapter = Http($config);
+$adapter = new Http($config);
 ```
 
 Since we're supporting both Basic and Digest authentication, we need two
