@@ -1,10 +1,8 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
+ * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication\Validator;
@@ -13,13 +11,11 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Zend\Authentication\Adapter\ValidatableAdapterInterface;
 use Zend\Authentication\AuthenticationService;
+use Zend\Authentication\Exception;
 use Zend\Authentication\Result as AuthenticationResult;
 use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 use ZendTest\Authentication as AuthTest;
 
-/**
- * @group      Zend_Validator
- */
 class AuthenticationTest extends TestCase
 {
     /**
@@ -72,26 +68,26 @@ class AuthenticationTest extends TestCase
 
     public function testNoIdentityThrowsRuntimeException()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Identity must be set prior to validation');
         $this->validator->isValid('password');
     }
 
     public function testNoAdapterThrowsRuntimeException()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('Adapter must be set prior to validation');
+        $this->validator->setService($this->authService);
         $this->validator->setIdentity('username');
         $this->validator->isValid('password');
-        $this->validator->setService($this->authService);
     }
 
     public function testNoServiceThrowsRuntimeException()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(Exception\RuntimeException::class);
         $this->expectExceptionMessage('AuthenticationService must be set prior to validation');
-        $this->validator->setIdentity('username');
         $this->validator->setAdapter($this->authAdapter);
+        $this->validator->setIdentity('username');
         $this->validator->isValid('password');
     }
 
@@ -131,12 +127,47 @@ class AuthenticationTest extends TestCase
         $this->assertEquals('mypassword', $adapter->getCredential());
     }
 
+    public function errorMessagesProvider()
+    {
+        return [
+            'failure' => [
+                AuthenticationResult::FAILURE,
+                false,
+                [AuthenticationValidator::GENERAL => 'Authentication failed'],
+            ],
+            'identity-not-found' => [
+                AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
+                false,
+                [AuthenticationValidator::IDENTITY_NOT_FOUND => 'Invalid identity'],
+            ],
+            'identity-ambiguous' => [
+                AuthenticationResult::FAILURE_IDENTITY_AMBIGUOUS,
+                false,
+                [AuthenticationValidator::IDENTITY_AMBIGUOUS => 'Identity is ambiguous'],
+            ],
+            'credential-invalid' => [
+                AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
+                false,
+                [AuthenticationValidator::CREDENTIAL_INVALID => 'Invalid password'],
+            ],
+            'uncategorized' => [
+                AuthenticationResult::FAILURE_UNCATEGORIZED,
+                false,
+                [AuthenticationValidator::UNCATEGORIZED => 'Authentication failed'],
+            ],
+            'success' => [
+                AuthenticationResult::SUCCESS,
+                true,
+                [],
+            ],
+        ];
+    }
+
     /**
+     * @dataProvider errorMessagesProvider
      * @param int   $code
      * @param bool  $valid
      * @param array $messages
-     *
-     * @dataProvider errorMessagesProvider
      */
     public function testErrorMessages($code, $valid, $messages)
     {
@@ -174,13 +205,14 @@ class AuthenticationTest extends TestCase
      * Ensures that isValid() throws an exception when Authentication Service's
      * adapter is not an instance of ValidatableAdapterInterface
      */
-    public function testUsingNoValiatableAdapterFromServiceThrowsRuntimeException()
+    public function testUsingNonValidatableAdapterFromServiceThrowsRuntimeException()
     {
-        $this->setExpectedException(
-            'RuntimeException',
-            'Adapter must be an instance of ValidatableAdapterInterface, ' .
-            'ZendTest\Authentication\TestAsset\SuccessAdapter given'
-        );
+        $this->expectException(Exception\RuntimeException::class);
+        $this->expectExceptionMessage(sprintf(
+            '%s; %s given',
+            ValidatableAdapterInterface::class,
+            AuthTest\TestAsset\SuccessAdapter::class
+        ));
 
         $adapter = new AuthTest\TestAsset\SuccessAdapter();
         $this->authService->setAdapter($adapter);
@@ -188,39 +220,5 @@ class AuthenticationTest extends TestCase
         $this->validator->setService($this->authService);
         $this->validator->setIdentity('username');
         $this->validator->isValid('password');
-    }
-
-    public function errorMessagesProvider()
-    {
-        return [
-            [
-                AuthenticationResult::FAILURE,
-                false,
-                [AuthenticationValidator::GENERAL => 'Authentication failed'],
-            ],
-            [
-                AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND,
-                false,
-                [AuthenticationValidator::IDENTITY_NOT_FOUND => 'Invalid identity'],
-            ],
-            [
-                AuthenticationResult::FAILURE_IDENTITY_AMBIGUOUS,
-                false,
-                [AuthenticationValidator::IDENTITY_AMBIGUOUS => 'Identity is ambiguous'],
-            ],
-            [
-                AuthenticationResult::FAILURE_CREDENTIAL_INVALID,
-                false,
-                [AuthenticationValidator::CREDENTIAL_INVALID => 'Invalid password'],
-            ],
-            [
-                AuthenticationResult::FAILURE_UNCATEGORIZED,
-                false,
-                [AuthenticationValidator::UNCATEGORIZED => 'Authentication failed'],
-            ],
-            [
-                AuthenticationResult::SUCCESS, true, [],
-            ],
-        ];
     }
 }

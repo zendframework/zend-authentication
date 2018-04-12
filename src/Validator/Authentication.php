@@ -220,55 +220,64 @@ class Authentication extends AbstractValidator
         if ($this->identity === null) {
             throw new Exception\RuntimeException('Identity must be set prior to validation');
         }
-        if (($context !== null) && array_key_exists($this->identity, $context)) {
-            $identity = $context[$this->identity];
-        } else {
-            $identity = $this->identity;
-        }
+
+        $identity = ($context !== null) && array_key_exists($this->identity, $context)
+            ? $context[$this->identity]
+            : $this->identity;
 
         if ($this->credential === null) {
             throw new Exception\RuntimeException('Credential must be set prior to validation');
         }
-        if (($context !== null) && array_key_exists($this->credential, $context)) {
-            $credential = $context[$this->credential];
-        } else {
-            $credential = $this->credential;
-        }
 
-        if (!$this->service) {
+        $credential = ($context !== null) && array_key_exists($this->credential, $context)
+            ? $context[$this->credential]
+            : $this->credential;
+
+        if (! $this->service) {
             throw new Exception\RuntimeException('AuthenticationService must be set prior to validation');
         }
 
-        if (!$this->adapter) {
-            $adapter = $this->service->getAdapter();
-            if (!$adapter) {
-                throw new Exception\RuntimeException('Adapter must be set prior to validation');
-            }
-            if (!$adapter instanceof ValidatableAdapterInterface) {
-                throw new Exception\RuntimeException(sprintf(
-                    'Adapter must be an instance of ValidatableAdapterInterface, %s given',
-                    (is_object($adapter) ? get_class($adapter) : gettype($adapter))
-                ));
-            }
-        } else {
-            $adapter = $this->adapter;
-        }
-
+        $adapter = $this->adapter ?: $this->getAdapterFromAuthenticationService();
         $adapter->setIdentity($identity);
         $adapter->setCredential($credential);
 
-        $result = $this->service->authenticate($this->adapter);
+        $result = $this->service->authenticate($adapter);
 
-        if (!$result->isValid()) {
-            $code = self::GENERAL;
-            if (array_key_exists($result->getCode(), static::$codeMap)) {
-                $code = static::$codeMap[$result->getCode()];
-            }
-            $this->error($code);
-
-            return false;
+        if ($result->isValid()) {
+            return true;
         }
 
-        return true;
+        $code = self::GENERAL;
+        if (array_key_exists($result->getCode(), static::$codeMap)) {
+            $code = static::$codeMap[$result->getCode()];
+        }
+        $this->error($code);
+
+        return false;
+    }
+
+    /**
+     * @return ValidatableAdapterInterface
+     * @throws Exception\RuntimeException if no adapter present in
+     *     authentication service
+     * @throws Exception\RuntimeException if adapter present in authentication
+     *     service is not a ValidatableAdapterInterface instance
+     */
+    private function getAdapterFromAuthenticationService()
+    {
+        $adapter = $this->service->getAdapter();
+        if (! $adapter) {
+            throw new Exception\RuntimeException('Adapter must be set prior to validation');
+        }
+
+        if (! $adapter instanceof ValidatableAdapterInterface) {
+            throw new Exception\RuntimeException(sprintf(
+                'Adapter must be an instance of %s; %s given',
+                ValidatableAdapterInterface::class,
+                is_object($adapter) ? get_class($adapter) : gettype($adapter)
+            ));
+        }
+
+        return $adapter;
     }
 }
