@@ -57,7 +57,7 @@ class AuthenticationService implements AuthenticationServiceInterface
      * Sets the authentication adapter
      *
      * @param  Adapter\AdapterInterface $adapter
-     * @return AuthenticationService Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setAdapter(Adapter\AdapterInterface $adapter)
     {
@@ -85,7 +85,7 @@ class AuthenticationService implements AuthenticationServiceInterface
      * Sets the persistent storage handler
      *
      * @param  Storage\StorageInterface $storage
-     * @return AuthenticationService Provides a fluent interface
+     * @return self Provides a fluent interface
      */
     public function setStorage(Storage\StorageInterface $storage)
     {
