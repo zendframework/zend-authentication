@@ -162,7 +162,6 @@ class Digest extends AbstractAdapter
         }
 
         $id       = "$this->identity:$this->realm";
-        $idLength = strlen($id);
 
         $result = [
             'code'  => AuthenticationResult::FAILURE,
@@ -178,7 +177,7 @@ class Digest extends AbstractAdapter
             if (empty($line)) {
                 break;
             }
-            if (substr($line, 0, $idLength) === $id) {
+            if (0 === strpos($line, $id)) {
                 if (CryptUtils::compareStrings(
                     substr($line, -32),
                     md5("$this->identity:$this->realm:$this->credential")
