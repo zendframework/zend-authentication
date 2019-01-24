@@ -11,7 +11,7 @@
 
     <title>LDAP - zend-authentication</title>
 
-    <link rel="stylesheet" href="../../css/styles-e3f3751b65.css">
+    <link rel="stylesheet" href="../../css/styles-e95dab66f8.css">
 </head>
 <body id="page-top">
 
@@ -63,39 +63,40 @@
             
             
                 <div class="nav navbar-nav navbar-collapse visible-xs-block ">
-                    <div class="subnavigation hidden-print">
-    <h4 class="subnavigation__title">
-        <a href="../..">zend-authentication</a>
-    </h4>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">zend-authentication</a>
+        </h4>
 
-    <h5 class="subnavigation__subtitle">Table of Contents</h5>
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
-    <ul class="subnavigation__list">
-        
+        <ul class="subnavigation__list">
             
-                <li class="subnavigation__list-item ">
-                    <a href="../.." class="subnavigation__link">zend-authentication</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../.." class="subnavigation__link">zend-authentication</a>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../intro/" class="subnavigation__link">Intro</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../../intro/" class="subnavigation__link">Intro</a>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Adapters</span>
-                    <ul class="subnavigation__list">
-                        
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Adapters</span>
+                        <ul class="subnavigation__list">
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../intro/" class="subnavigation__link">Intro</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">DbTable</span>
         <ul class="subnavigation__list">
@@ -121,43 +122,44 @@
         </ul>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../digest/" class="subnavigation__link">Digest</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../http/" class="subnavigation__link">HTTP</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item subnavigation__list-item--active">
         <a href="./" class="subnavigation__link">LDAP</a>
     </li>
 
-                        
-                    </ul>
-                </li>
+                            
+                        </ul>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../storage/" class="subnavigation__link">Identity Persistence</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../../storage/" class="subnavigation__link">Identity Persistence</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../validator/" class="subnavigation__link">Validation</a>
+                    </li>
+                
             
-        
-            
-                <li class="subnavigation__list-item ">
-                    <a href="../../validator/" class="subnavigation__link">Validation</a>
-                </li>
-            
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
                 </div>
             
 
@@ -214,17 +216,23 @@
             <!-- content:begin -->
                 
                     <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="https://framework.zend.com/">Home</a></li>
-  <li><a href="https://docs.zendframework.com/">Docs</a></li>
-  <li><a href="../..">zend-authentication</a></li>
-  
+    <li><a href="https://framework.zend.com/">Home</a></li>
+
     
-      
-        <li>Adapters</li>
-      
+        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
+
+        
+            <li><a href="../..">zend-authentication</a></li>
+
+            
+                
+                    <li>Adapters</li>
+                
+            
+
+            <li class="active">LDAP</li>
+        
     
-  
-  <li class="active">LDAP</li>
 </ol>
 
 
@@ -443,7 +451,7 @@ consists of the following options, which are passed, largely unmodified, to
 </tr>
 <tr>
 <td><code>accountCanonicalForm</code></td>
-<td>A value of 2, 3, or 4 indicating the form to which account names should be canonicalized after successful authentication. Values are as follows: 2 for traditional username style names (e.g., <code>alice</code>), 3 for backslash-style names (e.g., <code>FOO\alice</code>) or 4 for principal style usernames (e.g., <code>alice@foo.net</code>). The default value is 4 (e.g., <code>alice@foo.net</code>). For example, with a value of 3, the identity returned by <code>Zend\Authentication\Result::getIdentity()</code> (and <code>Zend\Authentication\AuthenticationService::getIdentity()</code>, if <code>Zend\Authentication\AuthenticationService</code> was used) will always be <code>FOO\alice</code>, regardless of what form Alice supplied, whether it be <code>alice</code>, <code>alice@foo.net</code>, <code>FOO\alice</code>, <code>FoO\aLicE</code>, <code>foo.net\alice</code>, etc. See the []Account Name Canonicalization](http://framework.zend.com/manual/current/en/modules/zend.ldap.introduction.html#account-name-canonicalization) section in the zend-ldap documentation for details. Note that when using multiple sets of server options it is recommended, but not required, that the same <code>accountCanonicalForm</code> be used with all server options so that the resulting usernames are always canonicalized to the same form (e.g., if you canonicalize to <code>EXAMPLE\username</code> with an AD server but to <code>username@example.com</code> with an OpenLDAP server, that may be awkward for the application’s high-level logic).</td>
+<td>A value of 2, 3, or 4 indicating the form to which account names should be canonicalized after successful authentication. Values are as follows: 2 for traditional username style names (e.g., <code>alice</code>), 3 for backslash-style names (e.g., <code>FOO\alice</code>) or 4 for principal style usernames (e.g., <code>alice@foo.net</code>). The default value is 4 (e.g., <code>alice@foo.net</code>). For example, with a value of 3, the identity returned by <code>Zend\Authentication\Result::getIdentity()</code> (and <code>Zend\Authentication\AuthenticationService::getIdentity()</code>, if <code>Zend\Authentication\AuthenticationService</code> was used) will always be <code>FOO\alice</code>, regardless of what form Alice supplied, whether it be <code>alice</code>, <code>alice@foo.net</code>, <code>FOO\alice</code>, <code>FoO\aLicE</code>, <code>foo.net\alice</code>, etc. See the <a href="http://framework.zend.com/manual/current/en/modules/zend.ldap.introduction.html#account-name-canonicalization">Account Name Canonicalization</a> section in the zend-ldap documentation for details. Note that when using multiple sets of server options it is recommended, but not required, that the same <code>accountCanonicalForm</code> be used with all server options so that the resulting usernames are always canonicalized to the same form (e.g., if you canonicalize to <code>EXAMPLE\username</code> with an AD server but to <code>username@example.com</code> with an OpenLDAP server, that may be awkward for the application’s high-level logic).</td>
 </tr>
 <tr>
 <td><code>accountDomainName</code></td>
@@ -638,14 +646,16 @@ schema, the following options are noteworthy:</p>
 </nav>
 
 
-<div class="help-wanted">
-    <p>
-        Found a mistake or want to contribute to the documentation?
-        <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/adapter/ldap.md" target="_blank" class="help-wanted__link">
-            Edit this page on GitHub!
-        </a>
-    </p>
-</div>
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/adapter/ldap.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
                 
             <!-- content:end -->
             </div>
@@ -659,39 +669,40 @@ schema, the following options are noteworthy:</p>
         <optgroup label="Components"></optgroup>
     </select>
 </div>
-                    <div class="subnavigation hidden-print">
-    <h4 class="subnavigation__title">
-        <a href="../..">zend-authentication</a>
-    </h4>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">zend-authentication</a>
+        </h4>
 
-    <h5 class="subnavigation__subtitle">Table of Contents</h5>
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
-    <ul class="subnavigation__list">
-        
+        <ul class="subnavigation__list">
             
-                <li class="subnavigation__list-item ">
-                    <a href="../.." class="subnavigation__link">zend-authentication</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../.." class="subnavigation__link">zend-authentication</a>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../intro/" class="subnavigation__link">Intro</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../../intro/" class="subnavigation__link">Intro</a>
-                </li>
-            
-        
-            
-                <li class="subnavigation__list-item">
-                    <span class="subnavigation__headline">Adapters</span>
-                    <ul class="subnavigation__list">
-                        
+                
+                    <li class="subnavigation__list-item">
+                        <span class="subnavigation__headline">Adapters</span>
+                        <ul class="subnavigation__list">
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../intro/" class="subnavigation__link">Intro</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item">
         <span class="subnavigation__headline">DbTable</span>
         <ul class="subnavigation__list">
@@ -717,43 +728,44 @@ schema, the following options are noteworthy:</p>
         </ul>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../digest/" class="subnavigation__link">Digest</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item ">
         <a href="../http/" class="subnavigation__link">HTTP</a>
     </li>
 
-                        
                             
+                                
     <li class="subnavigation__list-item subnavigation__list-item--active">
         <a href="./" class="subnavigation__link">LDAP</a>
     </li>
 
-                        
-                    </ul>
-                </li>
+                            
+                        </ul>
+                    </li>
+                
             
-        
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../storage/" class="subnavigation__link">Identity Persistence</a>
+                    </li>
+                
             
-                <li class="subnavigation__list-item ">
-                    <a href="../../storage/" class="subnavigation__link">Identity Persistence</a>
-                </li>
+                
+                    <li class="subnavigation__list-item ">
+                        <a href="../../validator/" class="subnavigation__link">Validation</a>
+                    </li>
+                
             
-        
-            
-                <li class="subnavigation__list-item ">
-                    <a href="../../validator/" class="subnavigation__link">Validation</a>
-                </li>
-            
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
                 
             </div>
         </div>
@@ -806,6 +818,15 @@ schema, the following options are noteworthy:</p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
+                    <li class="support__list-item">
+                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -816,7 +837,7 @@ schema, the following options are noteworthy:</p>
         var base_url = '../..',
             siteName = 'zend-authentication';
     </script>
-    <script src="../../js/scripts-dcbafde59f.js"></script>
+    <script src="../../js/scripts-a978f1ec1a.js"></script>
         <script src="../../search/require.js"></script>
         <script src="../../search/search.js"></script>
 
