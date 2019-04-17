@@ -1,70 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-    
     <url>
-     <loc>/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
     <url>
-     <loc>/intro/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
-        
     <url>
-     <loc>/adapter/intro/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc></loc>
-     <lastmod></lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>/adapter/digest/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/adapter/http/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
     <url>
-     <loc>/adapter/ldap/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    
-
-    
     <url>
-     <loc>/storage/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
-    
     <url>
-     <loc>/validator/</loc>
+     <loc>None</loc>
      <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
-    
-
+    <url>
+     <loc>None</loc>
+     <lastmod>2019-04-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>None</loc>
+     <lastmod>2019-04-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>None</loc>
+     <lastmod>2019-04-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
 </urlset>

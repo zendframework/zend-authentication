@@ -12,6 +12,7 @@
     <title>CredentialTreatmentAdapter - zend-authentication</title>
 
     <link rel="stylesheet" href="../../../css/styles-18b942728f.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.2.0/anchor.min.js"></script>
 </head>
 <body id="page-top">
 
@@ -66,7 +67,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../../..">zend-authentication</a>
+            <a href="">zend-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,13 +76,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../.." class="subnavigation__link">zend-authentication</a>
+                        <a href="" class="subnavigation__link">zend-authentication</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../intro/" class="subnavigation__link">Intro</a>
+                        <a href="intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -92,7 +93,7 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../intro/" class="subnavigation__link">Intro</a>
+        <a href="adapter/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
@@ -103,19 +104,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Intro</a>
+        <a href="adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">CredentialTreatmentAdapter</a>
+        <a href="adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../callback-check/" class="subnavigation__link">CallbackCheck</a>
+        <a href="adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
     </li>
 
             
@@ -125,19 +126,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../digest/" class="subnavigation__link">Digest</a>
+        <a href="adapter/digest/" class="subnavigation__link">Digest</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../http/" class="subnavigation__link">HTTP</a>
+        <a href="adapter/http/" class="subnavigation__link">HTTP</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../ldap/" class="subnavigation__link">LDAP</a>
+        <a href="adapter/ldap/" class="subnavigation__link">LDAP</a>
     </li>
 
                             
@@ -147,13 +148,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../storage/" class="subnavigation__link">Identity Persistence</a>
+                        <a href="storage/" class="subnavigation__link">Identity Persistence</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../validator/" class="subnavigation__link">Validation</a>
+                        <a href="validator/" class="subnavigation__link">Validation</a>
                     </li>
                 
             
@@ -233,15 +234,15 @@
         <li><a href="https://docs.zendframework.com/">Documentation</a></li>
 
         
-            <li><a href="../../..">zend-authentication</a></li>
+            <li><a href="">zend-authentication</a></li>
 
             
                 
-                    <li>Adapters</li>
+                    <li>DbTable</li>
                 
             
                 
-                    <li>DbTable</li>
+                    <li>Adapters</li>
                 
             
 
@@ -333,8 +334,8 @@ $sqlCreate = 'CREATE TABLE [users] ('
 $dbAdapter-&gt;query($sqlCreate);
 
 // Build a query to insert a row for which authentication may succeed
-$sqlInsert = &quot;INSERT INTO users (username, password, real_name) &quot;
-    . &quot;VALUES ('my_username', 'my_password', 'My Real Name')&quot;;
+$sqlInsert = "INSERT INTO users (username, password, real_name) "
+    . "VALUES ('my_username', 'my_password', 'My Real Name')";
 
 // Insert the data
 $dbAdapter-&gt;query($sqlInsert);</code></pre>
@@ -377,7 +378,7 @@ $result = $authAdapter-&gt;authenticate();</code></pre>
 authentication result object, <code>Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter</code>
 also supports retrieving the table row upon authentication success:</p>
 <pre class="codehilite"><code class="language-php">// Print the identity:
-echo $result-&gt;getIdentity() . &quot;\n\n&quot;;
+echo $result-&gt;getIdentity() . "\n\n";
 
 // Print the result row:
 print_r($authAdapter-&gt;getResultRowObject());
@@ -445,13 +446,13 @@ that the user has not been flagged as "compromised", which is a potential value
 of the <code>status</code> field for the user record.</p>
 <pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
 
-// The status field value of an account is not equal to &quot;compromised&quot;
+// The status field value of an account is not equal to "compromised"
 $adapter = new AuthAdapter(
     $db,
     'users',
     'username',
     'password',
-    'MD5(?) AND status != &quot;compromised&quot;'
+    'MD5(?) AND status != "compromised"'
 );</code></pre>
 
 <h3 id="check-for-active-user">Check for active user</h3>
@@ -460,13 +461,13 @@ if we require a user to login once over X days, or if we need to ensure that
 they have followed a verification process.</p>
 <pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
 
-// The active field value of an account is equal to &quot;TRUE&quot;
+// The active field value of an account is equal to "TRUE"
 $adapter = new AuthAdapter(
     $db,
     'users',
     'username',
     'password',
-    'MD5(?) AND active = &quot;TRUE&quot;'
+    'MD5(?) AND active = "TRUE"'
 );</code></pre>
 
 <h3 id="salting">Salting</h3>
@@ -476,9 +477,9 @@ idea that concatenating a random string to every password makes it impossible
 to accomplish a successful brute force attack on the database using
 pre-computed hash values from a dictionary.</p>
 <p>Let's modify our table to store our salt string:</p>
-<pre class="codehilite"><code class="language-php">$sqlAlter = &quot;ALTER TABLE [users] &quot;
-    . &quot;ADD COLUMN [password_salt] &quot;
-    . &quot;AFTER [password]&quot;;</code></pre>
+<pre class="codehilite"><code class="language-php">$sqlAlter = "ALTER TABLE [users] "
+    . "ADD COLUMN [password_salt] "
+    . "AFTER [password]";</code></pre>
 
 <p>Salts should be created <em>for each user</em> using a cryptographically sound pseudo-random number generator (CSPRNG). PHP 7 provides an implementation via <code>random_bytes</code>:</p>
 <pre class="codehilite"><code class="language-php">$salt = random_bytes(32);</code></pre>
@@ -499,7 +500,7 @@ $db,
     'users',
     'username',
     'password',
-    &quot;MD5(CONCAT('staticSalt', ?, password_salt))&quot;
+    "MD5(CONCAT('staticSalt', ?, password_salt))"
 );</code></pre>
 
 <blockquote>
@@ -539,9 +540,9 @@ $adapter = new AuthAdapter(
 
 // Now retrieve the Select instance and modify it:
 $select = $adapter-&gt;getDbSelect();
-$select-&gt;where('active = &quot;TRUE&quot;');
+$select-&gt;where('active = "TRUE"');
 
-// Authenticate; this will include &quot;users.active = TRUE&quot; in the WHERE clause:
+// Authenticate; this will include "users.active = TRUE" in the WHERE clause:
 $adapter-&gt;authenticate();</code></pre>
 
 
@@ -552,7 +553,7 @@ $adapter-&gt;authenticate();</code></pre>
         
         <li class="page-nav__item">
             
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="adapter/dbtable/intro/">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
             
@@ -561,7 +562,7 @@ $adapter-&gt;authenticate();</code></pre>
         
         <li class="page-nav__item">
             
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../callback-check/">
+                <a rel="next" class="page-nav__link page-nav__link--next" href="adapter/dbtable/callback-check/">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             
@@ -596,7 +597,7 @@ $adapter-&gt;authenticate();</code></pre>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../../..">zend-authentication</a>
+            <a href="">zend-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -605,13 +606,13 @@ $adapter-&gt;authenticate();</code></pre>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../.." class="subnavigation__link">zend-authentication</a>
+                        <a href="" class="subnavigation__link">zend-authentication</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../intro/" class="subnavigation__link">Intro</a>
+                        <a href="intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -622,7 +623,7 @@ $adapter-&gt;authenticate();</code></pre>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../intro/" class="subnavigation__link">Intro</a>
+        <a href="adapter/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
@@ -633,19 +634,19 @@ $adapter-&gt;authenticate();</code></pre>
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../intro/" class="subnavigation__link">Intro</a>
+        <a href="adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">CredentialTreatmentAdapter</a>
+        <a href="adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../callback-check/" class="subnavigation__link">CallbackCheck</a>
+        <a href="adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
     </li>
 
             
@@ -655,19 +656,19 @@ $adapter-&gt;authenticate();</code></pre>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../digest/" class="subnavigation__link">Digest</a>
+        <a href="adapter/digest/" class="subnavigation__link">Digest</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../http/" class="subnavigation__link">HTTP</a>
+        <a href="adapter/http/" class="subnavigation__link">HTTP</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../../ldap/" class="subnavigation__link">LDAP</a>
+        <a href="adapter/ldap/" class="subnavigation__link">LDAP</a>
     </li>
 
                             
@@ -677,13 +678,13 @@ $adapter-&gt;authenticate();</code></pre>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../storage/" class="subnavigation__link">Identity Persistence</a>
+                        <a href="storage/" class="subnavigation__link">Identity Persistence</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../../../validator/" class="subnavigation__link">Validation</a>
+                        <a href="validator/" class="subnavigation__link">Validation</a>
                     </li>
                 
             
@@ -761,9 +762,8 @@ $adapter-&gt;authenticate();</code></pre>
         var base_url = '../../..',
             siteName = 'zend-authentication';
     </script>
-    <script src="../../../js/scripts-0bcb0a3bb3.js"></script>
-        <script src="../../../search/require.js"></script>
-        <script src="../../../search/search.js"></script>
+    <script src="../../../js/"></script>
+        <script src="../../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
@@ -792,6 +792,14 @@ $adapter-&gt;authenticate();</code></pre>
             </div>
         </div>
     </div>
+
+<script>
+// Anchors
+anchors.options.placement = 'left';
+anchors.add(
+    '.content h1:not(.content__title), .content h2, .content > h3, .content h4, .content h5'
+);
+</script>
 
 
 
