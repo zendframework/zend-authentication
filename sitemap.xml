@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>/intro/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -21,7 +21,7 @@
         
     <url>
      <loc>/adapter/intro/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -33,19 +33,19 @@
         
     <url>
      <loc>/adapter/digest/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/adapter/http/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/adapter/ldap/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -54,7 +54,7 @@
     
     <url>
      <loc>/storage/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -62,7 +62,7 @@
     
     <url>
      <loc>/validator/</loc>
-     <lastmod>2019-01-24</lastmod>
+     <lastmod>2019-04-17</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
