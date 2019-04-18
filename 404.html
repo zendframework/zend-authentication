@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="zend-authentication">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="shortcut icon" href="//img/favicon.ico">
 
-    <title>Identity Persistence - zend-authentication - Zend Framework Docs</title>
+    <title>zend-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-f3b53f5ceb.css">
+    <link rel="stylesheet" href="//css/styles-f3b53f5ceb.css">
 </head>
 <body id="page-top">
 
@@ -31,7 +31,7 @@
             
             <span class="navbar-brand">
                 <a class="logo-link" href="https://framework.zend.com/" data-tooltip data-placement="bottom" title="Go to the ZF homepage">
-                    <img src="../img/zend-framework-logo.svg" height="28" alt="Zend Framework">
+                    <img src="//img/zend-framework-logo.svg" height="28" alt="Zend Framework">
                 </a>
             </span>
         </div>
@@ -66,7 +66,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-authentication</a>
+            <a href="/.">zend-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,13 +75,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-authentication</a>
+                        <a href="/." class="subnavigation__link">zend-authentication</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                        <a href="/intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -92,7 +92,7 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/intro/" class="subnavigation__link">Intro</a>
+        <a href="/adapter/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
@@ -103,19 +103,19 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
+        <a href="/adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
+        <a href="/adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
+        <a href="/adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
     </li>
 
             
@@ -125,19 +125,19 @@
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/digest/" class="subnavigation__link">Digest</a>
+        <a href="/adapter/digest/" class="subnavigation__link">Digest</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/http/" class="subnavigation__link">HTTP</a>
+        <a href="/adapter/http/" class="subnavigation__link">HTTP</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/ldap/" class="subnavigation__link">LDAP</a>
+        <a href="/adapter/ldap/" class="subnavigation__link">LDAP</a>
     </li>
 
                             
@@ -146,14 +146,14 @@
                 
             
                 
-                    <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Identity Persistence</a>
+                    <li class="subnavigation__list-item ">
+                        <a href="/storage/" class="subnavigation__link">Identity Persistence</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../validator/" class="subnavigation__link">Validation</a>
+                        <a href="/validator/" class="subnavigation__link">Validation</a>
                     </li>
                 
             
@@ -226,263 +226,18 @@
             <div class="col-md-9 col-xs-12 content" role="main">
             <!-- content:begin -->
                 
-                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-    <li><a href="https://framework.zend.com/">Home</a></li>
 
-    
-        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
-
-        
-            <li><a href="..">zend-authentication</a></li>
-
-            
-
-            <li class="active">Identity Persistence</li>
-        
-    
-</ol>
-
-
-    
-
-    
-    
-
-    
-    
-        <div class="toc">
-            <h6 class="toc__headline">In This Article</h6>
-            <ul class="toc__list">
-                
-                    <li class="toc__entry">
-                        <a href="#default-persistence-in-the-php-session" class="toc__link">Default Persistence in the PHP Session</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#modifying-the-session-namespace" class="toc__link">Modifying the Session Namespace</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#chain-storage" class="toc__link">Chain Storage</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#implementing-custom-storage" class="toc__link">Implementing Custom Storage</a>
-                    </li>
-                
-            </ul>
-        </div>
-    
-
-
-    <h1 id="identity-persistence">Identity Persistence</h1>
-<p>Authenticating a request that includes authentication credentials is useful, but
-it is also often useful to persist the authenticated identity between requests, so
-the user does not need to provide credentials with each request.</p>
-<p>HTTP is a stateless protocol; however, techniques such as cookies and sessions
-have been developed in order to facilitate maintaining state across multiple
-requests in server-side web applications.</p>
-<h2 id="default-persistence-in-the-php-session">Default Persistence in the PHP Session</h2>
-<p>By default, zend-authentication provides persistent storage of the identity from a successful
-authentication attempt using PHP session facilities. Upon a successful authentication attempt,
-<code>Zend\Authentication\AuthenticationService::authenticate()</code> stores the identity from the
-authentication result into persistent storage. Unless specified otherwise,
-<code>Zend\Authentication\AuthenticationService</code> uses a storage class named
-<code>Zend\Authentication\Storage\Session</code>, which depends on
-<a href="https://github.com/zendframework/zend-session">zend-session</a>.</p>
-<p>You may also implement <code>Zend\Authentication\Storage\StorageInterface</code>, and
-provide your implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
+<h1 class="content__title">404</h1>
 <blockquote>
-<h3 id="bypass-the-authenticationservice">Bypass the AuthenticationService</h3>
-<p>If automatic persistent storage of the identity is not appropriate for your
-use case, you can skip usage of <code>Zend\Authentication\AuthenticationService</code>
-altogether, and instead use an adapter directly.</p>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
 </blockquote>
-<h2 id="modifying-the-session-namespace">Modifying the Session Namespace</h2>
-<p><code>Zend\Authentication\Storage\Session</code> uses the session namespace <code>Zend_Auth</code>.
-This namespace may be overridden by passing a different value to the constructor
-of <code>Zend\Authentication\Storage\Session</code>, and this value is internally passed
-along to the constructor of <a href="https://github.com/zendframework/zend-session">Zend\Session\Container</a>.
-This should occur before authentication is attempted, since
-<code>Zend\Authentication\AuthenticationService::authenticate()</code> injects the
-authenticated identity into the configured storage.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Authentication\AuthenticationService;
-use Zend\Authentication\Storage\Session as SessionStorage;
 
-$auth = new AuthenticationService();
-
-// Use 'someNamespace' instead of 'Zend_Auth'
-$auth-&gt;setStorage(new SessionStorage('someNamespace'));
-
-// Set up the auth adapter, $authAdapter
-$authAdapter = /* ... */;
-
-// Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($authAdapter);</code></pre>
-
-<h2 id="chain-storage">Chain Storage</h2>
-<p>A website might use multiple storage strategies for identity persistence; the
-<code>Chain</code> Storage can be used to glue these together.</p>
-<p>For example, the <code>Chain</code> can be configured to first use <code>Session</code> storage and
-then use an <code>OAuth</code> storage adapter. One could configure this in the following
-way:</p>
-<pre class="codehilite"><code class="language-php">$storage = new Chain;
-$storage-&gt;add(new Session);
-$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication</code></pre>
-
-<p>When the <code>Chain</code> Storage is used, its underlying storage adapters will be
-consulted in the order in which they were added to the chain. Using our scenario
-above, the <code>Session</code> storage adapter will be consulted first. When that happens:</p>
-<ul>
-<li>If the <code>Session</code> storage is non-empty, the <code>Chain</code> will use and return its
-  contents.</li>
-<li>If the <code>Session</code> storage is empty, the <code>Chain</code> will move on to the <code>OAuth</code>
-  storage adapter.</li>
-<li>If the <code>OAuth</code> storage is empty, the <code>Chain</code> will return an empty result.</li>
-<li>If the <code>OAuth</code> storage is non-empty, the <code>Chain</code> will use and return its
-  contents. However, it will <em>also</em> populate all storage adapters with higher
-  priority with the contents; in our example, the <code>Session</code> storage will be
-  populated, but if we'd added any adapters after the <code>OAuth</code> adapter, they
-  would not.</li>
-</ul>
-<p>The priority of storage adapters in the Chain can be made explicit via the
-<code>Chain::add</code> method, which accepts a second argument indicating the priority.
-(Per standard priority queue usage, higher values have higher priority, and
-lower or negative values have lower priority.)</p>
-<pre class="codehilite"><code class="language-php">$chain-&gt;add(new A, 2);
-$chain-&gt;add(new B, 10); // B will be used first</code></pre>
-
-<h2 id="implementing-custom-storage">Implementing Custom Storage</h2>
-<p>Sometimes developers may need to use a different identity storage mechanism than
-that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, implement
-<code>Zend\Authentication\Storage\StorageInterface</code> and supply an instance of your
-implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
-<p>The following examples demonstrate the process.</p>
-<p>First, implement <code>Zend\Authentication\Storage\StorageInterface</code>:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
-namespace My;
-
-use Zend\Authentication\Storage\StorageInterface;
-
-class Storage implements StorageInterface
-{
-    /**
-     * Returns true if and only if storage is empty.
-     *
-     * @return boolean
-     * @throws \Zend\Authentication\Exception\ExceptionInterface If it is
-     *     impossible to determine whether storage is empty.
-     */
-    public function isEmpty()
-    {
-        /**
-         * @todo implementation
-         */
-    }
-
-    /**
-     * Returns the contents of storage.
-     *
-     * Behavior is undefined when storage is empty.
-     *
-     * @return mixed
-     * @throws \Zend\Authentication\Exception\ExceptionInterface If reading
-     *     contents from storage is impossible
-     */
-
-    public function read()
-    {
-        /**
-         * @todo implementation
-         */
-    }
-
-    /**
-     * Writes $contents to storage.
-     *
-     * @param  mixed $contents
-     * @return void
-     * @throws \Zend\Authentication\Exception\ExceptionInterface If writing
-     *     $contents to storage is impossible
-     */
-
-    public function write($contents)
-    {
-        /**
-         * @todo implementation
-         */
-    }
-
-    /**
-     * Clears contents from storage.
-     *
-     * @return void
-     * @throws \Zend\Authentication\Exception\ExceptionInterface If clearing
-     *     contents from storage is impossible.
-     */
-
-    public function clear()
-    {
-        /**
-         * @todo implementation
-         */
-    }
-}</code></pre>
-
-<p>In order to use this custom storage class, <code>Zend\Authentication\AuthenticationService::setStorage()</code>
-is invoked before an authentication query is attempted:</p>
-<pre class="codehilite"><code class="language-php">use My\Storage;
-use Zend\Authentication\AuthenticationService;
-
-// Create the authentication service instance:
-$auth = new AuthenticationService();
-
-// Instruct the authentication service to use the custom storage class:
-$auth-&gt;setStorage(new Storage());
-
-// Create the authentication adapter:
-$adapter = /* ... */;
-
-// Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($adapter);</code></pre>
+<a href="/" class="btn btn-default" role="button">Go to homepage</a>
 
 
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../adapter/ldap/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../validator/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/storage.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
@@ -498,7 +253,7 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="..">zend-authentication</a>
+            <a href="/.">zend-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -507,13 +262,13 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href=".." class="subnavigation__link">zend-authentication</a>
+                        <a href="/." class="subnavigation__link">zend-authentication</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Intro</a>
+                        <a href="/intro/" class="subnavigation__link">Intro</a>
                     </li>
                 
             
@@ -524,7 +279,7 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/intro/" class="subnavigation__link">Intro</a>
+        <a href="/adapter/intro/" class="subnavigation__link">Intro</a>
     </li>
 
                             
@@ -535,19 +290,19 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
+        <a href="/adapter/dbtable/intro/" class="subnavigation__link">Intro</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
+        <a href="/adapter/dbtable/credential-treatment/" class="subnavigation__link">CredentialTreatmentAdapter</a>
     </li>
 
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
+        <a href="/adapter/dbtable/callback-check/" class="subnavigation__link">CallbackCheck</a>
     </li>
 
             
@@ -557,19 +312,19 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/digest/" class="subnavigation__link">Digest</a>
+        <a href="/adapter/digest/" class="subnavigation__link">Digest</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/http/" class="subnavigation__link">HTTP</a>
+        <a href="/adapter/http/" class="subnavigation__link">HTTP</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../adapter/ldap/" class="subnavigation__link">LDAP</a>
+        <a href="/adapter/ldap/" class="subnavigation__link">LDAP</a>
     </li>
 
                             
@@ -578,14 +333,14 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
                 
             
                 
-                    <li class="subnavigation__list-item subnavigation__list-item--active">
-                        <a href="./" class="subnavigation__link">Identity Persistence</a>
+                    <li class="subnavigation__list-item ">
+                        <a href="/storage/" class="subnavigation__link">Identity Persistence</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../validator/" class="subnavigation__link">Validation</a>
+                        <a href="/validator/" class="subnavigation__link">Validation</a>
                     </li>
                 
             
@@ -660,11 +415,11 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
 </footer>
 
     <script>
-        var base_url = '..',
+        var base_url = '/',
             siteName = 'zend-authentication';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="//js/scripts-8d7ae56abf.js"></script>
+        <script src="/search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
