@@ -320,6 +320,10 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
+                        <a href="#security-considerations" class="toc__link">Security considerations</a>
+                    </li>
+                
+                    <li class="toc__entry">
                         <a href="#configuration-options" class="toc__link">Configuration Options</a>
                     </li>
                 
@@ -341,8 +345,26 @@
 <p><code>Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter</code> will execute a
 SQL query containing the provided identity and credentials, passing the
 credentials to a <em>credential treatment</em> function defined on the RDBMS server;
-if an identity is returned, authentication succeeds. Common credential
-treatments include <code>MD5()</code> and <code>PASSWORD()</code>.</p>
+if an identity is returned, authentication succeeds. Credential
+treatments depends on your RDBMS, and while simple hashing function such as
+<code>md5</code> and <code>sha1</code> are generally available, it is recommended not to use them and
+rather use the RDBMS specific function such as
+<a href="http://dev.mysql.com/doc/refman/5.7/en/password-hashing.html"><code>PASSWORD(?)</code> for MySQL</a> or
+<a href="https://www.postgresql.org/docs/11/pgcrypto.html#id-1.11.7.34.6"><code>crypt()</code> for PostgreSQL</a>.
+More details are available in the next section.</p>
+<h2 id="security-considerations">Security considerations</h2>
+<p>Passing passwords to database in plaintext for insert or verification is
+generally not recommended.<br />
+Sql statements can and usually are logged by the database, and passwords in them
+become visible to anyone with access to the logs or monitoring tools that
+consume those logs.</p>
+<p>The safer approach is to hash passwords, and to verify them against a stored
+hash in your application code. This way the password never leaves the
+application, and only the hashed value is exchanged with the database.</p>
+<p>As such, this adapter is not recommended for new applications, and existing
+applications should consider migrating to using PHP-provided password handling
+functions such as <code>password_hash()</code> and <code>password_verify()</code>. See
+<a href="../callback-check/">CallbackCheckAdapter</a> for more info.</p>
 <h2 id="configuration-options">Configuration Options</h2>
 <p>The available configuration options include:</p>
 <ul>
@@ -359,7 +381,7 @@ treatments include <code>MD5()</code> and <code>PASSWORD()</code>.</p>
 <li><code>credentialTreatment</code>: In many cases, passwords and other sensitive data
   are encrypted, hashed, encoded, obscured, salted or otherwise treated through
   some function or algorithm. By specifying a parameterized treatment string
-  with this method, such as '<code>MD5(?)</code>' or '<code>PASSWORD(?)</code>', a developer may
+  with this method, such as '<code>PASSWORD(?)</code>', a developer may
   apply such arbitrary SQL upon input credential data. Since these functions
   are specific to the underlying RDBMS, check the database manual for the
   availability of such functions for your database system.</li>
@@ -500,7 +522,7 @@ authorization problem within the authentication adapter.</p>
 <p>Below are a few examples showing how you can provide compound criteria to the
 credential treatment to solve more complex problems.</p>
 <h3 id="check-for-compromised-user">Check for compromised user</h3>
-<p>In this scenario, we use the credential treatment <code>MD5()</code>, but also check to see
+<p>In this scenario, we use the credential treatment <code>PASSWORD()</code>, but also check to see
 that the user has not been flagged as "compromised", which is a potential value
 of the <code>status</code> field for the user record.</p>
 <pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter as AuthAdapter;
@@ -511,7 +533,7 @@ $adapter = new AuthAdapter(
     'users',
     'username',
     'password',
-    'MD5(?) AND status != "compromised"'
+    'PASSWORD(?) AND status != "compromised"'
 );</code></pre>
 
 <h3 id="check-for-active-user">Check for active user</h3>
@@ -526,7 +548,7 @@ $adapter = new AuthAdapter(
     'users',
     'username',
     'password',
-    'MD5(?) AND active = "TRUE"'
+    'PASSWORD(?) AND active = "TRUE"'
 );</code></pre>
 
 <h3 id="salting">Salting</h3>
@@ -540,7 +562,9 @@ pre-computed hash values from a dictionary.</p>
     . "ADD COLUMN [password_salt] "
     . "AFTER [password]";</code></pre>
 
-<p>Salts should be created <em>for each user</em> using a cryptographically sound pseudo-random number generator (CSPRNG). PHP 7 provides an implementation via <code>random_bytes</code>:</p>
+<p>Salts should be created <em>for each user</em> using a cryptographically sound pseudo-random number generator (CSPRNG).
+PHP 7 provides an implementation via <code>random_bytes()</code> (and
+the <a href="https://github.com/paragonie/random_compat">random_compat package provides them for older, supported versions of PHP</a>):</p>
 <pre class="codehilite"><code class="language-php">$salt = random_bytes(32);</code></pre>
 
 <p>For earlier versions of PHP, use <a href="https://github.com/zendframework/zend-math">zend-math</a>'s <code>Zend\Math\Rand</code>:</p>
@@ -559,7 +583,7 @@ $db,
     'users',
     'username',
     'password',
-    "MD5(CONCAT('staticSalt', ?, password_salt))"
+    "PASSWORD(CONCAT('staticSalt', ?, password_salt))"
 );</code></pre>
 
 <blockquote>
@@ -588,13 +612,13 @@ instance as placeholders.</p>
 criteria later, potentially based on specific paths through the application.</p>
 <p>The following uses the second example in this section, adding another <code>WHERE</code>
 clause to determine if the user is active in the system.</p>
-<pre class="codehilite"><code class="language-php">// Create a basic adapter, with only an MD5() credential treatment:
+<pre class="codehilite"><code class="language-php">// Create a basic adapter, with only an PASSWORD() credential treatment:
 $adapter = new AuthAdapter(
     $db,
     'users',
     'username',
     'password',
-    'MD5(?)'
+    'PASSWORD(?)'
 );
 
 // Now retrieve the Select instance and modify it:

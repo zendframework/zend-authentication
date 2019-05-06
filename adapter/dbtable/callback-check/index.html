@@ -520,7 +520,7 @@ within it. However, you can add criteria to the SQL sent to the server by
 retrieving the <code>Zend\Db\Sql\Select</code> instance is uses.</p>
 <p>As an example, many websites require a user to activate their account before
 allowing them to login for the first time. We can add that criteria as follows:</p>
-<pre class="codehilite"><code class="language-php">// Create a basic adapter, with only an MD5() credential treatment:
+<pre class="codehilite"><code class="language-php">// Create a basic adapter
 $adapter = new AuthAdapter(
     $db,
     'users',
