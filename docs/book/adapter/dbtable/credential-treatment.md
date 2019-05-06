@@ -15,17 +15,17 @@ More details are available in the next section.
 
 Passing passwords to database in plaintext for insert or verification is
 generally not recommended.  
-Sql statements can and usually are logged by the database, passwords in them
+Sql statements can and usually are logged by the database, and passwords in them
 become visible to anyone with access to the logs or monitoring tools that
 consume those logs.
 
-Safer way is to hash passwords and verify them against stored hash on the
-application side. This way password never needs to leave application and only
-hashed value exchanged with database.
+The safer approach is to hash passwords, and to verify them against a stored
+hash in your application code. This way the password never leaves the
+application, and only the hashed value is exchanged with the database.
 
-As such, this adapter is not recommended for new applications and existing
-applications should consider migrating to using PHP provided password handling
-functions `password_hash()` and `password_verify()`. See
+As such, this adapter is not recommended for new applications, and existing
+applications should consider migrating to using PHP-provided password handling
+functions such as `password_hash()` and `password_verify()`. See
 [CallbackCheckAdapter](callback-check.md) for more info.
 
 ## Configuration Options
@@ -261,8 +261,8 @@ $sqlAlter = "ALTER TABLE [users] "
 ```
 
 Salts should be created *for each user* using a cryptographically sound pseudo-random number generator (CSPRNG).
-PHP 7 provides an implementation via `random_bytes` (and 
-[`random_compat` for older supported versions of PHP](https://github.com/paragonie/random_compat)):
+PHP 7 provides an implementation via `random_bytes()` (and
+the [random_compat package provides them for older, supported versions of PHP](https://github.com/paragonie/random_compat)):
 
 ```php
 $salt = random_bytes(32);
