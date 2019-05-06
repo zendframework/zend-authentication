@@ -3,8 +3,30 @@
 `Zend\Authentication\Adapter\DbTable\CredentialTreatmentAdapter` will execute a
 SQL query containing the provided identity and credentials, passing the
 credentials to a *credential treatment* function defined on the RDBMS server;
-if an identity is returned, authentication succeeds. Common credential
-treatments include `MD5()` and `PASSWORD()`.
+if an identity is returned, authentication succeeds. Credential
+treatments depends on your RDBMS, and while simple hashing function such as
+`md5` and `sha1` are generally available, it is recommended not to use them and
+rather use the RDBMS specific function such as
+[`PASSWORD(?)` for MySQL](http://dev.mysql.com/doc/refman/5.7/en/password-hashing.html) or
+[`crypt()` for PostgreSQL](https://www.postgresql.org/docs/11/pgcrypto.html#id-1.11.7.34.6).
+More details are available in the next section.
+
+## Security considerations
+
+Passing passwords to database in plaintext for insert or verification is
+generally not recommended.  
+Sql statements can and usually are logged by the database, and passwords in them
+become visible to anyone with access to the logs or monitoring tools that
+consume those logs.
+
+The safer approach is to hash passwords, and to verify them against a stored
+hash in your application code. This way the password never leaves the
+application, and only the hashed value is exchanged with the database.
+
+As such, this adapter is not recommended for new applications, and existing
+applications should consider migrating to using PHP-provided password handling
+functions such as `password_hash()` and `password_verify()`. See
+[CallbackCheckAdapter](callback-check.md) for more info.
 
 ## Configuration Options
 
@@ -23,7 +45,7 @@ The available configuration options include:
 - `credentialTreatment`: In many cases, passwords and other sensitive data
   are encrypted, hashed, encoded, obscured, salted or otherwise treated through
   some function or algorithm. By specifying a parameterized treatment string
-  with this method, such as '`MD5(?)`' or '`PASSWORD(?)`', a developer may
+  with this method, such as '`PASSWORD(?)`', a developer may
   apply such arbitrary SQL upon input credential data. Since these functions
   are specific to the underlying RDBMS, check the database manual for the
   availability of such functions for your database system.
@@ -186,7 +208,7 @@ credential treatment to solve more complex problems.
 
 ### Check for compromised user
 
-In this scenario, we use the credential treatment `MD5()`, but also check to see
+In this scenario, we use the credential treatment `PASSWORD()`, but also check to see
 that the user has not been flagged as "compromised", which is a potential value
 of the `status` field for the user record.
 
@@ -199,7 +221,7 @@ $adapter = new AuthAdapter(
     'users',
     'username',
     'password',
-    'MD5(?) AND status != "compromised"'
+    'PASSWORD(?) AND status != "compromised"'
 );
 ```
 
@@ -218,7 +240,7 @@ $adapter = new AuthAdapter(
     'users',
     'username',
     'password',
-    'MD5(?) AND active = "TRUE"'
+    'PASSWORD(?) AND active = "TRUE"'
 );
 ```
 
@@ -238,7 +260,9 @@ $sqlAlter = "ALTER TABLE [users] "
     . "AFTER [password]";
 ```
 
-Salts should be created *for each user* using a cryptographically sound pseudo-random number generator (CSPRNG). PHP 7 provides an implementation via `random_bytes`:
+Salts should be created *for each user* using a cryptographically sound pseudo-random number generator (CSPRNG).
+PHP 7 provides an implementation via `random_bytes()` (and
+the [random_compat package provides them for older, supported versions of PHP](https://github.com/paragonie/random_compat)):
 
 ```php
 $salt = random_bytes(32);
@@ -267,7 +291,7 @@ $db,
     'users',
     'username',
     'password',
-    "MD5(CONCAT('staticSalt', ?, password_salt))"
+    "PASSWORD(CONCAT('staticSalt', ?, password_salt))"
 );
 ```
 
@@ -304,13 +328,13 @@ The following uses the second example in this section, adding another `WHERE`
 clause to determine if the user is active in the system.
 
 ```php
-// Create a basic adapter, with only an MD5() credential treatment:
+// Create a basic adapter, with only an PASSWORD() credential treatment:
 $adapter = new AuthAdapter(
     $db,
     'users',
     'username',
     'password',
-    'MD5(?)'
+    'PASSWORD(?)'
 );
 
 // Now retrieve the Select instance and modify it:
