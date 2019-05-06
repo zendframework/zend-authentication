@@ -114,7 +114,7 @@ $authAdapter
     ->setTableName('users')
     ->setIdentityColumn('username')
     ->setCredentialColumn('password')
-    ->setCredentialValidatinCallback($passwordValidation);
+    ->setCredentialValidationCallback($passwordValidation);
 ```
 
 At this point, the authentication adapter instance is ready to accept
