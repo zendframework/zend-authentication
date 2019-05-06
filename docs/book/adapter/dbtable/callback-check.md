@@ -214,7 +214,7 @@ As an example, many websites require a user to activate their account before
 allowing them to login for the first time. We can add that criteria as follows:
 
 ```php
-// Create a basic adapter, with only an MD5() credential treatment:
+// Create a basic adapter
 $adapter = new AuthAdapter(
     $db,
     'users',

@@ -7,8 +7,26 @@ if an identity is returned, authentication succeeds. Credential
 treatments depends on your RDBMS, and while simple hashing function such as
 `md5` and `sha1` are generally available, it is recommended not to use them and
 rather use the RDBMS specific function such as
-[`PASSWORD(?)` for MySQL](http://dev.mysql.com/doc/refman/5.7/en/password-hashing.html).
+[`PASSWORD(?)` for MySQL](http://dev.mysql.com/doc/refman/5.7/en/password-hashing.html) or
+[`crypt()` for PostgreSQL](https://www.postgresql.org/docs/11/pgcrypto.html#id-1.11.7.34.6).
 More details are available in the next section.
+
+## Security considerations
+
+Passing passwords to database in plaintext for insert or verification is
+generally not recommended.  
+Sql statements can and usually are logged by the database, passwords in them
+become visible to anyone with access to the logs or monitoring tools that
+consume those logs.
+
+Safer way is to hash passwords and verify them against stored hash on the
+application side. This way password never needs to leave application and only
+hashed value exchanged with database.
+
+As such, this adapter is not recommended for new applications and existing
+applications should consider migrating to using PHP provided password handling
+functions `password_hash()` and `password_verify()`. See
+[CallbackCheckAdapter](callback-check.md) for more info.
 
 ## Configuration Options
 
