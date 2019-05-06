@@ -348,7 +348,7 @@ abstract class AbstractAdapter extends BaseAdapter
      */
     protected function authenticateValidateResultSet(array $resultIdentities)
     {
-        if (count($resultIdentities) < 1) {
+        if (! $resultIdentities) {
             $this->authenticateResultInfo['code']       = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
             $this->authenticateResultInfo['messages'][] = 'A record with the supplied identity could not be found.';
             return $this->authenticateCreateAuthResult();
