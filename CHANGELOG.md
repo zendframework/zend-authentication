@@ -10,7 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#42](https://github.com/zendframework/zend-authentication/pull/42) Changes authentication using Basic scheme
+  to re-challenge the client when credentials in Authorization header can not be base64 decoded.
 
 ### Deprecated
 
