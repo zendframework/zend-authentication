@@ -160,6 +160,17 @@ class AuthenticationTest extends TestCase
         $this->assertEquals('Custom Error', $templates['custom_error']);
     }
 
+    public function testCodeMapOptionRequiresMessageKeyToBeString()
+    {
+        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Message key in code_map option must be a non-empty string');
+        $auth = new AuthenticationValidator([
+            'code_map' => [
+                -999 => [],
+            ]
+        ]);
+    }
+
     public function testSetters()
     {
         $this->validator->setAdapter($this->authAdapter);
