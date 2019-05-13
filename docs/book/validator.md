@@ -13,6 +13,7 @@ The available configuration options include:
 - `identity`: the identity or name of the identity field in the provided context.
 - `credential`: credential or the name of the credential field in the provided context.
 - `service`: an instance of `Zend\Authentication\AuthenticationService`.
+- `code_map`: map of authentication attempt result codes to validator message keys. 
 
 ## Usage
 
@@ -32,4 +33,32 @@ $validator->setCredential('myCredentialContext');
 $validator->isValid('myIdentity', [
      'myCredentialContext' => 'myCredential',
 ]);
+```
+
+## Configuring custom authentication result codes and messages
+
+Constructor configuration option `code_map` is a map of custom authentication result
+codes to validation messages keys.
+
+`code_map` can specify custom validation message key. New message template
+will be registered for that key, which can further be customized
+using `Validator::setMessage()` method or `messages` configuration option.
+
+```php
+use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
+
+$validator = new AuthenticationValidator([
+    'code_map' => [
+        // map custom result code to existing message
+        -990 => AuthenticationValidator::IDENTITY_NOT_FOUND,
+        // map custom result code to a new message type
+        -991 => 'custom_error_message_key',
+    ],
+    'messages' => [
+        // provide message template for custom message type defined above
+        'custom_error_message_key' => 'Custom Error Happened'
+    ],
+]);
+
+$validator->setMessage('Custom Error Happened', 'custom_error_message_key');
 ```
