@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.7.0 - TBD
+## 2.7.0 - 2019-05-14
 
 ### Added
 
@@ -24,28 +24,6 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Removed
 
 - [#44](https://github.com/zendframework/zend-authentication/pull/44) removes support for zend-stdlib v2 releases.
-
-### Fixed
-
-- Nothing.
-
-## 2.6.1 - TBD
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
 
 ### Fixed
 
