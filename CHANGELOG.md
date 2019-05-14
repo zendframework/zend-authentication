@@ -7,6 +7,10 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - [#44](https://github.com/zendframework/zend-authentication/pull/44) adds support for PHP 7.3.
+- [#47](https://github.com/zendframework/zend-authentication/pull/47) adds
+  configuration option to `Zend\Authentication\Validator\Authentication` for
+  mapping custom authentication result codes to existing and new validation
+  message types.
 
 ### Changed
 
