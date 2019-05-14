@@ -1,14 +1,13 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-authentication for the canonical source repository
- * @copyright Copyright (c) 2013-2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2013-2019 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-authentication/blob/master/LICENSE.md New BSD License
  */
 
 namespace ZendTest\Authentication\Validator;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Zend\Authentication\Adapter\ValidatableAdapterInterface;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Exception;
@@ -52,6 +51,124 @@ class AuthenticationTest extends TestCase
         $this->assertSame($auth->getService(), $this->authService);
         $this->assertSame($auth->getIdentity(), 'username');
         $this->assertSame($auth->getCredential(), 'password');
+    }
+
+    public function testConstructorOptionCodeMapOverridesDefaultMap()
+    {
+        $authAdapter = new AuthTest\TestAsset\ValidatableAdapter(AuthenticationResult::FAILURE_UNCATEGORIZED);
+        $auth = new AuthenticationValidator([
+            'adapter' => $authAdapter,
+            'service' => $this->authService,
+            'identity' => 'username',
+            'credential' => 'password',
+            'code_map' => [
+                AuthenticationResult::FAILURE_UNCATEGORIZED => AuthenticationValidator::IDENTITY_NOT_FOUND,
+            ]
+        ]);
+        $this->assertFalse($auth->isValid());
+        $this->assertArrayHasKey(
+            AuthenticationValidator::IDENTITY_NOT_FOUND,
+            $auth->getMessages(),
+            print_r($auth->getMessages(), true)
+        );
+    }
+
+    public function testConstructorOptionCodeMapUsesDefaultMapForOmittedCodes()
+    {
+        $authAdapter = new AuthTest\TestAsset\ValidatableAdapter(AuthenticationResult::FAILURE_IDENTITY_AMBIGUOUS);
+        $auth = new AuthenticationValidator([
+            'adapter' => $authAdapter,
+            'service' => $this->authService,
+            'identity' => 'username',
+            'credential' => 'password',
+            'code_map' => [
+                AuthenticationResult::FAILURE_UNCATEGORIZED => AuthenticationValidator::IDENTITY_NOT_FOUND,
+            ]
+        ]);
+        $this->assertFalse($auth->isValid());
+        $this->assertArrayHasKey(
+            AuthenticationValidator::IDENTITY_AMBIGUOUS,
+            $auth->getMessages(),
+            print_r($auth->getMessages(), true)
+        );
+    }
+
+    public function testCodeMapAllowsToSpecifyCustomCodes()
+    {
+        $authAdapter = new AuthTest\TestAsset\ValidatableAdapter(-999);
+        $auth = new AuthenticationValidator([
+            'adapter' => $authAdapter,
+            'service' => $this->authService,
+            'identity' => 'username',
+            'credential' => 'password',
+            'code_map' => [
+                -999 => AuthenticationValidator::IDENTITY_NOT_FOUND,
+            ]
+        ]);
+        $this->assertFalse($auth->isValid());
+        $this->assertArrayHasKey(
+            AuthenticationValidator::IDENTITY_NOT_FOUND,
+            $auth->getMessages(),
+            print_r($auth->getMessages(), true)
+        );
+    }
+
+    public function testCodeMapAllowsToAddCustomMessageTemplates()
+    {
+        $auth = new AuthenticationValidator([
+            'code_map' => [
+                -999 => 'custom_error',
+            ]
+        ]);
+        $templates = $auth->getMessageTemplates();
+        $this->assertArrayHasKey(
+            'custom_error',
+            $templates,
+            print_r($templates, true)
+        );
+    }
+
+    /**
+     * @depends testCodeMapAllowsToAddCustomMessageTemplates
+     */
+    public function testCodeMapCustomMessageTemplateValueDefaultsToGeneralMessageTemplate()
+    {
+        $auth = new AuthenticationValidator([
+            'code_map' => [
+                -999 => 'custom_error',
+            ]
+        ]);
+        $templates = $auth->getMessageTemplates();
+        $this->assertEquals($templates['general'], $templates['custom_error']);
+    }
+
+    /**
+     * @depends testCodeMapAllowsToAddCustomMessageTemplates
+     */
+    public function testCustomMessageTemplateValueCanBeProvidedAsOption()
+    {
+        $auth = new AuthenticationValidator([
+            'code_map' => [
+                -999 => 'custom_error',
+            ],
+            'messages' => [
+                'custom_error' => 'Custom Error'
+            ]
+
+        ]);
+        $templates = $auth->getMessageTemplates();
+        $this->assertEquals('Custom Error', $templates['custom_error']);
+    }
+
+    public function testCodeMapOptionRequiresMessageKeyToBeString()
+    {
+        $this->expectException(Exception\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Message key in code_map option must be a non-empty string');
+        $auth = new AuthenticationValidator([
+            'code_map' => [
+                -999 => [],
+            ]
+        ]);
     }
 
     public function testSetters()

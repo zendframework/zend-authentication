@@ -215,6 +215,21 @@ class AuthTest extends TestCase
         $this->_checkUnauthorized($data, $basic);
     }
 
+    public function testBasicAuthTokenIsNotBase64()
+    {
+        // Attempt Basic Authentication with a valid username, but invalid
+        // password
+
+        // The expected Basic Www-Authenticate header value
+        $basic = [
+            'type'   => 'Basic ',
+            'realm'  => 'realm="' . $this->_basicConfig['realm'] . '"',
+        ];
+
+        $data = $this->_doAuth('Basic', 'basic');
+        $this->_checkUnauthorized($data, $basic);
+    }
+
     public function testDigestAuthValidCreds()
     {
         // Attempt Digest Authentication with a valid username and password

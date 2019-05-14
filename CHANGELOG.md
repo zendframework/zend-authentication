@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 2.7.0 - TBD
+
+### Added
+
+- [#44](https://github.com/zendframework/zend-authentication/pull/44) adds support for PHP 7.3.
+- [#47](https://github.com/zendframework/zend-authentication/pull/47) adds
+  configuration option to `Zend\Authentication\Validator\Authentication` for
+  mapping custom authentication result codes to existing and new validation
+  message types.
+
+### Changed
+
+- [#42](https://github.com/zendframework/zend-authentication/pull/42) Changes authentication using Basic scheme
+  to re-challenge the client when credentials in Authorization header can not be base64 decoded.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#44](https://github.com/zendframework/zend-authentication/pull/44) removes support for zend-stdlib v2 releases.
+
+### Fixed
+
+- Nothing.
+
 ## 2.6.1 - TBD
 
 ### Added
