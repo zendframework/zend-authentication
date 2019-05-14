@@ -37,11 +37,11 @@ $validator->isValid('myIdentity', [
 
 ## Validation messages
 
-Authentication validator defines five failure message types. Identifiers
+The authentication validator defines five failure message types; identifiers
 for them are available as constants for convenience.
 Common authentication failure codes, defined as constants in
 `Zend\Authentication\Result`, are mapped to validation messages
-using map in `CODE_MAP` constant. Other authentication codes default to
+using a map in `CODE_MAP` constant. Other authentication codes default to the
 `general` message type.
 
 ```php
@@ -66,21 +66,21 @@ class Authentication
 }
 ```
 
-Authentication validator extends `Zend\Validator\AbstractValidator` and provides
-common for all framework validators way to access, change or translate message templates.  
-More information is available in
+The authentication validator extends `Zend\Validator\AbstractValidator`, providing
+a way common for all framework validators to access, change or translate message templates.  
+More information is available in the
 [zend-validator documentation](https://docs.zendframework.com/zend-validator/messages/)
 
 ## Configure validation messages for custom authentication result codes
 
-The constructor configuration option `code_map` allows to map custom codes
+The constructor configuration option `code_map` allows mapping custom codes
 from `Zend\Authentication\Result` to validation message identifiers.  
 `code_map` is an array of integer code => string message identifier pairs
 
 A new custom message identifier can be specified in `code_map` which will then
-be registered as a new message type with template value set to `general` message.
-Once registered, message template for the new identifier can be changed
-as described in [zend-validator documentation](https://docs.zendframework.com/zend-validator/messages/)
+be registered as a new message type with the template value set to the `general` message.
+Once registered, the message template for the new identifier can be changed
+as described in the [zend-validator documentation](https://docs.zendframework.com/zend-validator/messages/).
 
 ```php
 use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
