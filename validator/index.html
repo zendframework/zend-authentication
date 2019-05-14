@@ -307,6 +307,14 @@
                         <a href="#usage" class="toc__link">Usage</a>
                     </li>
                 
+                    <li class="toc__entry">
+                        <a href="#validation-messages" class="toc__link">Validation messages</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#configure-validation-messages-for-custom-authentication-result-codes" class="toc__link">Configure validation messages for custom authentication result codes</a>
+                    </li>
+                
             </ul>
         </div>
     
@@ -326,6 +334,7 @@ credentials were provided.</p>
 <li><code>identity</code>: the identity or name of the identity field in the provided context.</li>
 <li><code>credential</code>: credential or the name of the credential field in the provided context.</li>
 <li><code>service</code>: an instance of <code>Zend\Authentication\AuthenticationService</code>.</li>
+<li><code>code_map</code>: map of <code>Zend\Authentication\Result</code> codes to validator message identifiers.</li>
 </ul>
 <h2 id="usage">Usage</h2>
 <pre class="codehilite"><code class="language-php">use My\Authentication\Adapter;
@@ -343,6 +352,58 @@ $validator-&gt;setCredential('myCredentialContext');
 $validator-&gt;isValid('myIdentity', [
      'myCredentialContext' =&gt; 'myCredential',
 ]);</code></pre>
+
+<h2 id="validation-messages">Validation messages</h2>
+<p>The authentication validator defines five failure message types; identifiers
+for them are available as constants for convenience.
+Common authentication failure codes, defined as constants in
+<code>Zend\Authentication\Result</code>, are mapped to validation messages
+using a map in <code>CODE_MAP</code> constant. Other authentication codes default to the
+<code>general</code> message type.</p>
+<pre class="codehilite"><code class="language-php">namespace Zend\Authentication\Validator;
+
+use Zend\Authentication\Result;
+
+class Authentication
+{
+    const IDENTITY_NOT_FOUND = 'identityNotFound';
+    const IDENTITY_AMBIGUOUS = 'identityAmbiguous';
+    const CREDENTIAL_INVALID = 'credentialInvalid';
+    const UNCATEGORIZED      = 'uncategorized';
+    const GENERAL            = 'general';
+
+    const CODE_MAP = [
+        Result::FAILURE_IDENTITY_NOT_FOUND =&gt; self::IDENTITY_NOT_FOUND,
+        Result::FAILURE_CREDENTIAL_INVALID =&gt; self::CREDENTIAL_INVALID,
+        Result::FAILURE_IDENTITY_AMBIGUOUS =&gt; self::IDENTITY_AMBIGUOUS,
+        Result::FAILURE_UNCATEGORIZED      =&gt; self::UNCATEGORIZED,
+    ];
+}</code></pre>
+
+<p>The authentication validator extends <code>Zend\Validator\AbstractValidator</code>, providing
+a way common for all framework validators to access, change or translate message templates.<br />
+More information is available in the
+<a href="https://docs.zendframework.com/zend-validator/messages/">zend-validator documentation</a></p>
+<h2 id="configure-validation-messages-for-custom-authentication-result-codes">Configure validation messages for custom authentication result codes</h2>
+<p>The constructor configuration option <code>code_map</code> allows mapping custom codes
+from <code>Zend\Authentication\Result</code> to validation message identifiers.<br />
+<code>code_map</code> is an array of integer code =&gt; string message identifier pairs</p>
+<p>A new custom message identifier can be specified in <code>code_map</code> which will then
+be registered as a new message type with the template value set to the <code>general</code> message.
+Once registered, the message template for the new identifier can be changed
+as described in the <a href="https://docs.zendframework.com/zend-validator/messages/">zend-validator documentation</a>.</p>
+<pre class="codehilite"><code class="language-php">use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
+
+$validator = new AuthenticationValidator([
+    'code_map' =&gt; [
+        // map custom result code to existing message
+        -990 =&gt; AuthenticationValidator::IDENTITY_NOT_FOUND,
+        // map custom result code to a new message type
+        -991 =&gt; 'custom_failure_identifier',
+    ],
+]);
+
+$validator-&gt;setMessage('Custom Error Happened', 'custom_failure_identifier');</code></pre>
 
 
 
