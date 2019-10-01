@@ -341,8 +341,7 @@ the basic elements of Digest authentication:</p>
 </ul>
 <p>The above elements are separated by colons, as in the following example (in
 which the password is "somePassword"):</p>
-<pre class="codehilite"><code class="language-text">someUser:Some Realm:fde17b91c3a510ecbaf7dbd37f59d4f8</code></pre>
-
+<p> <pre class=codehilite><code class=language-text>someUser:Some Realm:fde17b91c3a510ecbaf7dbd37f59d4f8</code></pre></p>
 <h2 id="specifics">Specifics</h2>
 <p>The digest authentication adapter, <code>Zend\Authentication\Adapter\Digest</code>,
 requires several input parameters:</p>
@@ -358,7 +357,7 @@ requires several input parameters:</p>
 populated with the identity as an array containing the keys <code>realm</code> and
 <code>username</code>. The respective array values associated with these keys correspond
 to the values set before <code>authenticate()</code> is called.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Authentication\Adapter\Digest as AuthAdapter;
+<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\Adapter\Digest as AuthAdapter;
 
 $adapter = new AuthAdapter(
     $filename,
@@ -377,7 +376,7 @@ Array
     [realm] =&gt; Some Realm
     [username] =&gt; someUser
 )
-*/</code></pre>
+*/</code></pre></p>
 
 
 
@@ -411,7 +410,7 @@ Array
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/adapter/digest.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/adapter/digest.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -343,7 +343,7 @@ authentication result into persistent storage. Unless specified otherwise,
 <p>You may also implement <code>Zend\Authentication\Storage\StorageInterface</code>, and
 provide your implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
 <blockquote>
-<h3 id="bypass-the-authenticationservice">Bypass the AuthenticationService</h3>
+<h3>Bypass the AuthenticationService</h3>
 <p>If automatic persistent storage of the identity is not appropriate for your
 use case, you can skip usage of <code>Zend\Authentication\AuthenticationService</code>
 altogether, and instead use an adapter directly.</p>
@@ -356,7 +356,7 @@ along to the constructor of <a href="https://github.com/zendframework/zend-sessi
 This should occur before authentication is attempted, since
 <code>Zend\Authentication\AuthenticationService::authenticate()</code> injects the
 authenticated identity into the configured storage.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Authentication\AuthenticationService;
+<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 
 $auth = new AuthenticationService();
@@ -368,18 +368,16 @@ $auth-&gt;setStorage(new SessionStorage('someNamespace'));
 $authAdapter = /* ... */;
 
 // Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($authAdapter);</code></pre>
-
+$result = $auth-&gt;authenticate($authAdapter);</code></pre></p>
 <h2 id="chain-storage">Chain Storage</h2>
 <p>A website might use multiple storage strategies for identity persistence; the
 <code>Chain</code> Storage can be used to glue these together.</p>
 <p>For example, the <code>Chain</code> can be configured to first use <code>Session</code> storage and
 then use an <code>OAuth</code> storage adapter. One could configure this in the following
 way:</p>
-<pre class="codehilite"><code class="language-php">$storage = new Chain;
+<p> <pre class=codehilite><code class=language-php>$storage = new Chain;
 $storage-&gt;add(new Session);
-$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication</code></pre>
-
+$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication</code></pre></p>
 <p>When the <code>Chain</code> Storage is used, its underlying storage adapters will be
 consulted in the order in which they were added to the chain. Using our scenario
 above, the <code>Session</code> storage adapter will be consulted first. When that happens:</p>
@@ -399,9 +397,8 @@ above, the <code>Session</code> storage adapter will be consulted first. When th
 <code>Chain::add</code> method, which accepts a second argument indicating the priority.
 (Per standard priority queue usage, higher values have higher priority, and
 lower or negative values have lower priority.)</p>
-<pre class="codehilite"><code class="language-php">$chain-&gt;add(new A, 2);
-$chain-&gt;add(new B, 10); // B will be used first</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$chain-&gt;add(new A, 2);
+$chain-&gt;add(new B, 10); // B will be used first</code></pre></p>
 <h2 id="implementing-custom-storage">Implementing Custom Storage</h2>
 <p>Sometimes developers may need to use a different identity storage mechanism than
 that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, implement
@@ -409,7 +406,7 @@ that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, imp
 implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
 <p>The following examples demonstrate the process.</p>
 <p>First, implement <code>Zend\Authentication\Storage\StorageInterface</code>:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 namespace My;
 
 use Zend\Authentication\Storage\StorageInterface;
@@ -477,11 +474,10 @@ class Storage implements StorageInterface
          * @todo implementation
          */
     }
-}</code></pre>
-
+}</code></pre></p>
 <p>In order to use this custom storage class, <code>Zend\Authentication\AuthenticationService::setStorage()</code>
 is invoked before an authentication query is attempted:</p>
-<pre class="codehilite"><code class="language-php">use My\Storage;
+<p> <pre class=codehilite><code class=language-php>use My\Storage;
 use Zend\Authentication\AuthenticationService;
 
 // Create the authentication service instance:
@@ -494,7 +490,7 @@ $auth-&gt;setStorage(new Storage());
 $adapter = /* ... */;
 
 // Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($adapter);</code></pre>
+$result = $auth-&gt;authenticate($adapter);</code></pre></p>
 
 
 
@@ -528,7 +524,7 @@ $result = $auth-&gt;authenticate($adapter);</code></pre>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/storage.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/storage.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

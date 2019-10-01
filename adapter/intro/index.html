@@ -345,7 +345,7 @@ connection settings for a database table adapter.</p>
 <p>The following is an example authentication adapter that requires a username and
 password to be set for authentication. Other details, such as how the
 authentication service is queried, have been omitted for brevity:</p>
-<pre class="codehilite"><code class="language-php">&lt;?php
+<p> <pre class=codehilite><code class=language-php>&lt;?php
 namespace My\Auth;
 
 use Zend\Authentication\Adapter\AdapterInterface;
@@ -373,8 +373,7 @@ class Adapter implements AdapterInterface
     {
         // ...
     }
-}</code></pre>
-
+}</code></pre></p>
 <p>As indicated in its docblock, <code>authenticate()</code> must return an instance of
 <code>Zend\Authentication\Result</code> (or of a class derived from
 <code>Zend\Authentication\Result</code>). If performing an authentication query is
@@ -384,7 +383,7 @@ impossible, <code>authenticate()</code> should throw an exception that derives f
 <p>Authentication adapters return an instance of <code>Zend\Authentication\Result</code> from
 <code>authenticate()</code> in order to represent the results of an authentication attempt.
 Adapters populate the <code>Zend\Authentication\Result</code> object upon construction:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Authentication;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Authentication;
 
 class Result
 {
@@ -394,8 +393,7 @@ class Result
      * @param array $messages
      */
     public function __construct($code, $identity, array $messages = []);
-}</code></pre>
-
+}</code></pre></p>
 <p>where:</p>
 <ul>
 <li><code>$code</code> is an integer indicating the result status. Typically you will use one
@@ -409,7 +407,7 @@ class Result
 <li><code>$messages</code> is an array of authentication failure messages.</li>
 </ul>
 <p>The following result codes are available:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Authentication;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Authentication;
 
 class Result
 {
@@ -419,8 +417,7 @@ class Result
     const FAILURE_IDENTITY_AMBIGUOUS = -2;
     const FAILURE_CREDENTIAL_INVALID = -3;
     const FAILURE_UNCATEGORIZED = -4;
-}</code></pre>
-
+}</code></pre></p>
 <p>Note that success is a truthy value, while failure of any sort is a falsy value.</p>
 <p>Results provide the following four user-facing operations:</p>
 <ul>
@@ -445,7 +442,7 @@ useful are locking accounts after too many unsuccessful password attempts,
 flagging an IP address after too many nonexistent identities are attempted, and
 providing specific, customized authentication result messages to the user.</p>
 <p>The following example illustrates how a developer may branch on the result code:</p>
-<pre class="codehilite"><code class="language-php">$result = $authenticationService-&gt;authenticate($adapter);
+<p> <pre class=codehilite><code class=language-php>$result = $authenticationService-&gt;authenticate($adapter);
 
 switch ($result-&gt;getCode()) {
 
@@ -464,7 +461,7 @@ switch ($result-&gt;getCode()) {
     default:
         /** do stuff for other failure **/
         break;
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -498,7 +495,7 @@ switch ($result-&gt;getCode()) {
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/adapter/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/adapter/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

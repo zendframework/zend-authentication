@@ -337,7 +337,7 @@ credentials were provided.</p>
 <li><code>code_map</code>: map of <code>Zend\Authentication\Result</code> codes to validator message identifiers.</li>
 </ul>
 <h2 id="usage">Usage</h2>
-<pre class="codehilite"><code class="language-php">use My\Authentication\Adapter;
+<p> <pre class=codehilite><code class=language-php>use My\Authentication\Adapter;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 
@@ -351,8 +351,7 @@ $validator = new AuthenticationValidator([
 $validator-&gt;setCredential('myCredentialContext');
 $validator-&gt;isValid('myIdentity', [
      'myCredentialContext' =&gt; 'myCredential',
-]);</code></pre>
-
+]);</code></pre></p>
 <h2 id="validation-messages">Validation messages</h2>
 <p>The authentication validator defines five failure message types; identifiers
 for them are available as constants for convenience.
@@ -360,7 +359,7 @@ Common authentication failure codes, defined as constants in
 <code>Zend\Authentication\Result</code>, are mapped to validation messages
 using a map in <code>CODE_MAP</code> constant. Other authentication codes default to the
 <code>general</code> message type.</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Authentication\Validator;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Authentication\Validator;
 
 use Zend\Authentication\Result;
 
@@ -378,8 +377,7 @@ class Authentication
         Result::FAILURE_IDENTITY_AMBIGUOUS =&gt; self::IDENTITY_AMBIGUOUS,
         Result::FAILURE_UNCATEGORIZED      =&gt; self::UNCATEGORIZED,
     ];
-}</code></pre>
-
+}</code></pre></p>
 <p>The authentication validator extends <code>Zend\Validator\AbstractValidator</code>, providing
 a way common for all framework validators to access, change or translate message templates.<br />
 More information is available in the
@@ -392,7 +390,7 @@ from <code>Zend\Authentication\Result</code> to validation message identifiers.<
 be registered as a new message type with the template value set to the <code>general</code> message.
 Once registered, the message template for the new identifier can be changed
 as described in the <a href="https://docs.zendframework.com/zend-validator/messages/">zend-validator documentation</a>.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
+<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\Validator\Authentication as AuthenticationValidator;
 
 $validator = new AuthenticationValidator([
     'code_map' =&gt; [
@@ -403,7 +401,7 @@ $validator = new AuthenticationValidator([
     ],
 ]);
 
-$validator-&gt;setMessage('Custom Error Happened', 'custom_failure_identifier');</code></pre>
+$validator-&gt;setMessage('Custom Error Happened', 'custom_failure_identifier');</code></pre></p>
 
 
 
@@ -433,7 +431,7 @@ $validator-&gt;setMessage('Custom Error Happened', 'custom_failure_identifier');
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/validator.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/validator.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

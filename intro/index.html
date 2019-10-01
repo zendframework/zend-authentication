@@ -304,10 +304,6 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#authenticationservice" class="toc__link">AuthenticationService</a>
-                    </li>
-                
-                    <li class="toc__entry">
                         <a href="#usage" class="toc__link">Usage</a>
                     </li>
                 
@@ -331,7 +327,7 @@ access control with Zend Framework, please see the
 <a href="https://github.com/zendframework/zend-permissions-rbac">zend-permissions-rbac</a>
 components.</p>
 <blockquote>
-<h3 id="authenticationservice">AuthenticationService</h3>
+<h3>AuthenticationService</h3>
 <p>There is no <code>Zend\Authentication\Authentication</code> class; instead the class
 <code>Zend\Authentication\AuthenticationService</code> is provided. This class uses the
 composed authentication adapter and persistent storage backend.</p>
@@ -344,7 +340,7 @@ composed authentication adapter and persistent storage backend.</p>
 </ul>
 <p>The following example illustrates how to use an adapter indirectly, through the
 use of the <code>Zend\Authentication\AuthenticationService</code> class:</p>
-<pre class="codehilite"><code class="language-php">use My\Auth\Adapter;
+<p> <pre class=codehilite><code class=language-php>use My\Auth\Adapter;
 use Zend\Authentication\AuthenticationService;
 
 // Instantiate the authentication service:
@@ -359,28 +355,25 @@ $result = $auth-&gt;authenticate($authAdapter);
 if (! $result-&gt;isValid()) {
     // Authentication failed; print the reasons why:
     foreach ($result-&gt;getMessages() as $message) {
-        echo "$message\n";
+        echo &quot;$message\n&quot;;
     }
 } else {
     // Authentication succeeded; the identity ($username) is stored
     // in the session:
     // $result-&gt;getIdentity() === $auth-&gt;getIdentity()
     // $result-&gt;getIdentity() === $username
-}</code></pre>
-
+}</code></pre></p>
 <p>After a successful authentication attempt, subsequent requests can query the
 authentication service to determine if an identity is present, and, if so,
 retrieve it:</p>
-<pre class="codehilite"><code class="language-php">if ($auth-&gt;hasIdentity()) {
+<p> <pre class=codehilite><code class=language-php>if ($auth-&gt;hasIdentity()) {
     // Identity exists; get it
     $identity = $auth-&gt;getIdentity();
-}</code></pre>
-
+}</code></pre></p>
 <p>To remove the identity from persistent storage, use the <code>clearIdentity()</code>
 method. This typically would be used for implementing an application "logout"
 operation:</p>
-<pre class="codehilite"><code class="language-php">$auth-&gt;clearIdentity();</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>$auth-&gt;clearIdentity();</code></pre></p>
 <p>When the automatic use of persistent storage is inappropriate for a particular
 use case, a developer may bypass the use of the
 <code>Zend\Authentication\AuthenticationService</code> class, using an adapter class
@@ -389,7 +382,7 @@ adapter object and then calling its <code>authenticate()</code> method. Adapter-
 details are discussed in the documentation for each adapter. The following
 example directly utilizes the fictional <code>My\Auth\Adapter</code> from the above
 examples:</p>
-<pre class="codehilite"><code class="language-php">use My\Auth\Adapter;
+<p> <pre class=codehilite><code class=language-php>use My\Auth\Adapter;
 
 // Set up the authentication adapter:
 $authAdapter = new Adapter($username, $password);
@@ -400,12 +393,12 @@ $result = $authAdapter-&gt;authenticate();
 if (! $result-&gt;isValid()) {
     // Authentication failed; print the reasons why
     foreach ($result-&gt;getMessages() as $message) {
-        echo "$message\n";
+        echo &quot;$message\n&quot;;
     }
 } else {
     // Authentication succeeded
     // $result-&gt;getIdentity() === $username
-}</code></pre>
+}</code></pre></p>
 
 
 
@@ -439,7 +432,7 @@ if (! $result-&gt;isValid()) {
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

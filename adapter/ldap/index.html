@@ -353,7 +353,7 @@ options for both Active Directory and OpenLDAP servers.</p>
 <p>The following example demonstrates creating and configuring the <code>Ldap</code>
 authentication adapter, and also illustrates how to work with the
 authentication messages returned in the authentication result.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Authentication\AuthenticationService;
+<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Adapter\Ldap as LdapAdapter;
 
 // Retrieve the username and pasword from the request somehow.
@@ -395,8 +395,7 @@ foreach ($result-&gt;getMessages() as $i =&gt; $message) {
     }
 
     // Potentially log the $message
-}</code></pre>
-
+}</code></pre></p>
 <p>As noted in the above example, the returned authentication result contains
 messages even on success.  LDAP has some notoriety for difficulty in debugging,
 and the <code>Ldap</code> adapter attempts to assist you with this by providing
@@ -430,7 +429,7 @@ in the <a href="#server-options">Server Options</a> section below), which means 
 omit a number of options associated with retrieving the DN for a username being
 authenticated.</p>
 <blockquote>
-<h3 id="what-is-a-distinguished-name">What is a Distinguished Name?</h3>
+<h3>What is a Distinguished Name?</h3>
 <p>A DN or "distinguished name" is a string that represents the path to an
 object within the LDAP directory. Each comma-separated component is an
 attribute and value representing a node. The components are evaluated in
@@ -447,7 +446,7 @@ they do not break any logging displays.</p>
 multiple domains and provide failover so that if one server is not available,
 another will be queried.</p>
 <blockquote>
-<h3 id="the-gory-details-what-happens-in-the-authenticate-method">The Gory Details: What Happens in the Authenticate Method?</h3>
+<h3>The Gory Details: What Happens in the Authenticate Method?</h3>
 <p>When the <code>authenticate()</code> method is called, the adapter iterates over each
 set of server options, passes them to the internal <code>Zend\Ldap\Ldap</code> instance,
 and calls the <code>Zend\Ldap\Ldap::bind()</code> method with the username and password
@@ -540,7 +539,7 @@ consists of the following options, which are passed, largely unmodified, to
 </tbody>
 </table></div>
 <blockquote>
-<h3 id="tls-and-ssl">TLS and SSL</h3>
+<h3>TLS and SSL</h3>
 <p>If you enable <code>useStartTls = TRUE</code> or <code>useSsl = TRUE</code> you may find that the
 LDAP client generates an error claiming that it cannot validate the server's
 certificate. Assuming the PHP LDAP extension is ultimately linked to the
@@ -584,7 +583,7 @@ index 1 should be logged and, if debugging information is being collected,
 indexes 2 and higher could be logged as well (although the final message always
 includes the string from index 1).</p>
 <h2 id="common-options-for-specific-servers">Common Options for Specific Servers</h2>
-<h3 id="options-for-active-directory">Options for Active Directory</h3>
+<h3>Options for Active Directory</h3>
 <p>For AD*, the following options are noteworthy:</p>
 <div class="table-responsive"><table>
 <thead>
@@ -625,7 +624,7 @@ includes the string from index 1).</p>
 </tbody>
 </table></div>
 <blockquote>
-<h4 id="use-qualified-account-names">Use qualified account names</h4>
+<h4>Use qualified account names</h4>
 <p>Technically there should be no danger of accidental cross-domain
 authentication with the current <code>Zend\Authentication\Adapter\Ldap</code>
 implementation, since server domains are explicitly checked, but this may not
@@ -634,7 +633,7 @@ if an alternative adapter is used (e.g., Kerberos). In general, account name
 ambiguity is known to be the source of security issues, so always try to use
 qualified account names.</p>
 </blockquote>
-<h3 id="options-for-openldap">Options for OpenLDAP</h3>
+<h3>Options for OpenLDAP</h3>
 <p>For OpenLDAP or a generic LDAP server using a typical posixAccount style
 schema, the following options are noteworthy:</p>
 <div class="table-responsive"><table>
@@ -720,7 +719,7 @@ schema, the following options are noteworthy:</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/adapter/ldap.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-authentication/edit/master/docs/book/adapter/ldap.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>
