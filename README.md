@@ -2,7 +2,7 @@
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to laminas/laminas-authentication.
+> This repository has moved to [laminas/laminas-authentication](https://github.com/laminas/laminas-authentication).
 
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-authentication.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-authentication)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-authentication/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-authentication?branch=master)
