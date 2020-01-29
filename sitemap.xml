@@ -1,58 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/intro/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/intro/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/intro/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/intro/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/dbtable/intro/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/dbtable/intro/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/dbtable/credential-treatment/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/dbtable/credential-treatment/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/dbtable/callback-check/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/dbtable/callback-check/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/digest/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/digest/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/http/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/http/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/adapter/ldap/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/adapter/ldap/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/storage/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/storage/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://docs.zendframework.com/zend-authentication/validator/</loc>
-     <lastmod>2019-11-04</lastmod>
+     <loc>https://docs.zendframework.com/validator/</loc>
+     <lastmod>2020-01-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

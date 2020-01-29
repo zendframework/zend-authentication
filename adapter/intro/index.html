@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="zend-authentication">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-authentication/adapter/intro/">
+    <link rel="canonical" href="https://docs.zendframework.com/adapter/intro/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Intro - zend-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -256,9 +256,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-authentication/">laminas/laminas-authentication.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -345,7 +345,7 @@ connection settings for a database table adapter.</p>
 <p>The following is an example authentication adapter that requires a username and
 password to be set for authentication. Other details, such as how the
 authentication service is queried, have been omitted for brevity:</p>
-<p> <pre class=codehilite><code class=language-php>&lt;?php
+<pre><code class="language-php">&lt;?php
 namespace My\Auth;
 
 use Zend\Authentication\Adapter\AdapterInterface;
@@ -373,7 +373,9 @@ class Adapter implements AdapterInterface
     {
         // ...
     }
-}</code></pre></p>
+}
+</code></pre>
+
 <p>As indicated in its docblock, <code>authenticate()</code> must return an instance of
 <code>Zend\Authentication\Result</code> (or of a class derived from
 <code>Zend\Authentication\Result</code>). If performing an authentication query is
@@ -383,7 +385,7 @@ impossible, <code>authenticate()</code> should throw an exception that derives f
 <p>Authentication adapters return an instance of <code>Zend\Authentication\Result</code> from
 <code>authenticate()</code> in order to represent the results of an authentication attempt.
 Adapters populate the <code>Zend\Authentication\Result</code> object upon construction:</p>
-<p> <pre class=codehilite><code class=language-php>namespace Zend\Authentication;
+<pre><code class="language-php">namespace Zend\Authentication;
 
 class Result
 {
@@ -393,7 +395,9 @@ class Result
      * @param array $messages
      */
     public function __construct($code, $identity, array $messages = []);
-}</code></pre></p>
+}
+</code></pre>
+
 <p>where:</p>
 <ul>
 <li><code>$code</code> is an integer indicating the result status. Typically you will use one
@@ -407,7 +411,7 @@ class Result
 <li><code>$messages</code> is an array of authentication failure messages.</li>
 </ul>
 <p>The following result codes are available:</p>
-<p> <pre class=codehilite><code class=language-php>namespace Zend\Authentication;
+<pre><code class="language-php">namespace Zend\Authentication;
 
 class Result
 {
@@ -417,7 +421,9 @@ class Result
     const FAILURE_IDENTITY_AMBIGUOUS = -2;
     const FAILURE_CREDENTIAL_INVALID = -3;
     const FAILURE_UNCATEGORIZED = -4;
-}</code></pre></p>
+}
+</code></pre>
+
 <p>Note that success is a truthy value, while failure of any sort is a falsy value.</p>
 <p>Results provide the following four user-facing operations:</p>
 <ul>
@@ -442,7 +448,7 @@ useful are locking accounts after too many unsuccessful password attempts,
 flagging an IP address after too many nonexistent identities are attempted, and
 providing specific, customized authentication result messages to the user.</p>
 <p>The following example illustrates how a developer may branch on the result code:</p>
-<p> <pre class=codehilite><code class=language-php>$result = $authenticationService-&gt;authenticate($adapter);
+<pre><code class="language-php">$result = $authenticationService-&gt;authenticate($adapter);
 
 switch ($result-&gt;getCode()) {
 
@@ -461,7 +467,8 @@ switch ($result-&gt;getCode()) {
     default:
         /** do stuff for other failure **/
         break;
-}</code></pre></p>
+}
+</code></pre>
 
 
 
@@ -684,7 +691,7 @@ switch ($result-&gt;getCode()) {
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -692,10 +699,10 @@ switch ($result-&gt;getCode()) {
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -703,27 +710,28 @@ switch ($result-&gt;getCode()) {
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-authentication';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

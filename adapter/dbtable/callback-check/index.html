@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="zend-authentication">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-authentication/adapter/dbtable/callback-check/">
+    <link rel="canonical" href="https://docs.zendframework.com/adapter/dbtable/callback-check/">
     <link rel="shortcut icon" href="../../../img/favicon.ico">
 
     <title>CallbackCheck - zend-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -256,9 +256,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-authentication/">laminas/laminas-authentication.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -373,7 +373,7 @@ verification within PHP instead.</p>
 simple table schema, and inserts a row against which we can perform an
 authentication query later. This example requires the PDO SQLite extension to
 be available:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Db\Adapter\Adapter as DbAdapter;
+<pre><code class="language-php">use Zend\Db\Adapter\Adapter as DbAdapter;
 
 // Create a SQLite database connection
 $dbAdapter = new DbAdapter([
@@ -396,11 +396,15 @@ $sqlInsert = &quot;INSERT INTO users (username, password, real_name) &quot;
     . &quot;VALUES ('my_username', 'my_password', 'My Real Name')&quot;;
 
 // Insert the data
-$dbAdapter-&gt;query($sqlInsert);</code></pre></p>
+$dbAdapter-&gt;query($sqlInsert);
+</code></pre>
+
 <p>As you add users, you will need to create a hash of the password provided and
 insert that into the database. For users on PHP 5.5+, you can use
 <a href="http://php.net/password_hash">password_hash()</a>:</p>
-<p> <pre class=codehilite><code class=language-php>$hash = password_hash($password, PASSWORD_DEFAULT);</code></pre></p>
+<pre><code class="language-php">$hash = password_hash($password, PASSWORD_DEFAULT);
+</code></pre>
+
 <blockquote>
 <h3>Password hash length</h3>
 <p>As of the time of writing, PHP uses a bcrypt algorithm by default for hashing
@@ -410,13 +414,15 @@ fields for storage to allow for larger hash sizes in the future.</p>
 </blockquote>
 <p>To verify a password, we'll create a callback that uses
 <a href="http://php.net/manual/en/function.password-verify.php">password_verify()</a>:</p>
-<p> <pre class=codehilite><code class=language-php>$passwordValidation = function ($hash, $password) {
+<pre><code class="language-php">$passwordValidation = function ($hash, $password) {
     return password_verify($password, $hash);
-};</code></pre></p>
+};
+</code></pre>
+
 <p>Now that we have the database connection and a password validation function,
 we can create our <code>Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter</code> adapter
 instance, passing the options to the constructor or later via setter methods:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter as AuthAdapter;
+<pre><code class="language-php">use Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter as AuthAdapter;
 
 // Configure the instance with constructor parameters:
 $authAdapter = new AuthAdapter(
@@ -434,22 +440,26 @@ $authAdapter
     -&gt;setTableName('users')
     -&gt;setIdentityColumn('username')
     -&gt;setCredentialColumn('password')
-    -&gt;setCredentialValidationCallback($passwordValidation);</code></pre></p>
+    -&gt;setCredentialValidationCallback($passwordValidation);
+</code></pre>
+
 <p>At this point, the authentication adapter instance is ready to accept
 authentication queries. In order to formulate an authentication query, the
 input credential values are passed to the adapter prior to calling the
 <code>authenticate()</code> method:</p>
-<p> <pre class=codehilite><code class=language-php>// Set the input credential values (e.g., from a login form):
+<pre><code class="language-php">// Set the input credential values (e.g., from a login form):
 $authAdapter
     -&gt;setIdentity('my_username')
     -&gt;setCredential('my_password');
 
 // Perform the authentication query, saving the result
-$result = $authAdapter-&gt;authenticate();</code></pre></p>
+$result = $authAdapter-&gt;authenticate();
+</code></pre>
+
 <p>In addition to the availability of the <code>getIdentity()</code> method upon the
 authentication result object, <code>Zend\Authentication\Adapter\DbTable\CallbackCheckAdapter</code>
 also supports retrieving the table row upon authentication success:</p>
-<p> <pre class=codehilite><code class=language-php>// Print the identity:
+<pre><code class="language-php">// Print the identity:
 echo $result-&gt;getIdentity() . &quot;\n\n&quot;;
 
 // Print the result row:
@@ -465,12 +475,14 @@ Array
     [password] =&gt; my_password
     [real_name] =&gt; My Real Name
 )
-*/</code></pre></p>
+*/
+</code></pre>
+
 <p>Since the table row contains the credential value, it is important to secure
 the values against unintended access.</p>
 <p>When retrieving the result object, we can either specify what columns to
 return, or what columns to omit:</p>
-<p> <pre class=codehilite><code class=language-php>// Specify the columns to return:
+<pre><code class="language-php">// Specify the columns to return:
 $columnsToReturn = [
     'id',
     'username',
@@ -501,7 +513,9 @@ Array
    [username] =&gt; my_username
    [real_name] =&gt; My Real Name
 )
-*/</code></pre></p>
+*/
+</code></pre>
+
 <h2 id="advanced-usage">Advanced Usage</h2>
 <p>While the basic use case will fit most scenarios, there may be cases where you have
 specialized needs, such as additional criteria that needs to be met for a user to
@@ -513,7 +527,7 @@ within it. However, you can add criteria to the SQL sent to the server by
 retrieving the <code>Zend\Db\Sql\Select</code> instance is uses.</p>
 <p>As an example, many websites require a user to activate their account before
 allowing them to login for the first time. We can add that criteria as follows:</p>
-<p> <pre class=codehilite><code class=language-php>// Create a basic adapter
+<pre><code class="language-php">// Create a basic adapter
 $adapter = new AuthAdapter(
     $db,
     'users',
@@ -527,7 +541,8 @@ $select = $adapter-&gt;getDbSelect();
 $select-&gt;where('active = &quot;TRUE&quot;');
 
 // Authenticate; this will include &quot;users.active = TRUE&quot; in the WHERE clause:
-$adapter-&gt;authenticate();</code></pre></p>
+$adapter-&gt;authenticate();
+</code></pre>
 
 
 
@@ -750,7 +765,7 @@ $adapter-&gt;authenticate();</code></pre></p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -758,10 +773,10 @@ $adapter-&gt;authenticate();</code></pre></p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -769,27 +784,28 @@ $adapter-&gt;authenticate();</code></pre></p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../../..',
             siteName = 'zend-authentication';
     </script>
-    <script src="../../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

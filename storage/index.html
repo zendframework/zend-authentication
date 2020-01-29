@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="zend-authentication">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-authentication/storage/">
+    <link rel="canonical" href="https://docs.zendframework.com/storage/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     <title>Identity Persistence - zend-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -256,9 +256,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.laminas.dev/laminas-authentication/">laminas/laminas-authentication.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -356,7 +356,7 @@ along to the constructor of <a href="https://github.com/zendframework/zend-sessi
 This should occur before authentication is attempted, since
 <code>Zend\Authentication\AuthenticationService::authenticate()</code> injects the
 authenticated identity into the configured storage.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Authentication\AuthenticationService;
+<pre><code class="language-php">use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Storage\Session as SessionStorage;
 
 $auth = new AuthenticationService();
@@ -368,16 +368,20 @@ $auth-&gt;setStorage(new SessionStorage('someNamespace'));
 $authAdapter = /* ... */;
 
 // Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($authAdapter);</code></pre></p>
+$result = $auth-&gt;authenticate($authAdapter);
+</code></pre>
+
 <h2 id="chain-storage">Chain Storage</h2>
 <p>A website might use multiple storage strategies for identity persistence; the
 <code>Chain</code> Storage can be used to glue these together.</p>
 <p>For example, the <code>Chain</code> can be configured to first use <code>Session</code> storage and
 then use an <code>OAuth</code> storage adapter. One could configure this in the following
 way:</p>
-<p> <pre class=codehilite><code class=language-php>$storage = new Chain;
+<pre><code class="language-php">$storage = new Chain;
 $storage-&gt;add(new Session);
-$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication</code></pre></p>
+$storage-&gt;add(new OAuth);   // Note: imaginary storage, not part of zend-authentication
+</code></pre>
+
 <p>When the <code>Chain</code> Storage is used, its underlying storage adapters will be
 consulted in the order in which they were added to the chain. Using our scenario
 above, the <code>Session</code> storage adapter will be consulted first. When that happens:</p>
@@ -397,8 +401,10 @@ above, the <code>Session</code> storage adapter will be consulted first. When th
 <code>Chain::add</code> method, which accepts a second argument indicating the priority.
 (Per standard priority queue usage, higher values have higher priority, and
 lower or negative values have lower priority.)</p>
-<p> <pre class=codehilite><code class=language-php>$chain-&gt;add(new A, 2);
-$chain-&gt;add(new B, 10); // B will be used first</code></pre></p>
+<pre><code class="language-php">$chain-&gt;add(new A, 2);
+$chain-&gt;add(new B, 10); // B will be used first
+</code></pre>
+
 <h2 id="implementing-custom-storage">Implementing Custom Storage</h2>
 <p>Sometimes developers may need to use a different identity storage mechanism than
 that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, implement
@@ -406,7 +412,7 @@ that provided by <code>Zend\Authentication\Storage\Session</code>. To do so, imp
 implementation to <code>Zend\Authentication\AuthenticationService::setStorage()</code>.</p>
 <p>The following examples demonstrate the process.</p>
 <p>First, implement <code>Zend\Authentication\Storage\StorageInterface</code>:</p>
-<p> <pre class=codehilite><code class=language-php>&lt;?php
+<pre><code class="language-php">&lt;?php
 namespace My;
 
 use Zend\Authentication\Storage\StorageInterface;
@@ -474,10 +480,12 @@ class Storage implements StorageInterface
          * @todo implementation
          */
     }
-}</code></pre></p>
+}
+</code></pre>
+
 <p>In order to use this custom storage class, <code>Zend\Authentication\AuthenticationService::setStorage()</code>
 is invoked before an authentication query is attempted:</p>
-<p> <pre class=codehilite><code class=language-php>use My\Storage;
+<pre><code class="language-php">use My\Storage;
 use Zend\Authentication\AuthenticationService;
 
 // Create the authentication service instance:
@@ -490,7 +498,8 @@ $auth-&gt;setStorage(new Storage());
 $adapter = /* ... */;
 
 // Authenticate, saving the result, and persisting the identity on success:
-$result = $auth-&gt;authenticate($adapter);</code></pre></p>
+$result = $auth-&gt;authenticate($adapter);
+</code></pre>
 
 
 
@@ -713,7 +722,7 @@ $result = $auth-&gt;authenticate($adapter);</code></pre></p>
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -721,10 +730,10 @@ $result = $auth-&gt;authenticate($adapter);</code></pre></p>
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -732,27 +741,28 @@ $result = $auth-&gt;authenticate($adapter);</code></pre></p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '..',
             siteName = 'zend-authentication';
     </script>
-    <script src="../js/scripts-8d7ae56abf.js"></script>
-        <script src="../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
